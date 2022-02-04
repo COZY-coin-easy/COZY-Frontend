@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:react/recommended", "react-app"],
+  "rules": {
+    "quotes": [1, "double", "avoid-escape"]
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 7,
+    "sourceType": "module"
+  }
+}
