@@ -34,6 +34,7 @@ export default function Home({ setIsLoggedIn, setToken }) {
         getUser(email, displayName, token);
       } else {
         setIsLoggedIn(false);
+        setToken("");
       }
     });
   }, []);
