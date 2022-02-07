@@ -1,21 +1,30 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Main from "../components/Main";
 import Trade from "../components/Trade";
+import Home from "../components/Home";
+import Chart from "../components/Chart";
 
 function App() {
-  return (
-    <div>
-      <Switch>
-        <Route path="/" exact>
-          <Main />
-        </Route>
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
-        <Route path="/trade/:currencyName" exact>
-          <Trade />
-        </Route>
-      </Switch>
-    </div>
+  return (
+    <>
+      {isLoggedIn ? (
+        <>
+          <Chart />
+
+          <Routes>
+            <Route path="/" exact element={<Main />} />
+
+            <Route path="/trade/:currencyName" exact element={<Trade />} />
+          </Routes>
+        </>
+      ) : (
+        <Home />
+      )}
+    </>
   );
 }
 
