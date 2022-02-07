@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
-import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function Chart() {
   const [chartData, setChartData] = useState([]);
   const [time, setTime] = useState("10m");
+  const email = useSelector((state) => state.user.email);
 
   useEffect(() => {
     const fetchData = async function () {
@@ -14,12 +15,12 @@ export default function Chart() {
         `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
       );
 
-      await axios.post("http://localhost:8000/coins/candlestick", {
+      await axios.post(process.env.REACT_APP_COZY_SERVER_URL, {
         headers: {
+          email,
           candlestick: res.data.data,
         },
       });
-
       setChartData(res.data.data);
     };
 
@@ -151,7 +152,7 @@ export default function Chart() {
   };
 
   return (
-    <div>
+    <>
       <div>
         원하는 기간을 선택해주세요
         <select onChange={handleChangePeriod}>
@@ -170,6 +171,6 @@ export default function Chart() {
         constructorType={"stockChart"}
         options={options}
       />
-    </div>
+    </>
   );
 }
