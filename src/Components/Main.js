@@ -21,21 +21,21 @@ export default function Main() {
   const coinName = Object.keys(coinDataList);
   const coinNameList = coinName.slice(0, coinName.length - 1);
 
-  const coinCurrentPrice = Object.values(coinDataList).map((element) => {
-    return element["closing_price"];
+  const coinCurrentPrice = Object.values(coinDataList).map((coinPrice) => {
+    return coinPrice["closing_price"];
   });
   const coinCurrentPriceList = coinCurrentPrice.slice(
     0,
     coinCurrentPrice.length - 1
   );
 
-  const coinChangeRate = Object.values(coinDataList).map((element) => {
-    return element["fluctate_rate_24H"];
+  const coinChangeRate = Object.values(coinDataList).map((changeRate) => {
+    return changeRate["fluctate_rate_24H"];
   });
   const coinChangeRateList = coinChangeRate.slice(0, coinChangeRate.length - 1);
 
-  const coinTradePrice = Object.values(coinDataList).map((element) => {
-    return element["acc_trade_value_24H"];
+  const coinTradePrice = Object.values(coinDataList).map((tradePrice) => {
+    return tradePrice["acc_trade_value_24H"];
   });
   const coinTradePriceList = coinTradePrice.slice(0, coinTradePrice.length - 1);
 
@@ -59,30 +59,30 @@ export default function Main() {
 
       <BodyWrapper>
         <div>
-          {coinNameList.map((list, index) => {
+          {coinNameList.map((name) => {
             return (
-              <p key={index}>
-                <Link to={`/trade/${list}`}>{list}</Link>
+              <p key={name}>
+                <Link to={`/trade/${name}`}>{name}</Link>
               </p>
             );
           })}
         </div>
 
         <div>
-          {coinCurrentPriceList.map((list, index) => {
-            return <p key={index}>{`${list}원`}</p>;
+          {coinCurrentPriceList.map((coinPrice, index) => {
+            return <p key={index}>{`${coinPrice}원`}</p>;
           })}
         </div>
 
         <div>
-          {coinChangeRateList.map((list, index) => {
-            return <p key={index}>{`${list}%`}</p>;
+          {coinChangeRateList.map((changeRate, index) => {
+            return <p key={index}>{`${changeRate}%`}</p>;
           })}
         </div>
 
         <div>
-          {coinTradePriceList.map((list, index) => {
-            return <p key={index}>{`${list}원`}</p>;
+          {coinTradePriceList.map((tradePrice, index) => {
+            return <p key={index}>{`${tradePrice}원`}</p>;
           })}
         </div>
       </BodyWrapper>
