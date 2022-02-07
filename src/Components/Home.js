@@ -51,5 +51,3 @@ Home.propTypes = {
   setIsLoggedIn: PropTypes.func,
   setToken: PropTypes.func,
 };
-
-// components 폴더 이름 수정을 위해 잠깐 주석 남겨놓고 바로 지우겠습니다.!
