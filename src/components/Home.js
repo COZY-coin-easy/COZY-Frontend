@@ -2,22 +2,13 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { auth, signInWithGoogle } from "../firebase";
+import { useDispatch } from "react-redux";
+import { registerAuth, registerToken, registerUserEmail } from "../features";
 
 export default function Home({ setIsLoggedIn, setToken }) {
-  const getUser = async (email, username, token) => {
-    const response = await axios.get("http://localhost:8000", {
-      headers: {
-        Authorization: token,
-      },
-    });
-
-    if (response.data.result !== "success") {
-      createUser(email, username);
-    }
-  };
-
+  const dispatch = useDispatch();
   const createUser = async (email, username) => {
-    await axios.post("http://localhost:8000", {
+    const response = await axios.post("http://localhost:8000", {
       email,
       username,
     });
@@ -28,13 +19,16 @@ export default function Home({ setIsLoggedIn, setToken }) {
       if (userData) {
         const { email, displayName } = userData;
         const token = await userData.getIdToken();
-        console.log(email);
-        setIsLoggedIn(true);
-        setToken(token);
-        getUser(email, displayName, token);
+
+        dispatch(registerAuth(true));
+        dispatch(registerToken(token));
+        dispatch(registerUserEmail(email));
+
+        createUser(email, displayName);
       } else {
-        setIsLoggedIn(false);
-        setToken("");
+        dispatch(registerAuth(false));
+        dispatch(registerToken(""));
+        dispatch(registerUserEmail(""));
       }
     });
   }, []);
