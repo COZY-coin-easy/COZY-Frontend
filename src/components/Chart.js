@@ -3,7 +3,6 @@ import axios from "axios";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import { useState, useEffect } from "react";
-import { signOut } from "../firebase";
 
 export default function Chart() {
   const [chartData, setChartData] = useState([]);
@@ -15,11 +14,11 @@ export default function Chart() {
         `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
       );
 
-      // await axios.post("http://localhost:8000/coins/candlestick", {
-      //   headers: {
-      //     candlestick: res.data.data,
-      //   },
-      // });
+      await axios.post("http://localhost:8000/coins/candlestick", {
+        headers: {
+          candlestick: res.data.data,
+        },
+      });
 
       setChartData(res.data.data);
     };
@@ -153,7 +152,6 @@ export default function Chart() {
 
   return (
     <div>
-      <button onClick={signOut}>logout</button>
       <div>
         원하는 기간을 선택해주세요
         <select onChange={handleChangePeriod}>
