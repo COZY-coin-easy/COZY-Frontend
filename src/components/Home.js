@@ -7,7 +7,7 @@ export default function Home({ setIsLoggedIn, setToken }) {
   const getUser = async (email, username, token) => {
     const response = await axios.get("http://localhost:8000", {
       headers: {
-        Autorization: token,
+        Authorization: token,
       },
     });
 
@@ -28,7 +28,7 @@ export default function Home({ setIsLoggedIn, setToken }) {
       if (userData) {
         const { email, displayName } = userData;
         const token = await userData.getIdToken();
-
+        console.log(email);
         setIsLoggedIn(true);
         setToken(token);
         getUser(email, displayName, token);

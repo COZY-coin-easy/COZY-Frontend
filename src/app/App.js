@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Home from "../components/Home";
+import Chart from "../components/Chart";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,7 +10,7 @@ function App() {
     <>
       {isLoggedIn ? (
         <>
-          <div>메인 컴포넌트</div>
+          <Chart />
         </>
       ) : (
         <Home
