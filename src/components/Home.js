@@ -7,7 +7,7 @@ import { registerAuth, registerToken, registerUserEmail } from "../features";
 export default function Home() {
   const dispatch = useDispatch();
   const createUser = async (email, username) => {
-    const response = await axios.post("http://localhost:8000", {
+    await axios.post("http://localhost:8000", {
       email,
       username,
     });

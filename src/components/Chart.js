@@ -15,7 +15,7 @@ export default function Chart() {
         `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
       );
 
-      await axios.post(process.env.COZY_SERVER_URL, {
+      await axios.post(process.env.REACT_APP_COZY_SERVER_URL, {
         headers: {
           email,
           candlestick: res.data.data,

@@ -1,7 +1,10 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Main from "../components/Main";
+import Trade from "../components/Trade";
 import Home from "../components/Home";
 import Chart from "../components/Chart";
-import { useSelector } from "react-redux";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -11,7 +14,12 @@ function App() {
       {isLoggedIn ? (
         <>
           <Chart />
-          <div>메인 컴포넌트 자리입니다.</div>
+
+          <Routes>
+            <Route path="/" exact element={<Main />} />
+
+            <Route path="/trade/:currencyName" exact element={<Trade />} />
+          </Routes>
         </>
       ) : (
         <Home />
