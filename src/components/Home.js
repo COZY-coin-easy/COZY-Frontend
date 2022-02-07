@@ -1,19 +1,30 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { auth, provider } from "../firebase";
+import {
+  registerAuth,
+  registerToken,
+  registerUserEmail,
+  toggleHeader,
+} from "../features";
 
-export default function Home({ setIsLoggedIn, setToken }) {
+export default function Home() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const signInWithGoogle = () => {
     auth.signInWithPopup(provider);
+  };
+
+  const previewSite = () => {
     navigate("/main");
+    dispatch(toggleHeader(true));
   };
 
   const createUser = async (email, username) => {
-    const response = await axios.post("http://localhost:8000", {
+    await axios.post("http://localhost:8000", {
       email,
       username,
     });
@@ -25,12 +36,18 @@ export default function Home({ setIsLoggedIn, setToken }) {
         const { email, displayName } = userData;
         const token = await userData.getIdToken();
 
-        setIsLoggedIn(true);
-        setToken(token);
+        navigate("/main");
+        dispatch(registerAuth(true));
+        dispatch(registerToken(token));
+        dispatch(registerUserEmail(email));
+        dispatch(toggleHeader(true));
+
         createUser(email, displayName);
       } else {
-        setIsLoggedIn(false);
-        setToken("");
+        dispatch(registerAuth(false));
+        dispatch(registerToken(""));
+        dispatch(registerUserEmail(""));
+        dispatch(toggleHeader(false));
       }
     });
   }, []);
@@ -39,12 +56,7 @@ export default function Home({ setIsLoggedIn, setToken }) {
     <>
       <h1>Cozy</h1>
       <button onClick={signInWithGoogle}>google login</button>
-      <Link to={"/main"}>거래소 둘러보기</Link>
+      <button onClick={previewSite}>거래소 둘러보기</button>
     </>
   );
 }
-
-Home.propTypes = {
-  setIsLoggedIn: PropTypes.func,
-  setToken: PropTypes.func,
-};
