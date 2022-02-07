@@ -5,7 +5,8 @@
   },
   "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:react/recommended", "react-app"],
   "rules": {
-    "quotes": [1, "double", "avoid-escape"]
+    "quotes": [1, "double", "avoid-escape"],
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   },
   "parserOptions": {
     "ecmaFeatures": {
