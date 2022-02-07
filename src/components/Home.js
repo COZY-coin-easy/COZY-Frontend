@@ -4,20 +4,8 @@ import PropTypes from "prop-types";
 import { auth, signInWithGoogle } from "../firebase";
 
 export default function Home({ setIsLoggedIn, setToken }) {
-  const getUser = async (email, username, token) => {
-    const response = await axios.get("http://localhost:8000", {
-      headers: {
-        Autorization: token,
-      },
-    });
-
-    if (response.data.result !== "success") {
-      createUser(email, username);
-    }
-  };
-
   const createUser = async (email, username) => {
-    await axios.post("http://localhost:8000", {
+    const response = await axios.post("http://localhost:8000", {
       email,
       username,
     });
@@ -31,7 +19,7 @@ export default function Home({ setIsLoggedIn, setToken }) {
 
         setIsLoggedIn(true);
         setToken(token);
-        getUser(email, displayName, token);
+        createUser(email, displayName);
       } else {
         setIsLoggedIn(false);
         setToken("");

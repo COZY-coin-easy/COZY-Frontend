@@ -9,14 +9,10 @@ function App() {
     <>
       {isLoggedIn ? (
         <>
-          <div>메인 컴포넌트</div>
+          <div>메인 컴포넌트 자리입니다.</div>
         </>
       ) : (
-        <Home
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          setToken={setToken}
-        />
+        <Home setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
       )}
     </>
   );
