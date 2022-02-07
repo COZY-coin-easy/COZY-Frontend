@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
-import { signOut } from "../firebase";
 import { useSelector } from "react-redux";
 
 export default function Chart() {
   const [chartData, setChartData] = useState([]);
   const [time, setTime] = useState("10m");
   const email = useSelector((state) => state.user.email);
-  console.log(email);
 
   useEffect(() => {
     const fetchData = async function () {
@@ -17,15 +15,12 @@ export default function Chart() {
         `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
       );
 
-      const response = await axios.post(
-        "http://localhost:8000/users/candlestick",
-        {
-          headers: {
-            email,
-            candlestick: res.data.data,
-          },
-        }
-      );
+      await axios.post(process.env.COZY_SERVER_URL, {
+        headers: {
+          email,
+          candlestick: res.data.data,
+        },
+      });
       setChartData(res.data.data);
     };
 
@@ -156,13 +151,8 @@ export default function Chart() {
     if (e.target.value === "8년") setTime("24h");
   };
 
-  const handleClickSignOut = () => {
-    signOut();
-  };
-
   return (
     <>
-      <button onClick={handleClickSignOut}>sign out</button>
       <div>
         원하는 기간을 선택해주세요
         <select onChange={handleChangePeriod}>
