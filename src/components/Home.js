@@ -1,9 +1,17 @@
 import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { auth, signInWithGoogle } from "../firebase";
+import { auth, provider } from "../firebase";
 
 export default function Home({ setIsLoggedIn, setToken }) {
+  const navigate = useNavigate();
+
+  const signInWithGoogle = () => {
+    auth.signInWithPopup(provider);
+    navigate("/main");
+  };
+
   const createUser = async (email, username) => {
     const response = await axios.post("http://localhost:8000", {
       email,
@@ -31,6 +39,7 @@ export default function Home({ setIsLoggedIn, setToken }) {
     <>
       <h1>Cozy</h1>
       <button onClick={signInWithGoogle}>google login</button>
+      <Link to={"/main"}>거래소 둘러보기</Link>
     </>
   );
 }
