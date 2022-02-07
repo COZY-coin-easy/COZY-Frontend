@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Home from "../components/Home";
-import Main from "../components/Main";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,7 +9,7 @@ function App() {
     <>
       {isLoggedIn ? (
         <>
-          <Main token={token} />
+          <div>메인 컴포넌트</div>
         </>
       ) : (
         <Home
