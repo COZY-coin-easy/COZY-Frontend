@@ -2,6 +2,7 @@ import {
   REGISTER_AUTH,
   REGISTER_TOKEN,
   REGISTER_USER_EMAIL,
+  REGISTER_USER_ID,
   TOGGLE_HEADER,
 } from "./types";
 
@@ -9,6 +10,7 @@ const initialState = {
   token: "",
   email: "",
   isLoggedIn: false,
+  userId: "",
   isShowHeader: false,
 };
 
@@ -34,6 +36,13 @@ export default function userReducer(state = initialState, action) {
       registerAuthStateCopy.isLoggedIn = action.payload;
 
       return registerAuthStateCopy;
+    }
+    case REGISTER_USER_ID: {
+      const registerUserIdStateCopy = Object.assign({}, state);
+
+      registerUserIdStateCopy.userId = action.payload;
+
+      return registerUserIdStateCopy;
     }
     case TOGGLE_HEADER: {
       const toggleHeaderStateCopy = Object.assign({}, state);
