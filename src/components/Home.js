@@ -1,22 +1,15 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-<<<<<<< HEAD
-import { auth, signInWithGoogle } from "../firebase";
-import { useDispatch, useSelector } from "react-redux";
-=======
-import { useDispatch } from "react-redux";
 import { auth, provider } from "../firebase";
->>>>>>> 78982e522fe0276aed5cc1aaf01e13e299cd47f0
+import { useDispatch } from "react-redux";
+
 import {
   registerAuth,
   registerToken,
   registerUserEmail,
-<<<<<<< HEAD
   registerUserId,
-=======
   toggleHeader,
->>>>>>> 78982e522fe0276aed5cc1aaf01e13e299cd47f0
 } from "../features";
 
 export default function Home() {
