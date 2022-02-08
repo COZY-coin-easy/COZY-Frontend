@@ -3,6 +3,7 @@ import {
   REGISTER_TOKEN,
   REGISTER_USER_EMAIL,
   REGISTER_USER_ID,
+  TOGGLE_HEADER,
 } from "./types";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   email: "",
   isLoggedIn: false,
   userId: "",
+  isShowHeader: false,
 };
 
 export default function userReducer(state = initialState, action) {
@@ -41,6 +43,13 @@ export default function userReducer(state = initialState, action) {
       registerUserIdStateCopy.userId = action.payload;
 
       return registerUserIdStateCopy;
+    }
+    case TOGGLE_HEADER: {
+      const toggleHeaderStateCopy = Object.assign({}, state);
+
+      toggleHeaderStateCopy.isShowHeader = action.payload;
+
+      return toggleHeaderStateCopy;
     }
     default:
       return Object.assign({}, state);
