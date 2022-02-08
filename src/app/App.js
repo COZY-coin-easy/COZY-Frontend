@@ -1,29 +1,23 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import Home from "../components/Home";
+import Header from "../components/Header";
 import Main from "../components/Main";
 import Trade from "../components/Trade";
-import Home from "../components/Home";
-import Chart from "../components/Chart";
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isShowHeader = useSelector((state) => state.user.isShowHeader);
 
   return (
     <>
-      {isLoggedIn ? (
-        <>
-          <Chart />
+      {isShowHeader && <Header />}
 
-          <Routes>
-            <Route path="/" exact element={<Main />} />
-
-            <Route path="/trade/:currencyName" exact element={<Trade />} />
-          </Routes>
-        </>
-      ) : (
-        <Home />
-      )}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/trade/:currencyName" element={<Trade />} />
+      </Routes>
     </>
   );
 }
