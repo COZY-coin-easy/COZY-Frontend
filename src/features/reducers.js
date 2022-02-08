@@ -1,9 +1,15 @@
-import { REGISTER_AUTH, REGISTER_TOKEN, REGISTER_USER_EMAIL } from "./types";
+import {
+  REGISTER_AUTH,
+  REGISTER_TOKEN,
+  REGISTER_USER_EMAIL,
+  REGISTER_USER_ID,
+} from "./types";
 
 const initialState = {
   token: "",
   email: "",
   isLoggedIn: false,
+  userId: "",
 };
 
 export default function userReducer(state = initialState, action) {
@@ -28,6 +34,13 @@ export default function userReducer(state = initialState, action) {
       registerAuthStateCopy.isLoggedIn = action.payload;
 
       return registerAuthStateCopy;
+    }
+    case REGISTER_USER_ID: {
+      const registerUserIdStateCopy = Object.assign({}, state);
+
+      registerUserIdStateCopy.userId = action.payload;
+
+      return registerUserIdStateCopy;
     }
     default:
       return Object.assign({}, state);

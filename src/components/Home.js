@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { auth, signInWithGoogle } from "../firebase";
-import { useDispatch } from "react-redux";
-import { registerAuth, registerToken, registerUserEmail } from "../features";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  registerAuth,
+  registerToken,
+  registerUserEmail,
+  registerUserId,
+} from "../features";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -11,6 +16,14 @@ export default function Home() {
       email,
       username,
     });
+  };
+
+  const getUser = async (email) => {
+    const res = await axios.get("http://localhost:8000", {
+      headers: { email },
+    });
+    const userId = res.data;
+    dispatch(registerUserId(userId));
   };
 
   useEffect(() => {
@@ -24,6 +37,7 @@ export default function Home() {
         dispatch(registerUserEmail(email));
 
         createUser(email, displayName);
+        getUser(email);
       } else {
         dispatch(registerAuth(false));
         dispatch(registerToken(""));
