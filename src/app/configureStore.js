@@ -5,6 +5,6 @@ const reducer = combineReducers({
   user,
 });
 
-const store = createStore(reducer);
+export const store = createStore(reducer);
 
 export default store;
