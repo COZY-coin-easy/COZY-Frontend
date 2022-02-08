@@ -34,7 +34,7 @@ export default function Home() {
 
   const getUser = async (email) => {
     const res = await axios.get("http://localhost:8000", {
-      headers: { email },
+      data: { email },
     });
     const userId = res.data.userId;
     dispatch(registerUserId(userId));
