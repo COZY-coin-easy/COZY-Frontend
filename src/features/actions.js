@@ -2,6 +2,7 @@ import {
   REGISTER_TOKEN,
   REGISTER_USER_EMAIL,
   REGISTER_AUTH,
+  REGISTER_USER_ID,
   TOGGLE_HEADER,
 } from "./types";
 
@@ -15,6 +16,10 @@ export function registerUserEmail(email) {
 
 export function registerAuth(isLoggedIn) {
   return { type: REGISTER_AUTH, payload: isLoggedIn };
+}
+
+export function registerUserId(userId) {
+  return { type: REGISTER_USER_ID, payload: userId };
 }
 
 export function toggleHeader(isShowHeader) {
