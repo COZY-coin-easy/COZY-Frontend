@@ -15,12 +15,12 @@ export default function Chart() {
         `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
       );
 
-      await axios.post(process.env.REACT_APP_COZY_SERVER_URL, {
-        headers: {
-          email,
+      await axios.post(
+        `${process.env.REACT_APP_CANDLESTICK_REQUEST}/${userId}`,
+        {
           candlestick: res.data.data,
-        },
-      });
+        }
+      );
       setChartData(res.data.data);
     };
 
