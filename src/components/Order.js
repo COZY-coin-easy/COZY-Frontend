@@ -49,7 +49,7 @@ export default function Order() {
   useEffect(() => {
     const getUserAsset = async () => {
       const res = await axios.get(
-        `http://localhost:8000/users/asset/${userId}`,
+        `${process.env.REACT_APP_ASSET_REQUEST}/${userId}`,
         {
           headers: { authorization: token },
         }
@@ -136,7 +136,7 @@ export default function Order() {
     }
 
     await axios.post(
-      `http://localhost:8000/users/order/${userId}`,
+      `${process.env.REACT_APP_ORDER_REQUEST}/${userId}`,
       {
         transactionDate: new Date(),
         currencyName,
