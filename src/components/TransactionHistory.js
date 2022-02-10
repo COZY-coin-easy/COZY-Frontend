@@ -49,6 +49,7 @@ export default function TransactionHistory() {
         <Wrapper>주문가격</Wrapper>
         <Wrapper>주문금액</Wrapper>
       </BodyWrapper>
+
       {currentHistory.map((transaction) => (
         <BodyWrapper key={transaction._id}>
           <Wrapper>{transaction.transactionDate.slice(0, 10)}</Wrapper>
