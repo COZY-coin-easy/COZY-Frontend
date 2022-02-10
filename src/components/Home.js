@@ -26,14 +26,14 @@ export default function Home() {
   };
 
   const createUser = async (email, username) => {
-    await axios.post("http://localhost:8000", {
+    await axios.post(process.env.REACT_APP_SERVER_URL, {
       email,
       username,
     });
   };
 
   const getUser = async (email) => {
-    const res = await axios.get("http://localhost:8000", {
+    const res = await axios.get(process.env.REACT_APP_SERVER_URL, {
       headers: { email },
     });
     const userId = res.data.userId;
