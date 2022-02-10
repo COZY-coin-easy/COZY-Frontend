@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 export default function Chart() {
   const [chartData, setChartData] = useState([]);
   const [time, setTime] = useState("10m");
-  const email = useSelector((state) => state.user.email);
+  const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
     const fetchData = async function () {
