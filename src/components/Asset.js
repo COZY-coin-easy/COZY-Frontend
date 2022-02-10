@@ -23,7 +23,7 @@ export default function Asset() {
   useEffect(() => {
     const fetchAssetData = async function () {
       const res = await axios.get(
-        `http://localhost:8000/users/asset/${userId}`,
+        `${process.env.REACT_APP_ASSET_REQUEST}/${userId}`,
         {
           headers: { authorization: token },
         }
