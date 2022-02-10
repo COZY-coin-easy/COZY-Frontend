@@ -4,7 +4,9 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../components/Home";
 import Header from "../components/Header";
 import Main from "../components/Main";
+import Asset from "../components/Asset";
 import Trade from "../components/Trade";
+import TransactionHistory from "../components/TransactionHistory";
 
 function App() {
   const isShowHeader = useSelector((state) => state.user.isShowHeader);
@@ -16,7 +18,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/assets" element={<Asset />} />
         <Route path="/trade/:currencyName" element={<Trade />} />
+        <Route path="/transaction-history" element={<TransactionHistory />} />
       </Routes>
     </>
   );
