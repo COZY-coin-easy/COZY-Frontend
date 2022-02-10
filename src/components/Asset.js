@@ -3,6 +3,15 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
 
+const Span = styled.span`
+  margin-left: 20px;
+  font-weight: bold;
+`;
+
+const Div = styled.div`
+  margin-left: 10px;
+`;
+
 export default function Asset() {
   const userId = useSelector((state) => state.user.userId);
   const token = useSelector((state) => state.user.token);
@@ -26,24 +35,15 @@ export default function Asset() {
     fetchAssetData();
   }, []);
 
-  const getCurrentLeftMoney = (asset) => {
+  const getCurrentLeftMoney = (coin) => {
     const leftMoney =
-      Number(ownedCash) - Number(asset.averagePrice * asset.quantity);
+      Number(ownedCash) - Number(coin.averagePrice * coin.quantity);
     return leftMoney;
   };
 
-  const Span = styled.span`
-    margin-left: 20px;
-    font-weight: bold;
-  `;
-
-  const Div = styled.div`
-    margin-left: 10px;
-  `;
-
   return (
     <>
-      <Span>코인명</Span>
+      <Span>자산 구분</Span>
       <Span>보유 잔고</Span>
       <Span>평균 매수가</Span>
       <Span>매수 금액</Span>
@@ -51,7 +51,7 @@ export default function Asset() {
       <Span>펑가 순익</Span>
       <Span>수익률</Span>
 
-      {ownedCoinList.map((coinElements, index) => {
+      {ownedCoinList.map((coinElements) => {
         return (
           <Div key={coinElements.currencyName}>
             <Span>{coinElements.currencyName}</Span>
