@@ -3,6 +3,7 @@ import axios from "axios";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import { useSelector } from "react-redux";
+import "../../public/chartStyle.css";
 
 export default function Chart() {
   const [chartData, setChartData] = useState([]);
@@ -10,21 +11,34 @@ export default function Chart() {
   const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
-    const fetchData = async function () {
-      const res = await axios.get(
-        `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
-      );
+    let setTimeoutID = null;
+    const fetchData = function () {
+      setTimeoutID = setTimeout(async () => {
+        try {
+          const res = await axios.get(
+            `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
+          );
 
-      await axios.post(
-        `${process.env.REACT_APP_CANDLESTICK_REQUEST}/${userId}`,
-        {
-          candlestick: res.data.data,
+          await axios.post(
+            `${process.env.REACT_APP_CANDLESTICK_REQUEST}/${userId}`,
+            {
+              candlestick: res.data.data,
+            }
+          );
+
+          setChartData(res.data.data);
+          fetchData();
+        } catch (err) {
+          console.log(err);
         }
-      );
-      setChartData(res.data.data);
+      }, 1000);
     };
 
     fetchData();
+
+    return () => {
+      clearTimeout(setTimeoutID);
+    };
   }, [time]);
 
   const ohlc = [];
@@ -39,13 +53,13 @@ export default function Chart() {
 
   for (let i = 0; i < chartData.length; i++) {
     ohlc.push([
-      chartData[i][0],
+      chartData[i][0] + 32400000,
       Number(chartData[i][1]),
       Number(chartData[i][2]),
       Number(chartData[i][3]),
       Number(chartData[i][4]),
     ]);
-    volume.push([chartData[i][0], Number(chartData[i][5])]);
+    volume.push([chartData[i][0] + 32400000, Number(chartData[i][5])]);
   }
 
   const options = {
@@ -72,11 +86,15 @@ export default function Chart() {
           text: "1달",
         },
         {
+          type: "year",
+          count: 1,
+          text: "1년",
+        },
+        {
           type: "all",
           text: "All",
         },
       ],
-      selected: 4,
     },
     yAxis: [
       {
@@ -138,6 +156,10 @@ export default function Chart() {
         yAxis: 1,
       },
     ],
+    chart: {
+      animation: false,
+      styledMode: true,
+    },
   };
 
   const handleChangePeriod = (e) => {
