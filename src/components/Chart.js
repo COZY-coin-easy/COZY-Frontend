@@ -11,7 +11,7 @@ export default function Chart() {
   const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
-    let setTimeoutID;
+    let setTimeoutID = null;
     const fetchData = function () {
       setTimeoutID = setTimeout(async () => {
         try {
