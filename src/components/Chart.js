@@ -9,6 +9,7 @@ export default function Chart() {
   const [chartData, setChartData] = useState([]);
   const [time, setTime] = useState("10m");
   const userId = useSelector((state) => state.user.userId);
+  const coinName = useSelector((state) => state.user.chartCoin);
 
   useEffect(() => {
     let setTimeoutID = null;
@@ -16,7 +17,7 @@ export default function Chart() {
       setTimeoutID = setTimeout(async () => {
         try {
           const res = await axios.get(
-            `https://api.bithumb.com/public/candlestick/BTC_KRW/${time}`
+            `${process.env.REACT_APP_CANDLESTICK_API_URL}/${coinName}_KRW/${time}`
           );
 
           await axios.post(
@@ -105,7 +106,7 @@ export default function Chart() {
           x: -3,
         },
         title: {
-          text: "Bitcoin",
+          text: coinName,
         },
         height: "60%",
         lineWidth: 2,
@@ -138,7 +139,7 @@ export default function Chart() {
       },
     },
     title: {
-      text: "Bitcoin",
+      text: coinName,
     },
     series: [
       {

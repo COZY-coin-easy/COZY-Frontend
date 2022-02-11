@@ -4,6 +4,7 @@ import {
   registerAuth,
   registerUserId,
   toggleHeader,
+  changeChartCoin,
 } from "./actions";
 import userReducer from "./reducers";
 
@@ -13,5 +14,6 @@ export {
   registerAuth,
   registerUserId,
   toggleHeader,
+  changeChartCoin,
 };
 export default userReducer;
