@@ -11,7 +11,7 @@ import MyPage from "../components/MyPage";
 import TransactionHistory from "../components/TransactionHistory";
 
 function App() {
-  const isShowHeader = useSelector((state) => state.user.isShowHeader);
+  const isShowHeader = useSelector((state) => state.auth.isShowHeader);
 
   return (
     <>

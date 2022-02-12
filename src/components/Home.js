@@ -1,16 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { auth, provider } from "../firebase";
 import { useDispatch } from "react-redux";
 
-import {
-  registerAuth,
-  registerToken,
-  registerUserEmail,
-  registerUserId,
-  toggleHeader,
-} from "../features";
+import { loginRequest, visitGuest } from "../features/auth/authSlice";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -20,24 +13,9 @@ export default function Home() {
     auth.signInWithPopup(provider);
   };
 
-  const previewSite = () => {
+  const showPreview = () => {
+    dispatch(visitGuest());
     navigate("/main");
-    dispatch(toggleHeader(true));
-  };
-
-  const createUser = async (email, username) => {
-    await axios.post(process.env.REACT_APP_SERVER_URL, {
-      email,
-      username,
-    });
-  };
-
-  const getUser = async (email) => {
-    const res = await axios.get(process.env.REACT_APP_SERVER_URL, {
-      headers: { email },
-    });
-    const userId = res.data.userId;
-    dispatch(registerUserId(userId));
   };
 
   useEffect(() => {
@@ -47,18 +25,7 @@ export default function Home() {
         const token = await userData.getIdToken();
 
         navigate("/main");
-        dispatch(registerAuth(true));
-        dispatch(registerToken(token));
-        dispatch(registerUserEmail(email));
-        dispatch(toggleHeader(true));
-
-        createUser(email, displayName);
-        getUser(email);
-      } else {
-        dispatch(registerAuth(false));
-        dispatch(registerToken(""));
-        dispatch(registerUserEmail(""));
-        dispatch(toggleHeader(false));
+        dispatch(loginRequest({ email, displayName, token }));
       }
     });
   }, []);
@@ -67,7 +34,7 @@ export default function Home() {
     <>
       <h1>Cozy</h1>
       <button onClick={signInWithGoogle}>google login</button>
-      <button onClick={previewSite}>거래소 둘러보기</button>
+      <button onClick={showPreview}>거래소 둘러보기</button>
     </>
   );
 }
