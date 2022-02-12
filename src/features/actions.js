@@ -4,6 +4,7 @@ import {
   REGISTER_AUTH,
   REGISTER_USER_ID,
   TOGGLE_HEADER,
+  CHANGE_CHART_COIN,
 } from "./types";
 
 export function registerToken(token) {
@@ -24,4 +25,8 @@ export function registerUserId(userId) {
 
 export function toggleHeader(isShowHeader) {
   return { type: TOGGLE_HEADER, payload: isShowHeader };
+}
+
+export function changeChartCoin(coin) {
+  return { type: CHANGE_CHART_COIN, payload: coin };
 }
