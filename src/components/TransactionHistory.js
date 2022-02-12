@@ -11,7 +11,6 @@ const BodyWrapper = styled.div`
 const Wrapper = styled.div`
   margin-left: 10px;
   margin-right: 10px;
-  white-space: pre-wrap;
 `;
 
 export default function TransactionHistory() {

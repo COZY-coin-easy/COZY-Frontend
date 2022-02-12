@@ -2,31 +2,46 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const HeadWrapper = styled.span`
-  border: solid 1px black;
-  font-weight: bold;
-`;
-
 const BodyWrapper = styled.div`
   display: flex;
+  margin: 5px;
 `;
 
-const Red = styled.p`
+const Wrapper = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+
+const Red = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
   color: red;
 `;
 
-const Blue = styled.p`
+const Blue = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
   color: blue;
 `;
 
 export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
-  const [coinDataList, setCoinDataList] = useState({});
+  const [coinList, setCoinList] = useState([]);
+  const [searchCoin, setSearchCoin] = useState("");
 
   useEffect(() => {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
-      setCoinDataList(res.data);
+      const coinName = Object.keys(res.data);
+      const coinInfo = Object.values(res.data);
+      coinName.pop();
+      coinInfo.pop();
+
+      for (let i = 0; i < coinInfo.length; i++) {
+        coinInfo[i].currency_name = coinName[i];
+      }
+
+      setCoinList(coinInfo);
       ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
 
@@ -35,69 +50,64 @@ export default function Main() {
     };
   }, []);
 
-  const coinName = Object.keys(coinDataList);
-  const coinNameList = coinName.slice(0, coinName.length - 1);
+  const filteredCoinList =
+    searchCoin === ""
+      ? coinList
+      : coinList.filter((coin) => coin.currency_name === searchCoin);
 
-  const coinCurrentPrice = Object.values(coinDataList).map((coinPrice) => {
-    return coinPrice["closing_price"];
-  });
-  const coinCurrentPriceList = coinCurrentPrice.slice(
-    0,
-    coinCurrentPrice.length - 1
-  );
+  const handleClickSearch = () => {
+    const coinName = document.getElementById("coin-search").value;
+    setSearchCoin(coinName);
+  };
 
-  const coinChangeRate = Object.values(coinDataList).map((changeRate) => {
-    return changeRate["fluctate_rate_24H"];
-  });
-  const coinChangeRateList = coinChangeRate.slice(0, coinChangeRate.length - 1);
+  const handleKeyUpSearch = (e) => {
+    if (e.key === "Enter") {
+      const coinName = e.target.value;
+      setSearchCoin(coinName);
+    }
+  };
 
-  const coinTradePrice = Object.values(coinDataList).map((tradePrice) => {
-    return tradePrice["acc_trade_value_24H"];
-  });
-  const coinTradePriceList = coinTradePrice.slice(0, coinTradePrice.length - 1);
+  const handleClickRefreshFilter = () => {
+    document.getElementById("coin-search").value = "";
+    setSearchCoin("");
+  };
 
   return (
     <div>
-      <HeadWrapper>
-        <span>비트 코인 </span>
-        <span> 실시간 시세 </span>
-        <span> 변동률 </span>
-        <span> 거래 금액</span>
-      </HeadWrapper>
-
+      <input
+        onKeyUp={handleKeyUpSearch}
+        placeholder="자산구분"
+        id="coin-search"
+      ></input>
+      <button onClick={handleClickSearch}>검색</button>
+      <button onClick={handleClickRefreshFilter}>전체목록 보기</button>
       <BodyWrapper>
-        <div>
-          {coinNameList.map((name) => {
-            return (
-              <p key={name}>
-                <Link to={`/trade/${name}`}>{name}</Link>
-              </p>
-            );
-          })}
-        </div>
-
-        <div>
-          {coinCurrentPriceList.map((coinPrice, index) => {
-            return <p key={index}>{`${coinPrice}원`}</p>;
-          })}
-        </div>
-
-        <div>
-          {coinChangeRateList.map((changeRate, index) => {
-            return changeRate > 0 ? (
-              <Red key={index}>{`${changeRate}%`}</Red>
-            ) : (
-              <Blue key={index}>{`${changeRate}%`}</Blue>
-            );
-          })}
-        </div>
-
-        <div>
-          {coinTradePriceList.map((tradePrice, index) => {
-            return <p key={index}>{`${tradePrice}원`}</p>;
-          })}
-        </div>
+        <Wrapper>자산</Wrapper>
+        <Wrapper>실시간 시세</Wrapper>
+        <Wrapper>변동률</Wrapper>
+        <Wrapper>거래금액</Wrapper>
       </BodyWrapper>
+
+      {filteredCoinList.length ? (
+        filteredCoinList.map((coin) => (
+          <BodyWrapper key={coin.currency_name}>
+            <Wrapper>
+              <Link to={`/trade/${coin.currency_name}`}>
+                {coin.currency_name}
+              </Link>
+            </Wrapper>
+            <Wrapper>{coin.closing_price}원</Wrapper>
+            {coin.fluctate_rate_24H > 0 ? (
+              <Red>{coin.fluctate_rate_24H}%</Red>
+            ) : (
+              <Blue>{coin.fluctate_rate_24H}%</Blue>
+            )}
+            <Wrapper>{coin.acc_trade_value_24H}</Wrapper>
+          </BodyWrapper>
+        ))
+      ) : (
+        <h4>검색 결과가 없습니다</h4>
+      )}
     </div>
   );
 }
