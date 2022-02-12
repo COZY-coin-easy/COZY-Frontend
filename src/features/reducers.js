@@ -4,12 +4,14 @@ import {
   REGISTER_USER_EMAIL,
   REGISTER_USER_ID,
   TOGGLE_HEADER,
+  CHANGE_CHART_COIN,
 } from "./types";
 
 const initialState = {
   token: "",
   email: "",
   userId: "",
+  chartCoin: "",
   isLoggedIn: false,
   isShowHeader: false,
 };
@@ -50,6 +52,13 @@ export default function userReducer(state = initialState, action) {
       toggleHeaderStateCopy.isShowHeader = action.payload;
 
       return toggleHeaderStateCopy;
+    }
+    case CHANGE_CHART_COIN: {
+      const changeChartCoinStateCopy = Object.assign({}, state);
+
+      changeChartCoinStateCopy.chartCoin = action.payload;
+
+      return changeChartCoinStateCopy;
     }
     default:
       return Object.assign({}, state);

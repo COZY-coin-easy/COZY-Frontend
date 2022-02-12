@@ -1,10 +1,30 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { changeChartCoin } from "../features";
+
+const HeadWrapper = styled.span`
+  border: solid 1px black;
+  font-weight: bold;
+`;
+
+const BodyWrapper = styled.div`
+  display: flex;
+`;
+
+const Red = styled.p`
+  color: red;
+`;
+
+const Blue = styled.p`
+  color: blue;
+`;
 
 export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
   const [coinDataList, setCoinDataList] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     ws.onmessage = (event) => {
@@ -39,14 +59,9 @@ export default function Main() {
   });
   const coinTradePriceList = coinTradePrice.slice(0, coinTradePrice.length - 1);
 
-  const HeadWrapper = styled.span`
-    border: solid 1px black;
-    font-weight: bold;
-  `;
-
-  const BodyWrapper = styled.div`
-    display: flex;
-  `;
+  const handleClickChangeChartCoin = (e) => {
+    dispatch(changeChartCoin(e.target.innerText));
+  };
 
   return (
     <div>
@@ -61,7 +76,7 @@ export default function Main() {
         <div>
           {coinNameList.map((name) => {
             return (
-              <p key={name}>
+              <p key={name} onClick={handleClickChangeChartCoin}>
                 <Link to={`/trade/${name}`}>{name}</Link>
               </p>
             );
@@ -76,7 +91,11 @@ export default function Main() {
 
         <div>
           {coinChangeRateList.map((changeRate, index) => {
-            return <p key={index}>{`${changeRate}%`}</p>;
+            return changeRate > 0 ? (
+              <Red key={index}>{`${changeRate}%`}</Red>
+            ) : (
+              <Blue key={index}>{`${changeRate}%`}</Blue>
+            );
           })}
         </div>
 
