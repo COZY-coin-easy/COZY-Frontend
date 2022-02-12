@@ -9,6 +9,7 @@ import Asset from "../components/Asset";
 import Trade from "../components/Trade";
 import MyPage from "../components/Mypage";
 import TransactionHistory from "../components/TransactionHistory";
+import Mypage from "../components/Mypage";
 
 function App() {
   const isShowHeader = useSelector((state) => state.auth.isShowHeader);
@@ -24,6 +25,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/trade/:currencyName" element={<Trade />} />
         <Route path="/transaction-history" element={<TransactionHistory />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </>
   );

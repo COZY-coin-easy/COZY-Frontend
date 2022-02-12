@@ -30,6 +30,7 @@ export default function MyPage() {
 
     return ((finalMoney - initialMoney) / initialMoney) * 100;
   };
+
   return (
     <>
       <h3>{`이름: ${user.displayName}`} </h3>

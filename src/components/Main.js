@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -29,8 +30,31 @@ const Blue = styled.div`
   color: blue;
 `;
 
+const HeadWrapper = styled.span`
+  border: solid 1px black;
+  font-weight: bold;
+`;
+
+const BodyWrapper = styled.div`
+  display: flex;
+`;
+
+const Span = styled.span`
+  margin-right: 20px;
+  font-weight: bold;
+`;
+
+const Red = styled.p`
+  color: red;
+`;
+
+const Blue = styled.p`
+  color: blue;
+`;
+
 export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
+<<<<<<< HEAD
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
 
@@ -59,6 +83,11 @@ export default function Main() {
 
     setCoinList(coinInfo);
   }, [tickerCoinList]);
+=======
+  const [coinDataList, setCoinDataList] = useState({});
+  const [newCoinList, setNewCoinList] = useState([]);
+  const [isAsendBtnClick, setIsAsendBtnClick] = useState(false);
+>>>>>>> f5d1f63 (메인 컴포넌트 정렬 로직 작성중)
 
   useEffect(() => {
     ws.onmessage = (event) => {
@@ -110,7 +139,21 @@ export default function Main() {
   const handleClickRefreshFilter = () => {
     document.getElementById("coin-search").value = "";
     setSearchCoin("");
-  };
+  // const ascendList = () => {
+  //   coinNameList.sort((a, b) => {
+  //     return a < b ? -1 : a > b ? 1 : 0;
+  //   });
+  //   setNewCoinList(coinNameList);
+  //   setIsAsendBtnClick(true);
+  // };
+
+  // const descendList = () => {
+  //   coinNameList.sort((a, b) => {
+  //     return a < b ? 1 : a > b ? -1 : 0;
+  //   });
+  //   setNewCoinList(coinNameList);
+  //   setIsAsendBtnClick(false);
+  // };
 
   return (
     <div>
