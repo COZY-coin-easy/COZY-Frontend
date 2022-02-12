@@ -3,7 +3,7 @@ import axios from "axios";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import { useSelector } from "react-redux";
-import "../../public/chartStyle.css";
+import "./chartStyle.css";
 
 export default function Chart() {
   const [chartData, setChartData] = useState([]);
