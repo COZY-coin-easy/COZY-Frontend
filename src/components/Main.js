@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import {
+  initialCoinList,
+  socketData,
+  requestCoinList,
+} from "../features/sagas/socketSlice";
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -29,19 +35,38 @@ export default function Main() {
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
 
+  const dispatch = useDispatch();
+
+  const tickerCoinList = useSelector((state) => state.socket.coinList);
+  const realTimeCoin = useSelector((state) => state.socket.socketCoin);
+
+  useEffect(() => {
+    const myCoin = "ALL";
+
+    const fetchCoinList = function () {
+      dispatch(requestCoinList(myCoin));
+    };
+
+    fetchCoinList();
+
+    const coinName = Object.keys(tickerCoinList);
+    const coinInfo = Object.values(tickerCoinList);
+
+    coinName.pop();
+    coinInfo.pop();
+
+    for (let i = 0; i < coinInfo.length; i++) {
+      coinInfo[i].currency_name = coinName[i];
+    }
+
+    setCoinList(coinInfo);
+  }, []);
+
   useEffect(() => {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
-      const coinName = Object.keys(res.data);
-      const coinInfo = Object.values(res.data);
-      coinName.pop();
-      coinInfo.pop();
 
-      for (let i = 0; i < coinInfo.length; i++) {
-        coinInfo[i].currency_name = coinName[i];
-      }
-
-      setCoinList(coinInfo);
+      dispatch(socketData(res.content));
       ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
 
@@ -88,13 +113,11 @@ export default function Main() {
         <Wrapper>거래금액</Wrapper>
       </BodyWrapper>
 
-      {filteredCoinList.length ? (
+      {/* {filteredCoinList.length ? (
         filteredCoinList.map((coin) => (
-          <BodyWrapper key={coin.currency_name}>
+          <BodyWrapper key={coin.symbol}>
             <Wrapper>
-              <Link to={`/trade/${coin.currency_name}`}>
-                {coin.currency_name}
-              </Link>
+              <Link to={`/trade/${coin.symbol}`}>{coin.symbol}</Link>
             </Wrapper>
             <Wrapper>{coin.closing_price}원</Wrapper>
             {coin.fluctate_rate_24H > 0 ? (
@@ -107,7 +130,7 @@ export default function Main() {
         ))
       ) : (
         <h4>검색 결과가 없습니다</h4>
-      )}
+      )} */}
     </div>
   );
 }
