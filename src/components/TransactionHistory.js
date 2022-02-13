@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled, { ThemeProvider } from "styled-components";
 import { DateRangeInput } from "@datepicker-react/styled";
-import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -17,36 +15,15 @@ const Wrapper = styled.div`
 `;
 
 export default function TransactionHistory() {
-  const userId = useSelector((state) => state.user.userId);
-  const token = useSelector((state) => state.user.token);
-  const [transactionHistory, setTransactionHistory] = useState([]);
+  const { transactionHistory } = useSelector((state) => state.user.user);
+  const [filteredTransactionHistory, setFilteredTransactionHistory] =
+    useState(transactionHistory);
   const [transactionNumber, setTransactionNumber] = useState(5);
-  const [filteredTransactionHistory, setFilteredTransactionHistory] = useState(
-    []
-  );
   const [focusedInput, setFocusedInput] = useState("");
   const [dates, setDates] = useState({
     startDate: null,
     endDate: null,
   });
-
-  useEffect(() => {
-    const getTransactionHistory = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_TRANSACTIONHISTORY_REQUEST}/${userId}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-
-      setTransactionHistory(res.data.data);
-      setFilteredTransactionHistory(res.data.data);
-    };
-
-    getTransactionHistory();
-  }, []);
 
   const currentHistory = filteredTransactionHistory.slice(0, transactionNumber);
 

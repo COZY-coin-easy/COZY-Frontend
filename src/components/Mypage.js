@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import assetMock from "../assetMockData.json";
 
 const Span = styled.span`
   margin-left: 20px;
@@ -14,27 +12,7 @@ const Div = styled.div`
 `;
 
 export default function MyPage() {
-  const userId = useSelector((state) => state.user.userId);
-  const token = useSelector((state) => state.user.token);
-  const email = useSelector((state) => state.user.email);
-  const [userInfo, setUserInfo] = useState({});
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_MYPAGE_REQUEST}${userId}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-
-      setUserInfo(res.data.userInfo);
-    };
-
-    fetchUserData();
-  }, []);
+  const user = useSelector((state) => state.user.user);
 
   const getFinalMoney = (coins) => {
     let finalMoney = 0;
@@ -54,8 +32,8 @@ export default function MyPage() {
   };
   return (
     <>
-      <h3>{`이름: ${userInfo.username}`} </h3>
-      <h3>{`E-mail: ${email}`} </h3>
+      <h3>{`이름: ${user.displayName}`} </h3>
+      <h3>{`E-mail: ${user.email}`} </h3>
       <h3>회차별 내용</h3>
 
       <Span>회차</Span>
@@ -65,14 +43,12 @@ export default function MyPage() {
 
       <Div>
         <Span>1</Span>
-        <Span>{assetMock.asset.cash}</Span>
-        <Span>{getFinalMoney(assetMock.asset.coins)}</Span>
-        <Span>
-          {`${getYield(
-            assetMock.asset.cash,
-            getFinalMoney(assetMock.asset.coins)
-          )}%`}
-        </Span>
+        <Span>{user.asset.cash}</Span>
+        <Span>{getFinalMoney(user.asset.coins)}</Span>
+        <Span>{`${getYield(
+          user.asset.cash,
+          getFinalMoney(user.asset.coins)
+        )}%`}</Span>
       </Div>
     </>
   );

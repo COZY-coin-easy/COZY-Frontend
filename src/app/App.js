@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import Main from "../components/Main";
 import Asset from "../components/Asset";
 import Trade from "../components/Trade";
-import MyPage from "../components/MyPage";
+import MyPage from "../components/Mypage";
 import TransactionHistory from "../components/TransactionHistory";
 
 function App() {
