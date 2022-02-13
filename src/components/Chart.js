@@ -1,37 +1,24 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./chartStyle.css";
+import { candleStickRequest } from "../features/candleStick/candleStickSlice";
+import { useParams } from "react-router-dom";
 
 export default function Chart() {
-  const [chartData, setChartData] = useState([]);
+  const dispatch = useDispatch();
+  const chartData = useSelector((state) => state.candleStick.candleStick);
   const [time, setTime] = useState("10m");
-  const userId = useSelector((state) => state.user.userId);
-  const coinName = useSelector((state) => state.user.chartCoin);
+  const { currencyName } = useParams();
 
   useEffect(() => {
     let setTimeoutID = null;
     const fetchData = function () {
-      setTimeoutID = setTimeout(async () => {
-        try {
-          const res = await axios.get(
-            `${process.env.REACT_APP_CANDLESTICK_API_URL}/${coinName}_KRW/${time}`
-          );
+      setTimeoutID = setTimeout(() => {
+        dispatch(candleStickRequest({ currencyName, time }));
 
-          await axios.post(
-            `${process.env.REACT_APP_CANDLESTICK_REQUEST}/${userId}`,
-            {
-              candlestick: res.data.data,
-            }
-          );
-
-          setChartData(res.data.data);
-          fetchData();
-        } catch (err) {
-          console.log(err);
-        }
+        fetchData();
       }, 1000);
     };
 
@@ -106,7 +93,7 @@ export default function Chart() {
           x: -3,
         },
         title: {
-          text: coinName,
+          text: currencyName,
         },
         height: "60%",
         lineWidth: 2,
@@ -139,7 +126,7 @@ export default function Chart() {
       },
     },
     title: {
-      text: coinName,
+      text: currencyName,
     },
     series: [
       {

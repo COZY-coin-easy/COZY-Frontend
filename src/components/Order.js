@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Modal from "./Modal";
+import { orderRequest } from "../features/user/userSlice";
 
 const CheckModalWrapper = styled.div`
-    width: 30%;
-    height: 70%;
-    position: fixed;
-    left: 55%;
-    top: 20%;
-    background-color: white;
-  }
+  width: 30%;
+  height: 70%;
+  position: fixed;
+  left: 55%;
+  top: 20%;
+  background-color: white;
 `;
 
 const Dimmed = styled.div`
@@ -25,50 +24,36 @@ const Dimmed = styled.div`
 `;
 
 export default function Order() {
-  const [cash, setCash] = useState(0);
-  const [coin, setCoin] = useState({});
+  const dispatch = useDispatch();
+  const { currencyName } = useParams();
+
   const [isBuy, setIsBuy] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState({
     isTrade: false,
     isComplete: false,
     isFail: false,
   });
-
-  const { isTrade, isComplete, isFail } = isOpenModal;
   const [inputs, setInputs] = useState({
     price: "",
     unitsTraded: "",
   });
-  const userId = useSelector((state) => state.user.userId);
-  const token = useSelector((state) => state.user.token);
-  const { currencyName } = useParams();
 
+  const { asset, token, _id } = useSelector((state) => state.user.user);
+
+  const { cash, coins } = asset;
+  const { isTrade, isComplete, isFail } = isOpenModal;
   const { price, unitsTraded } = inputs;
+
   const total = price * unitsTraded;
 
-  useEffect(() => {
-    const getUserAsset = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_ASSET_REQUEST}/${userId}`,
-        {
-          headers: { authorization: token },
-        }
-      );
+  let coin = null;
+  for (let i = 0; i < coins.length; i++) {
+    if (coins[i].currencyName === currencyName) {
+      coin = coins[i];
 
-      const { cash, coins } = res.data.asset;
-
-      setCash(cash);
-
-      for (let i = 0; i < coins.length; i++) {
-        if (coins[i].currencyName === currencyName) {
-          setCoin(coins[i]);
-          return;
-        }
-      }
-    };
-
-    getUserAsset();
-  }, []);
+      break;
+    }
+  }
 
   const handleChangeInputValue = (e) => {
     const { value, name } = e.target;
@@ -99,8 +84,9 @@ export default function Order() {
     }
   };
 
-  const handleClickOpenModal = (e) => {
+  const handleClickOpenTradeModal = (e) => {
     e.preventDefault();
+
     setIsOpenModal({
       ...isOpenModal,
       isTrade: true,
@@ -135,16 +121,16 @@ export default function Order() {
       return;
     }
 
-    await axios.post(
-      `${process.env.REACT_APP_ORDER_REQUEST}/${userId}`,
-      {
+    dispatch(
+      orderRequest({
         transactionDate: new Date(),
         currencyName,
-        price,
-        unitsTraded,
+        price: isBuy ? -price : price,
+        unitsTraded: isBuy ? unitsTraded : -unitsTraded,
         total: isBuy ? -total : total,
-      },
-      { headers: { authorization: token } }
+        token,
+        _id,
+      })
     );
 
     setIsOpenModal({
@@ -157,27 +143,15 @@ export default function Order() {
       price: "",
       unitsTraded: "",
     });
-    setCash(isBuy ? cash - total : cash + total);
-    setCoin({
-      ...coin,
-      quantity: isBuy
-        ? coin.quantity + unitsTraded
-        : coin.quantity - unitsTraded,
-    });
   };
 
   return (
     <>
       <div>보유 현금: {cash}원 </div>
-      {coin && (
-        <>
-          <div>
-            현재 가지고 있는 {currencyName}: {coin.quantity ? coin.quantity : 0}
-            개
-          </div>
-          <div>평균매수가: {coin.averagePrice ? coin.averagePrice : 0}원</div>
-        </>
-      )}
+      <div>
+        현재 가지고 있는 {currencyName}:{coin ? coin.quantity : 0}개
+      </div>
+      <div>평균매수가: {coin ? coin.averagePrice : 0}원</div>
 
       <div className="order-box">
         <div>
@@ -208,11 +182,11 @@ export default function Order() {
             <input type="number" placeholder="총액" value={total} readOnly />
           </form>
           {isBuy ? (
-            <button type="submit" onClick={handleClickOpenModal}>
+            <button type="submit" onClick={handleClickOpenTradeModal}>
               매수하기
             </button>
           ) : (
-            <button type="submit" onClick={handleClickOpenModal}>
+            <button type="submit" onClick={handleClickOpenTradeModal}>
               매도하기
             </button>
           )}
