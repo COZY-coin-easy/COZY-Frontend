@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import styled from "styled-components";
 
 const Span = styled.span`
@@ -13,27 +12,10 @@ const Div = styled.div`
 `;
 
 export default function Asset() {
-  const userId = useSelector((state) => state.user.userId);
-  const token = useSelector((state) => state.user.token);
-  const [assetList, setAssetList] = useState({});
+  const { asset } = useSelector((state) => state.user.user);
 
-  const ownedCash = assetList.asset.cash;
-  const ownedCoinList = assetList.asset.coins;
-
-  useEffect(() => {
-    const fetchAssetData = async function () {
-      const res = await axios.get(
-        `${process.env.REACT_APP_ASSET_REQUEST}/${userId}`,
-        {
-          headers: { authorization: token },
-        }
-      );
-
-      setAssetList(res.data.userAsset);
-    };
-
-    fetchAssetData();
-  }, []);
+  const ownedCash = asset.cash;
+  const ownedCoinList = asset.coins;
 
   const getCurrentLeftMoney = (coin) => {
     const leftMoney =
