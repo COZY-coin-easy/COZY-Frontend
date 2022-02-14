@@ -54,7 +54,6 @@ const Blue = styled.p`
 
 export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
-<<<<<<< HEAD
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
 
@@ -83,11 +82,6 @@ export default function Main() {
 
     setCoinList(coinInfo);
   }, [tickerCoinList]);
-=======
-  const [coinDataList, setCoinDataList] = useState({});
-  const [newCoinList, setNewCoinList] = useState([]);
-  const [isAsendBtnClick, setIsAsendBtnClick] = useState(false);
->>>>>>> f5d1f63 (메인 컴포넌트 정렬 로직 작성중)
 
   useEffect(() => {
     ws.onmessage = (event) => {
