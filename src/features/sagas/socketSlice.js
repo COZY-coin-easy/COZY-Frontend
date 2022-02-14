@@ -13,13 +13,13 @@ const sagaSlice = createSlice({
       state.coinList = action.payload;
     },
     requestCoinList: (state) => {
-      state.requestCoin = state;
+      state.requestCoin = "";
     },
     socketData: (state, action) => {
       state.socketCoin = action.payload;
     },
     requestSocketData: (state) => {
-      state.requestSocket = state;
+      state.requestSocket = "";
     },
     socketFailure: (state, action) => {
       const { message } = action.payload;

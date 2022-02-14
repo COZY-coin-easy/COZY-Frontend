@@ -42,18 +42,13 @@ export default function Main() {
   useEffect(() => {
     const myCoin = "ALL";
 
-    const fetchCoinList = function () {
-      dispatch(requestCoinList(myCoin));
-    };
-
-    fetchCoinList();
+    dispatch(requestCoinList(myCoin));
   }, []);
 
   useEffect(() => {
-    const tickerCoin = JSON.stringify(tickerCoinList);
-    const parseTickerCoin = JSON.parse(tickerCoin);
-    const coinName = Object.keys(parseTickerCoin);
-    const coinInfo = Object.values(parseTickerCoin);
+    const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));
+    const coinName = Object.keys(parsedTickerCoin);
+    const coinInfo = Object.values(parsedTickerCoin);
 
     coinName.pop();
     coinInfo.pop();
@@ -68,8 +63,9 @@ export default function Main() {
   useEffect(() => {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
+      const socketCoinData = res.content;
 
-      dispatch(requestSocketData(res.content));
+      dispatch(requestSocketData(socketCoinData));
       ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
 
@@ -94,6 +90,7 @@ export default function Main() {
         coin.fluctate_rate_24H = realTimeCoin.chgRate;
         coin.acc_trade_value_24H = realTimeCoin.value;
       }
+
       return coin;
     }
   });
