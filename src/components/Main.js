@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import {
+  requestCoinList,
+  requestSocketData,
+} from "../features/sagas/socketSlice";
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -29,24 +34,47 @@ export default function Main() {
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
 
+  const dispatch = useDispatch();
+
+  const tickerCoinList = useSelector((state) => state.socket.coinList);
+  const realTimeCoin = useSelector((state) => state.socket.socketCoin);
+
+  useEffect(() => {
+    const myCoin = "ALL";
+
+    dispatch(requestCoinList(myCoin));
+  }, []);
+
+  useEffect(() => {
+    const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));
+    const coinName = Object.keys(parsedTickerCoin);
+    const coinInfo = Object.values(parsedTickerCoin);
+
+    coinName.pop();
+    coinInfo.pop();
+
+    for (let i = 0; i < coinInfo.length; i++) {
+      coinInfo[i].currency_name = coinName[i];
+    }
+
+    setCoinList(coinInfo);
+  }, [tickerCoinList]);
+
   useEffect(() => {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
-      const coinName = Object.keys(res.data);
-      const coinInfo = Object.values(res.data);
-      coinName.pop();
-      coinInfo.pop();
+      const socketCoinData = res.content;
 
-      for (let i = 0; i < coinInfo.length; i++) {
-        coinInfo[i].currency_name = coinName[i];
-      }
-
-      setCoinList(coinInfo);
+      dispatch(requestSocketData(socketCoinData));
       ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
 
     ws.onerror = (error) => {
       console.error(error);
+    };
+
+    return () => {
+      ws.close();
     };
   }, []);
 
@@ -54,6 +82,18 @@ export default function Main() {
     searchCoin === ""
       ? coinList
       : coinList.filter((coin) => coin.currency_name === searchCoin);
+
+  coinList.forEach((coin) => {
+    if (realTimeCoin.symbol) {
+      if (coin.currency_name === realTimeCoin.symbol.slice(0, 3)) {
+        coin.closing_price = realTimeCoin.closePrice;
+        coin.fluctate_rate_24H = realTimeCoin.chgRate;
+        coin.acc_trade_value_24H = realTimeCoin.value;
+      }
+
+      return coin;
+    }
+  });
 
   const handleClickSearch = () => {
     const coinName = document.getElementById("coin-search").value;
