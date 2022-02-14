@@ -6,6 +6,7 @@ const sagaSlice = createSlice({
     coinList: "",
     socketCoin: "",
     requestCoin: "",
+    requestSocket: "",
   },
   reducers: {
     initialCoinList: (state, action) => {
@@ -17,6 +18,9 @@ const sagaSlice = createSlice({
     socketData: (state, action) => {
       state.socketCoin = action.payload;
     },
+    requestSocketData: (state) => {
+      state.requestSocket = state;
+    },
     socketFailure: (state, action) => {
       const { message } = action.payload;
 
@@ -25,7 +29,12 @@ const sagaSlice = createSlice({
   },
 });
 
-export const { initialCoinList, socketData, socketFailure, requestCoinList } =
-  sagaSlice.actions;
+export const {
+  initialCoinList,
+  socketData,
+  socketFailure,
+  requestCoinList,
+  requestSocketData,
+} = sagaSlice.actions;
 
 export default sagaSlice.reducer;

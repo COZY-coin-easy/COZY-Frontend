@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import {
-  initialCoinList,
-  socketData,
   requestCoinList,
+  requestSocketData,
 } from "../features/sagas/socketSlice";
 
 const BodyWrapper = styled.div`
@@ -48,9 +47,13 @@ export default function Main() {
     };
 
     fetchCoinList();
+  }, []);
 
-    const coinName = Object.keys(tickerCoinList);
-    const coinInfo = Object.values(tickerCoinList);
+  useEffect(() => {
+    const tickerCoin = JSON.stringify(tickerCoinList);
+    const parseTickerCoin = JSON.parse(tickerCoin);
+    const coinName = Object.keys(parseTickerCoin);
+    const coinInfo = Object.values(parseTickerCoin);
 
     coinName.pop();
     coinInfo.pop();
@@ -60,18 +63,22 @@ export default function Main() {
     }
 
     setCoinList(coinInfo);
-  }, []);
+  }, [tickerCoinList]);
 
   useEffect(() => {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
 
-      dispatch(socketData(res.content));
+      dispatch(requestSocketData(res.content));
       ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
 
     ws.onerror = (error) => {
       console.error(error);
+    };
+
+    return () => {
+      ws.close();
     };
   }, []);
 
@@ -79,6 +86,17 @@ export default function Main() {
     searchCoin === ""
       ? coinList
       : coinList.filter((coin) => coin.currency_name === searchCoin);
+
+  coinList.forEach((coin) => {
+    if (realTimeCoin.symbol) {
+      if (coin.currency_name === realTimeCoin.symbol.slice(0, 3)) {
+        coin.closing_price = realTimeCoin.closePrice;
+        coin.fluctate_rate_24H = realTimeCoin.chgRate;
+        coin.acc_trade_value_24H = realTimeCoin.value;
+      }
+      return coin;
+    }
+  });
 
   const handleClickSearch = () => {
     const coinName = document.getElementById("coin-search").value;
@@ -113,11 +131,13 @@ export default function Main() {
         <Wrapper>거래금액</Wrapper>
       </BodyWrapper>
 
-      {/* {filteredCoinList.length ? (
+      {filteredCoinList.length ? (
         filteredCoinList.map((coin) => (
-          <BodyWrapper key={coin.symbol}>
+          <BodyWrapper key={coin.currency_name}>
             <Wrapper>
-              <Link to={`/trade/${coin.symbol}`}>{coin.symbol}</Link>
+              <Link to={`/trade/${coin.currency_name}`}>
+                {coin.currency_name}
+              </Link>
             </Wrapper>
             <Wrapper>{coin.closing_price}원</Wrapper>
             {coin.fluctate_rate_24H > 0 ? (
@@ -130,7 +150,7 @@ export default function Main() {
         ))
       ) : (
         <h4>검색 결과가 없습니다</h4>
-      )} */}
+      )}
     </div>
   );
 }

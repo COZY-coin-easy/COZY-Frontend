@@ -5,6 +5,7 @@ import {
   socketData,
   socketFailure,
   requestCoinList,
+  requestSocketData,
 } from "./socketSlice";
 
 function* getCoinList({ payload }) {
@@ -12,8 +13,8 @@ function* getCoinList({ payload }) {
     const ticker = yield axios.get(
       `https://api.bithumb.com/public/ticker/${payload}`
     );
+
     const tickerList = { ...ticker.data.data };
-    console.log("tickerList:::", tickerList);
     yield put(initialCoinList(tickerList));
   } catch (err) {
     yield put(socketFailure(err));
@@ -38,7 +39,7 @@ function* watchGetSocketData() {
   let data = null;
 
   while (true) {
-    data = yield take(socketData);
+    data = yield take(requestSocketData);
     yield call(getSocketData, data);
   }
 }
