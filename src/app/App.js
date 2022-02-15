@@ -9,7 +9,6 @@ import Asset from "../components/Asset";
 import Trade from "../components/Trade";
 import MyPage from "../components/Mypage";
 import TransactionHistory from "../components/TransactionHistory";
-import Mypage from "../components/Mypage";
 
 function App() {
   const isShowHeader = useSelector((state) => state.auth.isShowHeader);
