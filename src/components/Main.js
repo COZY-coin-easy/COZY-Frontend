@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -30,32 +29,16 @@ const Blue = styled.div`
   color: blue;
 `;
 
-const HeadWrapper = styled.span`
-  border: solid 1px black;
-  font-weight: bold;
-`;
-
-const BodyWrapper = styled.div`
-  display: flex;
-`;
-
-const Span = styled.span`
-  margin-right: 20px;
-  font-weight: bold;
-`;
-
-const Red = styled.p`
-  color: red;
-`;
-
-const Blue = styled.p`
-  color: blue;
-`;
-
 export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
+  const [isSortBtnClick, setIsSortBtnClick] = useState(false);
+  const [isSortedByName, setIsSortedByName] = useState(true);
+  const [isSortedByCurrentPrice, setIsSortedByCurrentPrice] = useState(true);
+  const [isSortedByRateOfChange, setIsSortedByRateOfChange] = useState(true);
+  const [isSortedByTransactionAmount, setIsSortedByTransactionAmount] =
+    useState(true);
 
   const dispatch = useDispatch();
 
@@ -133,21 +116,63 @@ export default function Main() {
   const handleClickRefreshFilter = () => {
     document.getElementById("coin-search").value = "";
     setSearchCoin("");
-  // const ascendList = () => {
-  //   coinNameList.sort((a, b) => {
-  //     return a < b ? -1 : a > b ? 1 : 0;
-  //   });
-  //   setNewCoinList(coinNameList);
-  //   setIsAsendBtnClick(true);
-  // };
+  };
 
-  // const descendList = () => {
-  //   coinNameList.sort((a, b) => {
-  //     return a < b ? 1 : a > b ? -1 : 0;
-  //   });
-  //   setNewCoinList(coinNameList);
-  //   setIsAsendBtnClick(false);
-  // };
+  const sortingByCoinName = () => {
+    setIsSortedByName((current) => !current);
+
+    isSortedByName
+      ? coinList.sort((a, b) => {
+          return a.currency_name > b.currency_name
+            ? -1
+            : a.currency_name < b.currency_name
+            ? 1
+            : 0;
+        })
+      : coinList.sort((a, b) => {
+          return a.currency_name < b.currency_name
+            ? -1
+            : a.currency_name > b.currency_name
+            ? 1
+            : 0;
+        });
+  };
+
+  const sortingByCurrentPrice = () => {
+    setIsSortedByCurrentPrice((current) => !current);
+
+    isSortedByCurrentPrice
+      ? coinList.sort((a, b) => {
+          return a.closing_price - b.closing_price;
+        })
+      : coinList.sort((a, b) => {
+          return b.closing_price - a.closing_price;
+        });
+  };
+
+  const sortingByRateOfChange = () => {
+    setIsSortedByRateOfChange((current) => !current);
+
+    isSortedByRateOfChange
+      ? coinList.sort((a, b) => {
+          return a.fluctate_rate_24H - b.fluctate_rate_24H;
+        })
+      : coinList.sort((a, b) => {
+          return b.fluctate_rate_24H - a.fluctate_rate_24H;
+        });
+  };
+
+  const sortingByTransactionAmount = () => {
+    setIsSortedByTransactionAmount((current) => !current);
+
+    isSortedByTransactionAmount
+      ? coinList.sort((a, b) => {
+          return a.acc_trade_value_24H - b.acc_trade_value_24H;
+        })
+      : coinList.sort((a, b) => {
+          return b.acc_trade_value_24H - a.acc_trade_value_24H;
+        });
+  };
 
   return (
     <div>
@@ -159,10 +184,30 @@ export default function Main() {
       <button onClick={handleClickSearch}>검색</button>
       <button onClick={handleClickRefreshFilter}>전체목록 보기</button>
       <BodyWrapper>
-        <Wrapper>자산</Wrapper>
-        <Wrapper>실시간 시세</Wrapper>
-        <Wrapper>변동률</Wrapper>
-        <Wrapper>거래금액</Wrapper>
+        <Wrapper>
+          자산
+          <button onClick={sortingByCoinName}>
+            {isSortedByName ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
+        <Wrapper>
+          실시간 시세
+          <button onClick={sortingByCurrentPrice}>
+            {isSortedByCurrentPrice ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
+        <Wrapper>
+          변동률
+          <button onClick={sortingByRateOfChange}>
+            {isSortedByRateOfChange ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
+        <Wrapper>
+          거래금액
+          <button onClick={sortingByTransactionAmount}>
+            {isSortedByTransactionAmount ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
       </BodyWrapper>
 
       {filteredCoinList.length ? (
