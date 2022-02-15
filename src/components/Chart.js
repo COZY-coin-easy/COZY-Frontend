@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
-import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
 import "./chartStyle.css";
 import { candleStickRequest } from "../features/candleStick/candleStickSlice";
-import { useParams } from "react-router-dom";
 
 export default function Chart() {
   const dispatch = useDispatch();
@@ -162,8 +163,8 @@ export default function Chart() {
   };
 
   return (
-    <>
-      <div>
+    <ChartWrapper>
+      <div className="date-selector">
         원하는 기간을 선택해주세요
         <select onChange={handleChangePeriod}>
           <option>1일</option>
@@ -175,12 +176,21 @@ export default function Chart() {
           <option>3년</option>
           <option>8년</option>
         </select>
+        <HighchartsReact
+          highcharts={Highcharts}
+          constructorType={"stockChart"}
+          options={options}
+        />
       </div>
-      <HighchartsReact
-        highcharts={Highcharts}
-        constructorType={"stockChart"}
-        options={options}
-      />
-    </>
+    </ChartWrapper>
   );
 }
+
+const ChartWrapper = styled.div`
+  width: 100vh;
+  height: 100vh;
+
+  .date-selector {
+    margin: 160px 0px 50px 0px;
+  }
+`;
