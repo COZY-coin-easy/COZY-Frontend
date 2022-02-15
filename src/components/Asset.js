@@ -107,18 +107,18 @@ export default function Asset() {
     isName
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.currencyName < b.currencyName
+            return a.currencyName > b.currencyName
               ? -1
-              : a.currencyName > b.currencyName
+              : a.currencyName < b.currencyName
               ? 1
               : 0;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.currencyName > b.currencyName
+            return a.currencyName < b.currencyName
               ? -1
-              : a.currencyName < b.currencyName
+              : a.currencyName > b.currencyName
               ? 1
               : 0;
           })
@@ -135,20 +135,12 @@ export default function Asset() {
     isLeftMoney
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity < b.quantity
-              ? -1
-              : a.quantity > b.quantity
-              ? 1
-              : 0;
+            return b.quantity - a.quantity;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity > b.quantity
-              ? -1
-              : a.quantity < b.quantity
-              ? 1
-              : 0;
+            return a.quantity - b.quantity;
           })
         );
   };
@@ -163,12 +155,12 @@ export default function Asset() {
     isAvgPrice
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.averagePrice - b.averagePrice;
+            return b.averagePrice - a.averagePrice;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return b.averagePrice - a.averagePrice;
+            return a.averagePrice - b.averagePrice;
           })
         );
   };
@@ -183,12 +175,12 @@ export default function Asset() {
     isBoughtPrice
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.bought_price - b.bought_price;
+            return b.bought_price - a.bought_price;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return b.bought_price - a.bought_price;
+            return a.bought_price - b.bought_price;
           })
         );
   };
@@ -203,12 +195,12 @@ export default function Asset() {
     isEvaluatedPrice
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price - b.quantity * b.current_price;
+            return b.quantity * b.current_price - a.quantity * a.current_price;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return b.quantity * b.current_price - a.quantity * a.current_price;
+            return a.quantity * a.current_price - b.quantity * b.current_price;
           })
         );
   };
@@ -224,18 +216,18 @@ export default function Asset() {
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
             return (
-              a.quantity * a.current_price -
-              a.bought_price -
-              (b.quantity * b.current_price - b.bought_price)
+              b.quantity * b.current_price -
+              b.bought_price -
+              (a.quantity * a.current_price - a.bought_price)
             );
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
             return (
-              b.quantity * b.current_price -
-              b.bought_price -
-              (a.quantity * a.current_price - a.bought_price)
+              a.quantity * a.current_price -
+              a.bought_price -
+              (b.quantity * b.current_price - b.bought_price)
             );
           })
         );
@@ -252,16 +244,16 @@ export default function Asset() {
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
             return (
-              (a.quantity * a.current_price - a.bought_price) / a.bought_price -
-              (b.quantity * b.current_price - b.bought_price) / b.bought_price
+              (b.quantity * b.current_price - b.bought_price) / b.bought_price -
+              (a.quantity * a.current_price - a.bought_price) / a.bought_price
             );
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
             return (
-              (b.quantity * b.current_price - b.bought_price) / b.bought_price -
-              (a.quantity * a.current_price - a.bought_price) / a.bought_price
+              (a.quantity * a.current_price - a.bought_price) / a.bought_price -
+              (b.quantity * b.current_price - b.bought_price) / b.bought_price
             );
           })
         );
@@ -271,38 +263,36 @@ export default function Asset() {
     <>
       <Span>
         자산 구분
-        <button onClick={sortingByCoinName}>{!isName ? "🔼" : "🔽"}</button>
+        <button onClick={sortingByCoinName}>{isName ? "🔼" : "🔽"}</button>
       </Span>
       <Span>
         보유 잔고
         <button onClick={sortingByCurrentLeftMoney}>
-          {!isLeftMoney ? "🔼" : "🔽"}
+          {isLeftMoney ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
         평균 매수가
-        <button onClick={averageBoughtPrice}>
-          {!isAvgPrice ? "🔼" : "🔽"}
-        </button>
+        <button onClick={averageBoughtPrice}>{isAvgPrice ? "🔼" : "🔽"}</button>
       </Span>
       <Span>
         매수 금액
-        <button onClick={boughtPrice}>{!isBoughtPrice ? "🔼" : "🔽"}</button>
+        <button onClick={boughtPrice}>{isBoughtPrice ? "🔼" : "🔽"}</button>
       </Span>
       <Span>
         평가 금액
         <button onClick={evaluatedPrice}>
-          {!isEvaluatedPrice ? "🔼" : "🔽"}
+          {isEvaluatedPrice ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
         펑가 순익
         <button onClick={evaluatedProfit}>
-          {!isEvaluatedProfit ? "🔼" : "🔽"}
+          {isEvaluatedProfit ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
-        수익률 <button onClick={yieldRate}>{!isYieldRate ? "🔼" : "🔽"}</button>
+        수익률 <button onClick={yieldRate}>{isYieldRate ? "🔼" : "🔽"}</button>
       </Span>
 
       {!isSortBtnClick
