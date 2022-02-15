@@ -60,7 +60,6 @@ export default function Main() {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
       const socketCoinData = res.content;
-      console.log("DATA COMING!!");
       dispatch(requestSocketData(socketCoinData));
       ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
@@ -70,7 +69,6 @@ export default function Main() {
     };
 
     return () => {
-      console.log("CLOSED@@@@");
       ws.close();
     };
   }, []);
@@ -307,6 +305,7 @@ const Button = styled.button`
     background-color: ${MAIN_COLOR_3};
     border-color: ${MAIN_COLOR_3};
     color: ${WHITE};
+    transition: 0.2s;
   }
 `;
 

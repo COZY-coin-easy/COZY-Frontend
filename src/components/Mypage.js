@@ -13,14 +13,14 @@ export default function MyPage() {
         <Bar />
         <Title>마이페이지</Title>
       </Container>
-      <ContentContainer>
+      <ContentsContainer>
         <Content>이름</Content>
         <Content>{user.displayName}</Content>
-      </ContentContainer>
-      <ContentContainer>
+      </ContentsContainer>
+      <ContentsContainer>
         <Content>E-mail</Content>
         <Content>{user.email}</Content>
-      </ContentContainer>
+      </ContentsContainer>
     </>
   );
 }
@@ -58,7 +58,7 @@ const Container = styled.div`
   margin: 20px 0px 50px 20px;
 `;
 
-const ContentContainer = styled(Container)`
+const ContentsContainer = styled(Container)`
   justify-content: space-evenly;
   text-align: left;
   margin: 20px;

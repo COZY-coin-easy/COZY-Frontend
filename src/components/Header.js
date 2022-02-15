@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
-import { logoutRequest } from "../features/auth/authSlice";
-import { MAIN_COLOR_1, MAIN_COLOR_3, WHITE, BLACK } from "../constants/styles";
 import styled from "styled-components";
+
+import { MAIN_COLOR_1, MAIN_COLOR_3, WHITE, BLACK } from "../constants/styles";
+import { logoutRequest } from "../features/auth/authSlice";
 import { auth } from "../firebase";
 
 export default function Header() {

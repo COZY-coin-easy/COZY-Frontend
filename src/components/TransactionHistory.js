@@ -63,7 +63,7 @@ export default function TransactionHistory() {
     <>
       <Anchor />
       <SearchDiv>
-        <Input placeholder="자산구분" id="coin-search"></Input>
+        <Input placeholder="자산구분" id="coin-search" />
         <ThemeProvider
           theme={{
             breakpoints: ["32em", "48em", "64em"],
@@ -196,6 +196,7 @@ const Button = styled.button`
     background-color: ${MAIN_COLOR_3};
     border-color: ${MAIN_COLOR_3};
     color: ${WHITE};
+    transition: 0.2s;
   }
 `;
 
