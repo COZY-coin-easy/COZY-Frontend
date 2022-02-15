@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, provider } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase/compat/app";
 import styled from "styled-components";
+import { auth, provider } from "../firebase";
 import { loginRequest, visitGuest } from "../features/auth/authSlice";
 import { MAIN_COLOR_1 } from "../constants/styles";
 
@@ -27,7 +27,7 @@ export default function Home() {
     auth.onAuthStateChanged(async (userData) => {
       if (userData) {
         const { email, displayName } = userData;
-        const token = await userData.getIdToken(true);
+        const token = await userData.getIdToken();
 
         navigate("/main");
         if (!isLoggedIn) {
@@ -107,18 +107,3 @@ const HomeWrapper = styled.div`
     opacity: 1;
   }
 `;
-
-/* .preview-button {
-    margin-top: 30px;
-    border: none;
-    font-size: 1.5rem;
-    background-color: #ffffff;
-    color: ${MAIN_COLOR_1};
-  }
-  .preview-button:hover {
-    cursor: pointer;
-    transition: all 0.1s linear 0s;
-  }
-  .preview-button:hover::after {
-    content: "";
-  } */

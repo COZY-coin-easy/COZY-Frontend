@@ -41,9 +41,11 @@ export default function Order() {
   useEffect(() => {
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
-      const price = res.data[currencyName]["closing_price"];
+      const currentCurrencyName = res.content.symbol.split("_")[0];
 
-      setCurrentCurrencyPrice(price);
+      if (currencyName === currentCurrencyName) {
+        setCurrentCurrencyPrice(res.content.closePrice);
+      }
     };
 
     ws.onerror = (error) => {
@@ -122,7 +124,7 @@ export default function Order() {
       orderRequest({
         transactionDate: new Date(),
         currencyName,
-        currentCurrencyPrice,
+        price: currentCurrencyPrice,
         unitsTraded,
         total,
         token,
@@ -178,7 +180,7 @@ export default function Order() {
           <form>
             <InputWrapper>
               <div className="current-currency-price">
-                현재 {currencyName}의 가격: {currentCurrencyPrice}
+                현재 {currencyName}의 가격: {currentCurrencyPrice}원
               </div>
               <input
                 type="number"
