@@ -25,7 +25,6 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/trade/:currencyName" element={<Trade />} />
         <Route path="/transaction-history" element={<TransactionHistory />} />
-        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </>
   );
