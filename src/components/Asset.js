@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import {
+  WHITE,
+  BLACK,
+  LIGHT_GREY,
+  MAIN_COLOR_1,
+  MAIN_COLOR_3,
+  RED,
+  BLUE,
+} from "../constants/styles";
 
 const Span = styled.span`
   margin-left: 20px;
@@ -261,67 +270,153 @@ export default function Asset() {
 
   return (
     <>
-      <Span>
-        자산 구분
-        <button onClick={sortingByCoinName}>{isName ? "🔼" : "🔽"}</button>
-      </Span>
-      <Span>
-        보유 잔고
-        <button onClick={sortingByCurrentLeftMoney}>
-          {isLeftMoney ? "🔼" : "🔽"}
-        </button>
-      </Span>
-      <Span>
-        평균 매수가
-        <button onClick={averageBoughtPrice}>{isAvgPrice ? "🔼" : "🔽"}</button>
-      </Span>
-      <Span>
-        매수 금액
-        <button onClick={boughtPrice}>{isBoughtPrice ? "🔼" : "🔽"}</button>
-      </Span>
-      <Span>
-        평가 금액
-        <button onClick={evaluatedPrice}>
-          {isEvaluatedPrice ? "🔼" : "🔽"}
-        </button>
-      </Span>
-      <Span>
-        펑가 순익
-        <button onClick={evaluatedProfit}>
-          {isEvaluatedProfit ? "🔼" : "🔽"}
-        </button>
-      </Span>
-      <Span>
-        수익률 <button onClick={yieldRate}>{isYieldRate ? "🔼" : "🔽"}</button>
-      </Span>
+      <Anchor />
+      <TitleBodyWrapper>
+        <Span>
+          자산 구분
+          <SortButton onClick={sortingByCoinName}>
+            {isName ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+        <Span>
+          보유 잔고
+          <SortButton onClick={sortingByCurrentLeftMoney}>
+            {isLeftMoney ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+        <Span>
+          평균 매수가
+          <SortButton onClick={averageBoughtPrice}>
+            {isAvgPrice ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+        <Span>
+          매수 금액
+          <SortButton onClick={boughtPrice}>
+            {isBoughtPrice ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+        <Span>
+          평가 금액
+          <SortButton onClick={evaluatedPrice}>
+            {isEvaluatedPrice ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+        <Span>
+          펑가 순익
+          <SortButton onClick={evaluatedProfit}>
+            {isEvaluatedProfit ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+        <Span>
+          수익률{" "}
+          <SortButton onClick={yieldRate}>
+            {isYieldRate ? "🔼" : "🔽"}
+          </SortButton>
+        </Span>
+      </TitleBodyWrapper>
+      <Line />
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {
             return (
-              <Div key={coinElements.currencyName}>
-                <Span>{coinElements.currencyName}</Span>
-                <Span>{`${coinElements.quantity}개`}</Span>
-                <Span>{coinElements.averagePrice}</Span>
-                <Span>{coinElements.bought_price}</Span>
-                <Span>{coinElements.evaluate_price}</Span>
-                <Span>{coinElements.evaluate_profit}</Span>
-                <Span>{`${coinElements.yield_rate}%`}</Span>
-              </Div>
+              <>
+                <BodyWrapper key={coinElements.currencyName}>
+                  <Wrapper>{coinElements.currencyName}</Wrapper>
+                  <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
+                  <CashWrapper>
+                    {coinElements.averagePrice}
+                    {coinElements.bought_price}
+                    {coinElements.evaluate_price}
+                    {coinElements.evaluate_profit}
+                    {`${coinElements.yield_rate}%`}
+                  </CashWrapper>
+                </BodyWrapper>
+                <Line />
+              </>
             );
           })
         : renderedAssetList.map((coinElements) => {
             return (
-              <Div key={coinElements.currencyName}>
-                <Span>{coinElements.currencyName}</Span>
-                <Span>{`${coinElements.quantity}개`}</Span>
-                <Span>{coinElements.averagePrice}</Span>
-                <Span>{coinElements.bought_price}</Span>
-                <Span>{coinElements.evaluate_price}</Span>
-                <Span>{coinElements.evaluate_profit}</Span>
-                <Span>{`${coinElements.yield_rate}%`}</Span>
-              </Div>
+              <>
+                <BodyWrapper key={coinElements.currencyName}>
+                  <Wrapper>{coinElements.currencyName}</Wrapper>
+                  <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
+                  <CashWrapper>
+                    {coinElements.averagePrice}
+                    {coinElements.bought_price}
+                    {coinElements.evaluate_price}
+                    {coinElements.evaluate_profit}
+                    {`${coinElements.yield_rate}%`}
+                  </CashWrapper>
+                </BodyWrapper>
+                <Line />
+              </>
             );
           })}
+      <Line />
     </>
   );
 }
+
+const Anchor = styled.span`
+  display: block;
+  height: 80px;
+  visibility: hidden;
+`;
+
+const BodyWrapper = styled.div`
+  display: flex;
+  margin: 5px 5px;
+  justify-content: space-around;
+`;
+
+const TitleBodyWrapper = styled(BodyWrapper)`
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 10px 5px 0px 5px;
+`;
+
+const Wrapper = styled.div`
+  margin-left: 60px;
+  margin-right: 30px;
+  color: ${BLACK};
+  width: 15%;
+`;
+
+const CashWrapper = styled(Wrapper)`
+  text-align: right;
+  width: 25%;
+`;
+
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${LIGHT_GREY};
+`;
+
+const Button = styled.button`
+  height: 35px;
+  background: ${WHITE};
+  color: ${MAIN_COLOR_1};
+  border-color: ${WHITE};
+  border-style: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  margin: 0px 10px;
+
+  :hover {
+    background-color: ${MAIN_COLOR_3};
+    border-color: ${MAIN_COLOR_3};
+    color: ${WHITE};
+    transition: 0.2s;
+  }
+`;
+
+const SortButton = styled(Button)`
+  :hover {
+    background-color: ${WHITE};
+    border-color: ${WHITE};
+  }
+`;
