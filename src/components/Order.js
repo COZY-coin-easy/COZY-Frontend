@@ -22,7 +22,6 @@ export default function Order() {
   const [unitsTraded, setUnitsTraded] = useState(0);
 
   const { asset, token, _id } = useSelector((state) => state.user.user);
-
   const { cash, coins } = asset;
   const { isTrade, isRequest, isComplete, isNone, isFail } = isOpenModal;
 

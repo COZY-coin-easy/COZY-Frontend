@@ -57,6 +57,10 @@ export default function Main() {
   }, [tickerCoinList]);
 
   useEffect(() => {
+    ws.onopen = () => {
+      console.log("웹 소켓 통신 성공");
+    };
+
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
       const socketCoinData = res.content;
