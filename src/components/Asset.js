@@ -22,16 +22,26 @@ export default function Asset() {
   const [socketData, setSocketData] = useState("");
   const [renderedAssetList, setRenderedAssetList] = useState({});
   const [isSortBtnClick, setIsSortBtnClick] = useState(false);
-  const [isAscendSortByName, setIsAscendSortByName] = useState(true);
-  const [isAscendSortByLeftMoney, setIsAscendSortByLeftMoney] = useState(true);
-  const [isAscendSortByAvgPrice, setIsAscendSortByAvgPrice] = useState(true);
-  const [isAscendSortByBoughtPrice, setIsAscendSortByBoughtPrice] =
-    useState(true);
-  const [isAscendSortByEvaluatedPrice, setIsAscendSortByEvaluatedPrice] =
-    useState(true);
-  const [isAscendSortByEvaluatedProfit, setIsAscendSortByEvaluatedProfit] =
-    useState(true);
-  const [isAscendSortByYieldRate, setIsAscendSortByYieldRate] = useState(true);
+
+  const [isAscendSort, setIsAscendSort] = useState({
+    isName: true,
+    isLeftMoney: true,
+    isAvgPrice: true,
+    isBoughtPrice: true,
+    isEvaluatedPrice: true,
+    isEvaluatedProfit: true,
+    isYieldRate: true,
+  });
+
+  const {
+    isName,
+    isLeftMoney,
+    isAvgPrice,
+    isBoughtPrice,
+    isEvaluatedPrice,
+    isEvaluatedProfit,
+    isYieldRate,
+  } = isAscendSort;
 
   useEffect(() => {
     ws.onmessage = (event) => {
@@ -89,9 +99,12 @@ export default function Asset() {
 
   const sortingByCoinName = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByName((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isName: !isName,
+    });
 
-    isAscendSortByName
+    isName
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
             return a.currencyName < b.currencyName
@@ -114,9 +127,12 @@ export default function Asset() {
 
   const sortingByCurrentLeftMoney = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByLeftMoney((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isLeftMoney: !isLeftMoney,
+    });
 
-    isAscendSortByLeftMoney
+    isLeftMoney
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
             return a.quantity < b.quantity
@@ -139,137 +155,114 @@ export default function Asset() {
 
   const averageBoughtPrice = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByAvgPrice((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isAvgPrice: !isAvgPrice,
+    });
 
-    isAscendSortByAvgPrice
+    isAvgPrice
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.averagePrice < b.averagePrice
-              ? -1
-              : a.averagePrice > b.averagePrice
-              ? 1
-              : 0;
+            return a.averagePrice - b.averagePrice;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.averagePrice > b.averagePrice
-              ? -1
-              : a.averagePrice < b.averagePrice
-              ? 1
-              : 0;
+            return b.averagePrice - a.averagePrice;
           })
         );
   };
 
   const boughtPrice = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByBoughtPrice((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isBoughtPrice: !isBoughtPrice,
+    });
 
-    isAscendSortByBoughtPrice
+    isBoughtPrice
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.bought_price < b.bought_price
-              ? -1
-              : a.bought_price > b.bought_price
-              ? 1
-              : 0;
+            return a.bought_price - b.bought_price;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.bought_price > b.bought_price
-              ? -1
-              : a.bought_price < b.bought_price
-              ? 1
-              : 0;
+            return b.bought_price - a.bought_price;
           })
         );
   };
 
   const evaluatedPrice = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByEvaluatedPrice((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isEvaluatedPrice: !isEvaluatedPrice,
+    });
 
-    isAscendSortByEvaluatedPrice
+    isEvaluatedPrice
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price < b.quantity * b.current_price
-              ? -1
-              : a.quantity * a.current_price > b.quantity * b.current_price
-              ? 1
-              : 0;
+            return a.quantity * a.current_price - b.quantity * b.current_price;
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price > b.quantity * b.current_price
-              ? -1
-              : a.quantity * a.current_price < b.quantity * b.current_price
-              ? 1
-              : 0;
+            return b.quantity * b.current_price - a.quantity * a.current_price;
           })
         );
   };
 
   const evaluatedProfit = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByEvaluatedProfit((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isEvaluatedProfit: !isEvaluatedProfit,
+    });
 
-    isAscendSortByEvaluatedProfit
+    isEvaluatedProfit
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price - a.bought_price <
-              b.quantity * b.current_price - b.bought_price
-              ? -1
-              : a.quantity * a.current_price - a.bought_price >
-                b.quantity * b.current_price - b.bought_price
-              ? 1
-              : 0;
+            return (
+              a.quantity * a.current_price -
+              a.bought_price -
+              (b.quantity * b.current_price - b.bought_price)
+            );
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price - a.bought_price >
-              b.quantity * b.current_price - b.bought_price
-              ? -1
-              : a.quantity * a.current_price - a.bought_price <
-                b.quantity * b.current_price - b.bought_price
-              ? 1
-              : 0;
+            return (
+              b.quantity * b.current_price -
+              b.bought_price -
+              (a.quantity * a.current_price - a.bought_price)
+            );
           })
         );
   };
 
   const yieldRate = () => {
     setIsSortBtnClick(true);
-    setIsAscendSortByYieldRate((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isYieldRate: !isYieldRate,
+    });
 
-    isAscendSortByYieldRate
+    isYieldRate
       ? setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return (a.quantity * a.current_price - a.bought_price) /
-              a.bought_price <
+            return (
+              (a.quantity * a.current_price - a.bought_price) / a.bought_price -
               (b.quantity * b.current_price - b.bought_price) / b.bought_price
-              ? -1
-              : (a.quantity * a.current_price - a.bought_price) /
-                  a.bought_price >
-                (b.quantity * b.current_price - b.bought_price) / b.bought_price
-              ? 1
-              : 0;
+            );
           })
         )
       : setRenderedAssetList(
           newCoinList.sort((a, b) => {
-            return (a.quantity * a.current_price - a.bought_price) /
-              a.bought_price >
-              (b.quantity * b.current_price - b.bought_price) / b.bought_price
-              ? -1
-              : (a.quantity * a.current_price - a.bought_price) /
-                  a.bought_price <
-                (b.quantity * b.current_price - b.bought_price) / b.bought_price
-              ? 1
-              : 0;
+            return (
+              (b.quantity * b.current_price - b.bought_price) / b.bought_price -
+              (a.quantity * a.current_price - a.bought_price) / a.bought_price
+            );
           })
         );
   };
@@ -278,45 +271,38 @@ export default function Asset() {
     <>
       <Span>
         자산 구분
-        <button onClick={sortingByCoinName}>
-          {!isAscendSortByName ? "🔼" : "🔽"}
-        </button>
+        <button onClick={sortingByCoinName}>{!isName ? "🔼" : "🔽"}</button>
       </Span>
       <Span>
         보유 잔고
         <button onClick={sortingByCurrentLeftMoney}>
-          {!isAscendSortByLeftMoney ? "🔼" : "🔽"}
+          {!isLeftMoney ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
         평균 매수가
         <button onClick={averageBoughtPrice}>
-          {!isAscendSortByAvgPrice ? "🔼" : "🔽"}
+          {!isAvgPrice ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
         매수 금액
-        <button onClick={boughtPrice}>
-          {!isAscendSortByBoughtPrice ? "🔼" : "🔽"}
-        </button>
+        <button onClick={boughtPrice}>{!isBoughtPrice ? "🔼" : "🔽"}</button>
       </Span>
       <Span>
         평가 금액
         <button onClick={evaluatedPrice}>
-          {!isAscendSortByEvaluatedPrice ? "🔼" : "🔽"}
+          {!isEvaluatedPrice ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
         펑가 순익
         <button onClick={evaluatedProfit}>
-          {!isAscendSortByEvaluatedProfit ? "🔼" : "🔽"}
+          {!isEvaluatedProfit ? "🔼" : "🔽"}
         </button>
       </Span>
       <Span>
-        수익률{" "}
-        <button onClick={yieldRate}>
-          {!isAscendSortByEvaluatedProfit ? "🔼" : "🔽"}
-        </button>
+        수익률 <button onClick={yieldRate}>{!isYieldRate ? "🔼" : "🔽"}</button>
       </Span>
 
       {!isSortBtnClick
