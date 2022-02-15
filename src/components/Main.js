@@ -33,12 +33,15 @@ export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
-  const [isSortBtnClick, setIsSortBtnClick] = useState(false);
-  const [isSortedByName, setIsSortedByName] = useState(true);
-  const [isSortedByCurrentPrice, setIsSortedByCurrentPrice] = useState(true);
-  const [isSortedByRateOfChange, setIsSortedByRateOfChange] = useState(true);
-  const [isSortedByTransactionAmount, setIsSortedByTransactionAmount] =
-    useState(true);
+  const [isAscendSort, setIsAscendSort] = useState({
+    isName: true,
+    isCurrentPrice: true,
+    isRateOfChange: true,
+    isTransactionAmount: true,
+  });
+
+  const { isName, isCurrentPrice, isRateOfChange, isTransactionAmount } =
+    isAscendSort;
 
   const dispatch = useDispatch();
 
@@ -119,9 +122,12 @@ export default function Main() {
   };
 
   const sortingByCoinName = () => {
-    setIsSortedByName((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isName: !isName,
+    });
 
-    isSortedByName
+    isName
       ? coinList.sort((a, b) => {
           return a.currency_name > b.currency_name
             ? -1
@@ -139,38 +145,47 @@ export default function Main() {
   };
 
   const sortingByCurrentPrice = () => {
-    setIsSortedByCurrentPrice((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isCurrentPrice: !isCurrentPrice,
+    });
 
-    isSortedByCurrentPrice
+    isCurrentPrice
       ? coinList.sort((a, b) => {
-          return a.closing_price - b.closing_price;
+          return b.closing_price - a.closing_price;
         })
       : coinList.sort((a, b) => {
-          return b.closing_price - a.closing_price;
+          return a.closing_price - b.closing_price;
         });
   };
 
   const sortingByRateOfChange = () => {
-    setIsSortedByRateOfChange((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isRateOfChange: !isRateOfChange,
+    });
 
-    isSortedByRateOfChange
+    isRateOfChange
       ? coinList.sort((a, b) => {
-          return a.fluctate_rate_24H - b.fluctate_rate_24H;
+          return b.fluctate_rate_24H - a.fluctate_rate_24H;
         })
       : coinList.sort((a, b) => {
-          return b.fluctate_rate_24H - a.fluctate_rate_24H;
+          return a.fluctate_rate_24H - b.fluctate_rate_24H;
         });
   };
 
   const sortingByTransactionAmount = () => {
-    setIsSortedByTransactionAmount((current) => !current);
+    setIsAscendSort({
+      ...isAscendSort,
+      isTransactionAmount: !isTransactionAmount,
+    });
 
-    isSortedByTransactionAmount
+    isTransactionAmount
       ? coinList.sort((a, b) => {
-          return a.acc_trade_value_24H - b.acc_trade_value_24H;
+          return b.acc_trade_value_24H - a.acc_trade_value_24H;
         })
       : coinList.sort((a, b) => {
-          return b.acc_trade_value_24H - a.acc_trade_value_24H;
+          return a.acc_trade_value_24H - b.acc_trade_value_24H;
         });
   };
 
@@ -180,32 +195,30 @@ export default function Main() {
         onKeyUp={handleKeyUpSearch}
         placeholder="자산구분"
         id="coin-search"
-      ></input>
+      />
       <button onClick={handleClickSearch}>검색</button>
       <button onClick={handleClickRefreshFilter}>전체목록 보기</button>
       <BodyWrapper>
         <Wrapper>
           자산
-          <button onClick={sortingByCoinName}>
-            {isSortedByName ? "🔼" : "🔽"}
-          </button>
+          <button onClick={sortingByCoinName}>{isName ? "🔼" : "🔽"}</button>
         </Wrapper>
         <Wrapper>
           실시간 시세
           <button onClick={sortingByCurrentPrice}>
-            {isSortedByCurrentPrice ? "🔼" : "🔽"}
+            {isCurrentPrice ? "🔼" : "🔽"}
           </button>
         </Wrapper>
         <Wrapper>
           변동률
           <button onClick={sortingByRateOfChange}>
-            {isSortedByRateOfChange ? "🔼" : "🔽"}
+            {isRateOfChange ? "🔼" : "🔽"}
           </button>
         </Wrapper>
         <Wrapper>
           거래금액
           <button onClick={sortingByTransactionAmount}>
-            {isSortedByTransactionAmount ? "🔼" : "🔽"}
+            {isTransactionAmount ? "🔼" : "🔽"}
           </button>
         </Wrapper>
       </BodyWrapper>
