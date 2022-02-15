@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled, { ThemeProvider } from "styled-components";
 import { DateRangeInput } from "@datepicker-react/styled";
-
-const BodyWrapper = styled.div`
-  display: flex;
-  margin: 20px;
-`;
-
-const Wrapper = styled.div`
-  margin-left: 10px;
-  margin-right: 10px;
-`;
+import {
+  MAIN_COLOR_1,
+  MAIN_COLOR_2,
+  MAIN_COLOR_3,
+  WHITE,
+  BLACK,
+  LIGHT_GREY,
+} from "../constants/styles";
 
 export default function TransactionHistory() {
   const { transactionHistory } = useSelector((state) => state.user.user);
@@ -63,86 +61,165 @@ export default function TransactionHistory() {
 
   return (
     <>
-      <ThemeProvider
-        theme={{
-          breakpoints: ["32em", "48em", "64em"],
-          reactDatepicker: {
-            daySize: [36, 40],
-            fontFamily: "system-ui, -apple-system",
-            colors: {
-              accessibility: "#f76f61",
-              selectedDay: "#ffcdc7",
-              selectedDayHover: "#FE8679",
-              primaryColor: "#FE8679",
+      <Anchor />
+      <SearchDiv>
+        <Input placeholder="자산구분" id="coin-search"></Input>
+        <ThemeProvider
+          theme={{
+            breakpoints: ["32em", "48em", "64em"],
+            reactDatepicker: {
+              daySize: [36, 40],
+              fontFamily: "system-ui, -apple-system",
+              colors: {
+                accessibility: MAIN_COLOR_2,
+                selectedDay: MAIN_COLOR_3,
+                selectedDayHover: MAIN_COLOR_1,
+                primaryColor: MAIN_COLOR_1,
+              },
             },
-          },
-        }}
-      >
-        <DateRangeInput
-          onDatesChange={(data) => setDates(data)}
-          onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
-          startDate={dates.startDate}
-          endDate={dates.endDate}
-          focusedInput={focusedInput}
-          displayFormat="yyyy-MM-dd"
-        />
-      </ThemeProvider>
-      <input placeholder="자산구분" id="coin-search"></input>
-      <button onClick={handleClickSearch}>검색</button>
-      <button onClick={handleClickRefreshFilter}>검색 내용 초기화</button>
+          }}
+        >
+          <DateRangeInput
+            onDatesChange={(data) => setDates(data)}
+            onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
+            startDate={dates.startDate}
+            endDate={dates.endDate}
+            focusedInput={focusedInput}
+            displayFormat="yyyy-MM-dd"
+          />
+        </ThemeProvider>
+        <Button onClick={handleClickSearch}>검색</Button>
+        <Button onClick={handleClickRefreshFilter}>검색 내용 초기화</Button>
+      </SearchDiv>
+
       <BodyWrapper>
-        <Wrapper>주문일시</Wrapper>
-        <Wrapper>자산</Wrapper>
-        <Wrapper>주문수량</Wrapper>
-        <Wrapper>거래구분</Wrapper>
-        <Wrapper>주문가격</Wrapper>
-        <Wrapper>주문금액</Wrapper>
+        <TitleWrapper>거래시각</TitleWrapper>
+        <TitleWrapper>자산구분</TitleWrapper>
+        <TitleWrapper>주문수량</TitleWrapper>
+        <TitleWrapper>거래구분</TitleWrapper>
+        <TitleWrapper>주문가격</TitleWrapper>
+        <TitleWrapper>주문금액</TitleWrapper>
       </BodyWrapper>
 
       {currentHistory.length ? (
         currentHistory.map((transaction) => (
-          <BodyWrapper key={transaction._id}>
-            <Wrapper>
-              {new Date(transaction.transactionDate).getFullYear()}-
-              {(
-                "0" +
-                (new Date(transaction.transactionDate).getMonth() + 1)
-              ).slice(-2)}
-              -
-              {("0" + new Date(transaction.transactionDate).getDate()).slice(
-                -2
-              )}
-              <br />
-              {("0" + new Date(transaction.transactionDate).getHours()).slice(
-                -2
-              )}
-              :
-              {("0" + new Date(transaction.transactionDate).getMinutes()).slice(
-                -2
-              )}
-              :
-              {("0" + new Date(transaction.transactionDate).getSeconds()).slice(
-                -2
-              )}
-            </Wrapper>
-            <Wrapper>{transaction.currencyName}</Wrapper>
-            <Wrapper>
-              {transaction.unitsTraded < 0
-                ? -transaction.unitsTraded
-                : transaction.unitsTraded}
-            </Wrapper>
-            <Wrapper>{transaction.unitsTraded < 0 ? "매도" : "매수"}</Wrapper>
-            <Wrapper>{transaction.price}</Wrapper>
-            <Wrapper>
-              {transaction.total < 0 ? -transaction.total : transaction.total}
-            </Wrapper>
-          </BodyWrapper>
+          <>
+            <Line />
+            <BodyWrapper key={transaction._id}>
+              <Wrapper>
+                {new Date(transaction.transactionDate).getFullYear()}-
+                {(
+                  "0" +
+                  (new Date(transaction.transactionDate).getMonth() + 1)
+                ).slice(-2)}
+                -
+                {("0" + new Date(transaction.transactionDate).getDate()).slice(
+                  -2
+                )}
+                <br />
+                {("0" + new Date(transaction.transactionDate).getHours()).slice(
+                  -2
+                )}
+                :
+                {(
+                  "0" + new Date(transaction.transactionDate).getMinutes()
+                ).slice(-2)}
+                :
+                {(
+                  "0" + new Date(transaction.transactionDate).getSeconds()
+                ).slice(-2)}
+              </Wrapper>
+              <Wrapper>{transaction.currencyName}</Wrapper>
+              <Wrapper>
+                {transaction.unitsTraded < 0
+                  ? -transaction.unitsTraded
+                  : transaction.unitsTraded}
+              </Wrapper>
+              <Wrapper>{transaction.unitsTraded < 0 ? "매도" : "매수"}</Wrapper>
+              <Wrapper>{transaction.price}</Wrapper>
+              <Wrapper>
+                {transaction.total < 0 ? -transaction.total : transaction.total}
+              </Wrapper>
+            </BodyWrapper>
+          </>
         ))
       ) : (
-        <h4>검색 결과가 없습니다</h4>
+        <>
+          <Line />
+          <Message>검색 결과가 없습니다</Message>
+        </>
       )}
 
-      <button onClick={handleClickShowMoreTransaction}>거래내역 더보기</button>
+      <LoadButton onClick={handleClickShowMoreTransaction}>
+        거래내역 더보기
+      </LoadButton>
     </>
   );
 }
+
+const BodyWrapper = styled.div`
+  display: flex;
+  margin: 20px;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const Wrapper = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 20vh;
+  text-align: center;
+  color: ${BLACK};
+`;
+
+const TitleWrapper = styled(Wrapper)`
+  text-align: center;
+  font-weight: 500;
+`;
+
+const Anchor = styled.span`
+  display: block;
+  height: 80px;
+  visibility: hidden;
+`;
+
+const Button = styled.button`
+  height: 40px;
+  background: ${WHITE};
+  color: ${MAIN_COLOR_1};
+  border-color: ${WHITE};
+  border-style: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${MAIN_COLOR_3};
+    border-color: ${MAIN_COLOR_3};
+    color: ${WHITE};
+  }
+`;
+
+const LoadButton = styled(Button)`
+  float: right;
+  margin-right: 10px;
+`;
+
+const SearchDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const Input = styled.input`
+  height: 40px;
+`;
+
+const Message = styled.h4`
+  text-align: center;
+`;
+
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${LIGHT_GREY};
+`;
