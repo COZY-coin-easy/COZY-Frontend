@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import createSagaMiddleWare from "redux-saga";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage/session";
 import { all } from "redux-saga/effects";
 import { authSaga } from "../features/auth/authSaga";
 import { userSaga } from "../features/user/userSaga";
@@ -12,6 +14,11 @@ import socket from "../features/sagas/socketSlice";
 
 const sagaMiddleware = createSagaMiddleWare();
 
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
 const reducer = combineReducers({
   auth,
   user,
@@ -19,12 +26,14 @@ const reducer = combineReducers({
   socket,
 });
 
+const persistedReducer = persistReducer(persistConfig, reducer);
+
 function* rootSaga() {
   yield all([authSaga(), userSaga(), candleStickSaga(), socketSaga()]);
 }
 
 const store = configureStore({
-  reducer: reducer,
+  reducer: persistedReducer,
   middleware: [sagaMiddleware],
 });
 

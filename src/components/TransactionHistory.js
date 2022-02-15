@@ -136,9 +136,11 @@ export default function TransactionHistory() {
                   : transaction.unitsTraded}
               </Wrapper>
               <Wrapper>{transaction.unitsTraded < 0 ? "매도" : "매수"}</Wrapper>
-              <Wrapper>{transaction.price}</Wrapper>
+              <Wrapper>{transaction.price.toLocaleString()}</Wrapper>
               <Wrapper>
-                {transaction.total < 0 ? -transaction.total : transaction.total}
+                {transaction.total < 0
+                  ? -Number(transaction.total).toFixed(3)
+                  : Number(transaction.total).toFixed(3)}
               </Wrapper>
             </BodyWrapper>
           </>

@@ -76,17 +76,19 @@ export default function Order() {
   const handleClickOpenTradeModal = (e) => {
     e.preventDefault();
 
-    if (unitsTraded === 0) {
+    if (unitsTraded === 0 || unitsTraded < 0.0001) {
       setIsOpenModal({
         ...isOpenModal,
         isNone: true,
       });
-    } else {
-      setIsOpenModal({
-        ...isOpenModal,
-        isTrade: true,
-      });
+
+      return;
     }
+
+    setIsOpenModal({
+      ...isOpenModal,
+      isTrade: true,
+    });
   };
 
   const handleClickCloseModal = () => {
@@ -187,6 +189,7 @@ export default function Order() {
                 placeholder="수량"
                 name="unitsTraded"
                 className="order-input"
+                min="0"
                 step="0.0001"
                 onChange={handleChangeInputValue}
                 value={unitsTraded}
@@ -222,7 +225,10 @@ export default function Order() {
             (isRequest
               ? "주문이 완료되었습니다."
               : "주문하신 수량이 정상적으로 체결되었습니다.")}
-          {isNone && "수량을 입력해주세요."}
+          {isNone &&
+            (unitsTraded < 0.001
+              ? "코인은 0.001개부터 주문하실 수 있습니다."
+              : "수량을 입력해주세요.")}
           {isFail &&
             (isBuy ? "보유 금액이 부족합니다." : "보유 수량이 부족합니다.")}
         </OrderModal>
