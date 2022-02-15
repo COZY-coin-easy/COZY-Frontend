@@ -4,11 +4,12 @@ const candleStickSlice = createSlice({
   name: "candleStick",
   initialState: {
     candleStick: [],
+    temp: [],
     error: "",
   },
   reducers: {
     candleStickRequest: (state) => {
-      state.candleStick = [];
+      state.temp = [];
     },
     candleStickSuccess: (state, action) => {
       state.candleStick = action.payload;

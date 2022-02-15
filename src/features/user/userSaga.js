@@ -10,6 +10,7 @@ function* order({ payload }) {
     unitsTraded,
     total,
     token,
+    isBuy,
     _id,
   } = payload;
 
@@ -22,6 +23,7 @@ function* order({ payload }) {
         price,
         unitsTraded,
         total,
+        isBuy,
       },
       { headers: { authorization: token } }
     );
