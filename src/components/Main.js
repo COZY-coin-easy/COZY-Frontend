@@ -33,6 +33,15 @@ export default function Main() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
+  const [isAscendSort, setIsAscendSort] = useState({
+    isName: true,
+    isCurrentPrice: true,
+    isRateOfChange: true,
+    isTransactionAmount: true,
+  });
+
+  const { isName, isCurrentPrice, isRateOfChange, isTransactionAmount } =
+    isAscendSort;
 
   const dispatch = useDispatch();
 
@@ -112,20 +121,106 @@ export default function Main() {
     setSearchCoin("");
   };
 
+  const sortingByCoinName = () => {
+    setIsAscendSort({
+      ...isAscendSort,
+      isName: !isName,
+    });
+
+    isName
+      ? coinList.sort((a, b) => {
+          return a.currency_name > b.currency_name
+            ? -1
+            : a.currency_name < b.currency_name
+            ? 1
+            : 0;
+        })
+      : coinList.sort((a, b) => {
+          return a.currency_name < b.currency_name
+            ? -1
+            : a.currency_name > b.currency_name
+            ? 1
+            : 0;
+        });
+  };
+
+  const sortingByCurrentPrice = () => {
+    setIsAscendSort({
+      ...isAscendSort,
+      isCurrentPrice: !isCurrentPrice,
+    });
+
+    isCurrentPrice
+      ? coinList.sort((a, b) => {
+          return b.closing_price - a.closing_price;
+        })
+      : coinList.sort((a, b) => {
+          return a.closing_price - b.closing_price;
+        });
+  };
+
+  const sortingByRateOfChange = () => {
+    setIsAscendSort({
+      ...isAscendSort,
+      isRateOfChange: !isRateOfChange,
+    });
+
+    isRateOfChange
+      ? coinList.sort((a, b) => {
+          return b.fluctate_rate_24H - a.fluctate_rate_24H;
+        })
+      : coinList.sort((a, b) => {
+          return a.fluctate_rate_24H - b.fluctate_rate_24H;
+        });
+  };
+
+  const sortingByTransactionAmount = () => {
+    setIsAscendSort({
+      ...isAscendSort,
+      isTransactionAmount: !isTransactionAmount,
+    });
+
+    isTransactionAmount
+      ? coinList.sort((a, b) => {
+          return b.acc_trade_value_24H - a.acc_trade_value_24H;
+        })
+      : coinList.sort((a, b) => {
+          return a.acc_trade_value_24H - b.acc_trade_value_24H;
+        });
+  };
+
   return (
     <div>
       <input
         onKeyUp={handleKeyUpSearch}
         placeholder="자산구분"
         id="coin-search"
-      ></input>
+      />
       <button onClick={handleClickSearch}>검색</button>
       <button onClick={handleClickRefreshFilter}>전체목록 보기</button>
       <BodyWrapper>
-        <Wrapper>자산</Wrapper>
-        <Wrapper>실시간 시세</Wrapper>
-        <Wrapper>변동률</Wrapper>
-        <Wrapper>거래금액</Wrapper>
+        <Wrapper>
+          자산
+          <button onClick={sortingByCoinName}>{isName ? "🔼" : "🔽"}</button>
+        </Wrapper>
+        <Wrapper>
+          실시간 시세
+          <button onClick={sortingByCurrentPrice}>
+            {isCurrentPrice ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
+        <Wrapper>
+          변동률
+          <button onClick={sortingByRateOfChange}>
+            {isRateOfChange ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
+        <Wrapper>
+          거래금액
+          <button onClick={sortingByTransactionAmount}>
+            {isTransactionAmount ? "🔼" : "🔽"}
+          </button>
+        </Wrapper>
       </BodyWrapper>
 
       {filteredCoinList.length ? (
