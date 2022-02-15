@@ -9,7 +9,6 @@ import {
 } from "./socketSlice";
 
 function* getCoinList({ payload }) {
-  console.log("페이로드:::", payload);
   try {
     const ticker = yield axios.get(
       `https://api.bithumb.com/public/ticker/${payload}`
