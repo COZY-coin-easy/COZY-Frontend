@@ -176,7 +176,7 @@ export default function Main() {
   };
 
   return (
-    <div>
+    <>
       <Anchor />
       <SearchDiv>
         <Input
@@ -194,7 +194,7 @@ export default function Main() {
             {isName ? "🔼" : "🔽"}
           </SortButton>
         </Wrapper>
-        <CashWrapper style={{ "text-align": "center" }}>
+        <CashWrapper style={{ textAlign: "center" }}>
           실시간 시세
           <SortButton onClick={sortingByCurrentPrice}>
             {isCurrentPrice ? "🔼" : "🔽"}
@@ -206,7 +206,7 @@ export default function Main() {
             {isRateOfChange ? "🔼" : "🔽"}
           </SortButton>
         </Wrapper>
-        <CashWrapper style={{ "text-align": "center" }}>
+        <CashWrapper>
           거래금액
           <SortButton onClick={sortingByTransactionAmount}>
             {isTransactionAmount ? "🔼" : "🔽"}
@@ -217,8 +217,8 @@ export default function Main() {
 
       {filteredCoinList.length ? (
         filteredCoinList.map((coin) => (
-          <>
-            <BodyWrapper key={coin.currency_name}>
+          <div key={coin.currency_name}>
+            <BodyWrapper>
               <Wrapper>
                 <CoinLink to={`/trade/${coin.currency_name}`}>
                   {coin.currency_name}
@@ -237,12 +237,12 @@ export default function Main() {
               </CashWrapper>
             </BodyWrapper>
             <Line />
-          </>
+          </div>
         ))
       ) : (
         <h4>검색 결과가 없습니다</h4>
       )}
-    </div>
+    </>
   );
 }
 

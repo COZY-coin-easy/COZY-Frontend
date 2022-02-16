@@ -6,8 +6,6 @@ import {
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  visitGuest,
-  visitGuestSuccess,
 } from "./authSlice";
 import { getUserData, logout } from "../user/userSlice";
 
@@ -41,10 +39,6 @@ function* logoutUser() {
   yield put(logout());
 }
 
-function* showPreview() {
-  yield put(visitGuestSuccess());
-}
-
 function* watchUserLogin() {
   yield takeLatest(loginRequest, loginUser);
 }
@@ -53,14 +47,6 @@ function* watchUserLogout() {
   yield takeLatest(logoutRequest, logoutUser);
 }
 
-function* watchVisitGuest() {
-  yield takeLatest(visitGuest, showPreview);
-}
-
 export function* authSaga() {
-  yield all([
-    fork(watchUserLogin),
-    fork(watchUserLogout),
-    fork(watchVisitGuest),
-  ]);
+  yield all([fork(watchUserLogin), fork(watchUserLogout)]);
 }

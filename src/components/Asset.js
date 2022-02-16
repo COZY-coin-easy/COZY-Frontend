@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { signInWithGoogle } from "../firebase";
 
 const Span = styled.span`
   margin-left: 20px;
@@ -11,11 +12,17 @@ const Div = styled.div`
   margin-left: 10px;
 `;
 
+const Anchor = styled.span`
+  display: block;
+  height: 80px;
+  visibility: hidden;
+`;
+
 export default function Asset() {
   const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
 
-  const { asset } = useSelector((state) => state.user.user);
-  const { transactionHistory } = useSelector((state) => state.user.user);
+  const { asset, transactionHistory } = useSelector((state) => state.user.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [newCoinList, setNewCoinList] = useState([]);
   const ownedCoinList = asset.coins;
 
@@ -261,6 +268,7 @@ export default function Asset() {
 
   return (
     <>
+      <Anchor />
       <Span>
         자산 구분
         <button onClick={sortingByCoinName}>{isName ? "🔼" : "🔽"}</button>
@@ -294,6 +302,13 @@ export default function Asset() {
       <Span>
         수익률 <button onClick={yieldRate}>{isYieldRate ? "🔼" : "🔽"}</button>
       </Span>
+
+      {!isLoggedIn && (
+        <>
+          <div>로그인 후 이용 가능한 서비스입니다.</div>{" "}
+          <button onClick={signInWithGoogle}>로그인</button>
+        </>
+      )}
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {

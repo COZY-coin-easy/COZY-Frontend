@@ -3,7 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null,
+    user: {
+      _id: "",
+      email: "",
+      displayName: "",
+      token: "",
+      asset: {
+        cash: 0,
+        coins: [],
+      },
+      round: [],
+      transactionHistory: [],
+    },
     error: "",
   },
   reducers: {
@@ -11,7 +22,18 @@ const userSlice = createSlice({
       state.user = Object.assign({}, action.payload);
     },
     logout: (state) => {
-      state.user = null;
+      state.user = {
+        _id: "",
+        email: "",
+        displayName: "",
+        token: "",
+        asset: {
+          cash: 0,
+          coins: [],
+        },
+        round: [],
+        transactionHistory: [],
+      };
     },
     orderRequest: (state) => {
       state.user = Object.assign({}, state.user);

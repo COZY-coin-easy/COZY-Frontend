@@ -4,8 +4,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
-    isShowHeader: false,
-    error: "",
+    error: null,
   },
   reducers: {
     loginRequest: (state) => {
@@ -13,28 +12,21 @@ const authSlice = createSlice({
     },
     loginSuccess: (state) => {
       state.isLoggedIn = true;
-      state.isShowHeader = true;
     },
     loginFailure: (state, action) => {
-      const { message } = action.payload;
+      const { message, status } = action.payload.response.data;
 
-      state.error = message;
+      state.error = {
+        message,
+        status,
+      };
       state.isLoggedIn = false;
-      state.isShowHeader = false;
     },
     logoutRequest: (state) => {
       state.isLoggedIn = true;
     },
     logoutSuccess: (state) => {
-      state.user = null;
       state.isLoggedIn = false;
-      state.isShowHeader = false;
-    },
-    visitGuest: (state) => {
-      state.isShowHeader = false;
-    },
-    visitGuestSuccess: (state) => {
-      state.isShowHeader = true;
     },
   },
 });
@@ -45,8 +37,6 @@ export const {
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  visitGuest,
-  visitGuestSuccess,
 } = authSlice.actions;
 
 export default authSlice.reducer;
