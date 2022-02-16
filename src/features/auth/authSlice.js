@@ -20,6 +20,7 @@ const authSlice = createSlice({
         message,
         status,
       };
+
       state.isLoggedIn = false;
     },
     logoutRequest: (state) => {

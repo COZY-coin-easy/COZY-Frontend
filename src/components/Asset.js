@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { signInWithGoogle } from "../firebase";
 import {
   WHITE,
   BLACK,
@@ -11,16 +12,11 @@ import {
   BLUE,
 } from "../constants/styles";
 
-const Anchor = styled.span`
-  display: block;
-  height: 80px;
-  visibility: hidden;
-`;
-
 export default function Asset() {
   const { asset } = useSelector((state) => state.user.user);
   const { transactionHistory } = useSelector((state) => state.user.user);
   const tickerCoinList = useSelector((state) => state.socket.coinList);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
 
   const [coinList, setCoinList] = useState([]);
@@ -100,13 +96,14 @@ export default function Asset() {
         parsedCoinList[i].currencyName ===
         parsedTransactionHistory[i].currencyName
       ) {
-        parsedCoinList[i].bought_price = parsedTransactionHistory[i].price;
+        parsedCoinList[i].bought_price =
+          parsedCoinList[i].quantity * parsedCoinList[i].averagePrice;
       }
     }
 
     setNewCoinList(parsedCoinList);
   }, []);
-
+  console.log(newCoinList, coinList);
   newCoinList.forEach((coin) => {
     if (coinList) {
       coinList.map((coinItem) => {
@@ -424,42 +421,30 @@ export default function Asset() {
                   <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
 
                   <Wrapper>
-                    {Math.round(coinElements.averagePrice).toLocaleString()}원
+                    {coinElements.averagePrice.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {Math.round(coinElements.bought_price).toLocaleString()}원
+                    {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
                     {coinElements.evaluate_price > 0 ? (
                       <Red>
-                        {Math.round(
-                          coinElements.evaluate_price
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_price.toLocaleString()}원
                       </Red>
                     ) : (
                       <Blue>
-                        {Math.round(
-                          coinElements.evaluate_price
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_price.toLocaleString()}원
                       </Blue>
                     )}
                   </Wrapper>
                   <Wrapper>
                     {coinElements.evaluate_profit > 0 ? (
                       <Red>
-                        {Math.round(
-                          coinElements.evaluate_profit
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_profit.toLocaleString()}원
                       </Red>
                     ) : (
                       <Blue>
-                        {Math.round(
-                          coinElements.evaluate_profit
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_profit.toLocaleString()}원
                       </Blue>
                     )}
                   </Wrapper>
@@ -483,42 +468,30 @@ export default function Asset() {
                   <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
 
                   <Wrapper>
-                    {Math.round(coinElements.averagePrice).toLocaleString()}원
+                    {coinElements.averagePrice.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {Math.round(coinElements.bought_price).toLocaleString()}원
+                    {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
                     {coinElements.evaluate_price > 0 ? (
                       <Red>
-                        {Math.round(
-                          coinElements.evaluate_price
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_price.toLocaleString()}원
                       </Red>
                     ) : (
                       <Blue>
-                        {Math.round(
-                          coinElements.evaluate_price
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_price.toLocaleString()}원
                       </Blue>
                     )}
                   </Wrapper>
                   <Wrapper>
                     {coinElements.evaluate_profit > 0 ? (
                       <Red>
-                        {Math.round(
-                          coinElements.evaluate_profit
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_profit.toLocaleString()}원
                       </Red>
                     ) : (
                       <Blue>
-                        {Math.round(
-                          coinElements.evaluate_profit
-                        ).toLocaleString()}
-                        원
+                        {coinElements.evaluate_profit.toLocaleString()}원
                       </Blue>
                     )}
                   </Wrapper>
