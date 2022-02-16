@@ -64,7 +64,7 @@ export default function TransactionHistory() {
     <>
       <Anchor />
       <SearchDiv>
-        <Input placeholder="자산구분" id="coin-search" />
+        <Input placeholder="자산구분" id="coin-search" type="text" />
         <ThemeProvider
           theme={{
             breakpoints: ["32em", "48em", "64em"],

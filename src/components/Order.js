@@ -25,7 +25,6 @@ export default function Order() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const { asset, token, _id } = useSelector((state) => state.user.user);
-
   const { cash, coins } = asset;
   const {
     isTrade,
@@ -37,9 +36,6 @@ export default function Order() {
   } = isOpenModal;
 
   const total = Number(currentCurrencyPrice) * Number(unitsTraded);
-
-  const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
-
   let coin = null;
   for (let i = 0; i < coins.length; i++) {
     if (coins[i].currencyName === currencyName) {
@@ -50,6 +46,8 @@ export default function Order() {
   }
 
   useEffect(() => {
+    const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
+
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
       const currentCurrencyName = res.content.symbol.split("_")[0];
