@@ -7,6 +7,7 @@ const sagaSlice = createSlice({
     socketCoin: "",
     requestCoin: "",
     requestSocket: "",
+    error: "",
   },
   reducers: {
     initialCoinList: (state, action) => {

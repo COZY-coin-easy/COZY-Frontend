@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {
   requestCoinList,
   requestSocketData,
-} from "../features/sagas/socketSlice";
+} from "../features/socket/socketSlice";
 import {
   WHITE,
   BLACK,
@@ -17,7 +17,10 @@ import {
 } from "../constants/styles";
 
 export default function Main() {
-  const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
+  const tickerCoinList = useSelector((state) => state.socket.coinList);
+  const realTimeCoin = useSelector((state) => state.socket.socketCoin);
+  const dispatch = useDispatch();
+
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
   const [isAscendSort, setIsAscendSort] = useState({
@@ -29,11 +32,6 @@ export default function Main() {
 
   const { isName, isCurrentPrice, isRateOfChange, isTransactionAmount } =
     isAscendSort;
-
-  const dispatch = useDispatch();
-
-  const tickerCoinList = useSelector((state) => state.socket.coinList);
-  const realTimeCoin = useSelector((state) => state.socket.socketCoin);
 
   useEffect(() => {
     const myCoin = "ALL";
@@ -57,11 +55,13 @@ export default function Main() {
   }, [tickerCoinList]);
 
   useEffect(() => {
+    const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
+
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
       const socketCoinData = res.content;
+
       dispatch(requestSocketData(socketCoinData));
-      ws.send("클라이언트에서 서버로 답장을 보냅니다.");
     };
 
     ws.onerror = (error) => {
@@ -80,7 +80,7 @@ export default function Main() {
 
   coinList.forEach((coin) => {
     if (realTimeCoin.symbol) {
-      if (coin.currency_name === realTimeCoin.symbol.slice(0, 3)) {
+      if (coin.currency_name === realTimeCoin.symbol.split("_")[0]) {
         coin.closing_price = realTimeCoin.closePrice;
         coin.fluctate_rate_24H = realTimeCoin.chgRate;
         coin.acc_trade_value_24H = realTimeCoin.value;
@@ -183,6 +183,7 @@ export default function Main() {
           onKeyUp={handleKeyUpSearch}
           placeholder="자산구분"
           id="coin-search"
+          type="text"
         />
         <Button onClick={handleClickSearch}>검색</Button>
         <Button onClick={handleClickRefreshFilter}>전체목록 보기</Button>
@@ -206,7 +207,7 @@ export default function Main() {
             {isRateOfChange ? "🔼" : "🔽"}
           </SortButton>
         </Wrapper>
-        <CashWrapper>
+        <CashWrapper style={{ textAlign: "center" }}>
           거래금액
           <SortButton onClick={sortingByTransactionAmount}>
             {isTransactionAmount ? "🔼" : "🔽"}
@@ -269,7 +270,7 @@ const Wrapper = styled.div`
   margin-left: 30px;
   margin-right: 30px;
   color: ${BLACK};
-  width: 15%;
+  width: 8%;
   text-align: center;
 `;
 
@@ -282,7 +283,7 @@ const Blue = styled(Wrapper)`
 `;
 
 const CashWrapper = styled(Wrapper)`
-  text-align: right;
+  text-align: center;
   width: 25%;
 `;
 
