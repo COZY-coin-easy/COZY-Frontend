@@ -5,7 +5,6 @@ import { SORRY_ERROR } from "../constants/messages";
 import { MAIN_COLOR_2, MAIN_COLOR_3, BLACK } from "../constants/styles";
 
 export default function Error({ children }) {
-  console.log(children);
   return (
     <Div>
       <Status>ERROR {children.props.children[1].props.children}</Status>

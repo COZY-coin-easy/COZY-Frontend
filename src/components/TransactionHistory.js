@@ -140,8 +140,8 @@ export default function TransactionHistory() {
               <Wrapper>{transaction.price.toLocaleString()}</Wrapper>
               <Wrapper>
                 {transaction.total < 0
-                  ? -Number(transaction.total).toFixed(3)
-                  : Number(transaction.total).toFixed(3)}
+                  ? -Number(transaction.total.toFixed(3)).toLocaleString()
+                  : Number(transaction.total.toFixed(3)).toLocaleString()}
               </Wrapper>
             </BodyWrapper>
           </div>
