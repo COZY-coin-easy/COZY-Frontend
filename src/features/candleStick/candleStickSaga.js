@@ -11,7 +11,7 @@ function* getCandleStickData({ payload }) {
 
   try {
     const res = yield axios.get(
-      `${process.env.REACT_APP_CANDLESTICK_API_URL}@@@@/${currencyName}_KRW/${time}`
+      `${process.env.REACT_APP_CANDLESTICK_API_URL}/${currencyName}_KRW/${time}`
     );
 
     const candleStickData = res.data.data;
