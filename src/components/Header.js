@@ -5,11 +5,12 @@ import styled from "styled-components";
 
 import { MAIN_COLOR_1, MAIN_COLOR_3, WHITE, BLACK } from "../constants/styles";
 import { logoutRequest } from "../features/auth/authSlice";
-import { auth } from "../firebase";
+import { auth, signInWithGoogle } from "../firebase";
 
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.user.user);
 
   const signOut = () => {
@@ -27,12 +28,17 @@ export default function Header() {
         <StyledNavLink to="/transaction-history">거래내역</StyledNavLink>
         <StyledNavLink to="/mypage">마이페이지</StyledNavLink>
       </StyledHeader>
-      {user ? (
-        <NameButton>{user.displayName} 님</NameButton>
+      {isLoggedIn ? (
+        <>
+          <NameButton>{user.displayName} 님</NameButton>
+          <LogoutButton onClick={signOut}>로그아웃</LogoutButton>
+        </>
       ) : (
-        <NameButton>Guest</NameButton>
+        <>
+          <NameButton>Guest</NameButton>
+          <LogoutButton onClick={signInWithGoogle}>로그인</LogoutButton>
+        </>
       )}
-      <LogoutButton onClick={signOut}>로그아웃</LogoutButton>
     </>
   );
 }

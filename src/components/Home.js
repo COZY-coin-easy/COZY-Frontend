@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import firebase from "firebase/compat/app";
 import styled from "styled-components";
-import { auth, provider } from "../firebase";
-import { loginRequest, visitGuest } from "../features/auth/authSlice";
+import { auth, signInWithGoogle } from "../firebase";
+import { loginRequest } from "../features/auth/authSlice";
 import { MAIN_COLOR_1 } from "../constants/styles";
 
 export default function Home() {
@@ -12,14 +11,7 @@ export default function Home() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  const signInWithGoogle = async () => {
-    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-
-    return auth.signInWithPopup(provider);
-  };
-
   const showPreview = () => {
-    dispatch(visitGuest());
     navigate("/main");
   };
 
@@ -30,6 +22,7 @@ export default function Home() {
         const token = await userData.getIdToken();
 
         navigate("/main");
+
         if (!isLoggedIn) {
           dispatch(loginRequest({ email, displayName, token }));
         }

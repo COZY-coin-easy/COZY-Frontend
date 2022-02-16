@@ -13,6 +13,7 @@ import {
 
 export default function TransactionHistory() {
   const { transactionHistory } = useSelector((state) => state.user.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [filteredTransactionHistory, setFilteredTransactionHistory] =
     useState(transactionHistory);
   const [transactionNumber, setTransactionNumber] = useState(5);
@@ -103,9 +104,9 @@ export default function TransactionHistory() {
 
       {currentHistory.length ? (
         currentHistory.map((transaction) => (
-          <>
+          <div key={transaction._id}>
             <Line />
-            <BodyWrapper key={transaction._id}>
+            <BodyWrapper>
               <Wrapper>
                 {new Date(transaction.transactionDate).getFullYear()}-
                 {(
@@ -143,18 +144,23 @@ export default function TransactionHistory() {
                   : Number(transaction.total).toFixed(3)}
               </Wrapper>
             </BodyWrapper>
-          </>
+          </div>
         ))
       ) : (
         <>
           <Line />
-          <Message>검색 결과가 없습니다</Message>
+          <Message>
+            {isLoggedIn
+              ? "검색 결과가 없습니다"
+              : "로그인 후 이용하실 수 있는 서비스입니다."}
+          </Message>
         </>
       )}
-
-      <LoadButton onClick={handleClickShowMoreTransaction}>
-        거래내역 더보기
-      </LoadButton>
+      {isLoggedIn && (
+        <LoadButton onClick={handleClickShowMoreTransaction}>
+          거래내역 더보기
+        </LoadButton>
+      )}
     </>
   );
 }
