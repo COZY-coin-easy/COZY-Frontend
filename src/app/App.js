@@ -1,6 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "../components/Home";
 import Header from "../components/Header";
@@ -11,11 +10,11 @@ import MyPage from "../components/Mypage";
 import TransactionHistory from "../components/TransactionHistory";
 
 function App() {
-  const isShowHeader = useSelector((state) => state.auth.isShowHeader);
+  const location = useLocation();
 
   return (
     <>
-      {isShowHeader && <Header />}
+      {location.pathname !== "/" && <Header />}
 
       <Routes>
         <Route path="/" element={<Home />} />

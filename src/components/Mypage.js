@@ -1,26 +1,37 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { signInWithGoogle } from "../firebase";
 import { BLACK, MAIN_COLOR_1 } from "../constants/styles";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   return (
     <>
       <Anchor />
-      <Container>
-        <Bar />
-        <Title>마이페이지</Title>
-      </Container>
-      <ContentsContainer>
-        <Content>이름</Content>
-        <Content>{user.displayName}</Content>
-      </ContentsContainer>
-      <ContentsContainer>
-        <Content>E-mail</Content>
-        <Content>{user.email}</Content>
-      </ContentsContainer>
+      {!isLoggedIn ? (
+        <>
+          <div>로그인 후 이용하실 수 있는 서비스입니다.</div>
+          <button onClick={signInWithGoogle}>로그인</button>
+        </>
+      ) : (
+        <>
+          <Container>
+            <Bar />
+            <Title>마이페이지</Title>
+          </Container>
+          <ContentsContainer>
+            <Content>이름</Content>
+            <Content>{user.displayName}</Content>
+          </ContentsContainer>
+          <ContentsContainer>
+            <Content>E-mail</Content>
+            <Content>{user.email}</Content>
+          </ContentsContainer>
+        </>
+      )}
     </>
   );
 }
