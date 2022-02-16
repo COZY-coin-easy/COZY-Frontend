@@ -42,9 +42,11 @@ const userSlice = createSlice({
       state.user = Object.assign({}, action.payload);
     },
     orderFailure: (state, action) => {
-      const { message } = action.payload;
-
-      state.error = message;
+      const { message, status } = action.payload.response.data;
+      state.error = {
+        message,
+        status,
+      };
     },
   },
 });

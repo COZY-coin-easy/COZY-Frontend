@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+
 import { auth, signInWithGoogle } from "../firebase";
 import { loginRequest } from "../features/auth/authSlice";
 import { MAIN_COLOR_1 } from "../constants/styles";
@@ -21,11 +22,11 @@ export default function Home() {
         const { email, displayName } = userData;
         const token = await userData.getIdToken();
 
-        navigate("/main");
-
         if (!isLoggedIn) {
           dispatch(loginRequest({ email, displayName, token }));
         }
+
+        navigate("/main");
       }
     });
   }, []);
