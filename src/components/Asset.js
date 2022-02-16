@@ -7,6 +7,8 @@ import {
   LIGHT_GREY,
   MAIN_COLOR_1,
   MAIN_COLOR_3,
+  RED,
+  BLUE,
 } from "../constants/styles";
 
 export default function Asset() {
@@ -355,48 +357,48 @@ export default function Asset() {
     <>
       <Anchor />
       <TitleBodyWrapper>
-        <Wrapper>
+        <TitleWrapper>
           자산 구분
           <SortButton onClick={sortingByCoinName}>
             {isName ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
-        <Wrapper>
+        </TitleWrapper>
+        <TitleWrapper>
           보유 잔고
           <SortButton onClick={sortingByCurrentLeftMoney}>
             {isLeftMoney ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
-        <Wrapper>
+        </TitleWrapper>
+        <TitleWrapper>
           평균 매수가
           <SortButton onClick={averageBoughtPrice}>
             {isAvgPrice ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
-        <Wrapper>
+        </TitleWrapper>
+        <TitleWrapper>
           매수 금액
           <SortButton onClick={boughtPrice}>
             {isBoughtPrice ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
-        <Wrapper>
+        </TitleWrapper>
+        <TitleWrapper>
           평가 금액
           <SortButton onClick={evaluatedPrice}>
             {isEvaluatedPrice ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
-        <Wrapper>
+        </TitleWrapper>
+        <TitleWrapper>
           펑가 순익
           <SortButton onClick={evaluatedProfit}>
             {isEvaluatedProfit ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
-        <Wrapper>
+        </TitleWrapper>
+        <TitleWrapper>
           수익률{" "}
           <SortButton onClick={yieldRate}>
             {isYieldRate ? "🔼" : "🔽"}
           </SortButton>
-        </Wrapper>
+        </TitleWrapper>
       </TitleBodyWrapper>
       <Line />
 
@@ -408,21 +410,53 @@ export default function Asset() {
                   <Wrapper>{coinElements.currencyName}</Wrapper>
                   <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
 
-                  <CashWrapper>
-                    {Math.round(coinElements.averagePrice).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {Math.round(coinElements.bought_price).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {Math.round(coinElements.evaluate_price).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {Math.round(coinElements.evaluate_profit).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {`${coinElements.yield_rate.toFixed(2)}%`}
-                  </CashWrapper>
+                  <Wrapper>
+                    {Math.round(coinElements.averagePrice).toLocaleString()}원
+                  </Wrapper>
+                  <Wrapper>
+                    {Math.round(coinElements.bought_price).toLocaleString()}원
+                  </Wrapper>
+                  <Wrapper>
+                    {coinElements.evaluate_price > 0 ? (
+                      <Red>
+                        {Math.round(
+                          coinElements.evaluate_price
+                        ).toLocaleString()}
+                        원
+                      </Red>
+                    ) : (
+                      <Blue>
+                        {Math.round(
+                          coinElements.evaluate_price
+                        ).toLocaleString()}
+                        원
+                      </Blue>
+                    )}
+                  </Wrapper>
+                  <Wrapper>
+                    {coinElements.evaluate_profit > 0 ? (
+                      <Red>
+                        {Math.round(
+                          coinElements.evaluate_profit
+                        ).toLocaleString()}
+                        원
+                      </Red>
+                    ) : (
+                      <Blue>
+                        {Math.round(
+                          coinElements.evaluate_profit
+                        ).toLocaleString()}
+                        원
+                      </Blue>
+                    )}
+                  </Wrapper>
+                  <Wrapper>
+                    {coinElements.evaluate_profit > 0 ? (
+                      <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                    ) : (
+                      <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                    )}
+                  </Wrapper>
                 </BodyWrapper>
                 <Line />
               </div>
@@ -435,21 +469,53 @@ export default function Asset() {
                   <Wrapper>{coinElements.currencyName}</Wrapper>
                   <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
 
-                  <CashWrapper>
-                    {Math.round(coinElements.averagePrice).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {Math.round(coinElements.bought_price).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {Math.round(coinElements.evaluate_price).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {Math.round(coinElements.evaluate_profit).toLocaleString()}
-                  </CashWrapper>
-                  <CashWrapper>
-                    {`${coinElements.yield_rate.toFixed(2)}%`}
-                  </CashWrapper>
+                  <Wrapper>
+                    {Math.round(coinElements.averagePrice).toLocaleString()}원
+                  </Wrapper>
+                  <Wrapper>
+                    {Math.round(coinElements.bought_price).toLocaleString()}원
+                  </Wrapper>
+                  <Wrapper>
+                    {coinElements.evaluate_price > 0 ? (
+                      <Red>
+                        {Math.round(
+                          coinElements.evaluate_price
+                        ).toLocaleString()}
+                        원
+                      </Red>
+                    ) : (
+                      <Blue>
+                        {Math.round(
+                          coinElements.evaluate_price
+                        ).toLocaleString()}
+                        원
+                      </Blue>
+                    )}
+                  </Wrapper>
+                  <Wrapper>
+                    {coinElements.evaluate_profit > 0 ? (
+                      <Red>
+                        {Math.round(
+                          coinElements.evaluate_profit
+                        ).toLocaleString()}
+                        원
+                      </Red>
+                    ) : (
+                      <Blue>
+                        {Math.round(
+                          coinElements.evaluate_profit
+                        ).toLocaleString()}
+                        원
+                      </Blue>
+                    )}
+                  </Wrapper>
+                  <Wrapper>
+                    {coinElements.evaluate_profit > 0 ? (
+                      <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                    ) : (
+                      <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                    )}
+                  </Wrapper>
                 </BodyWrapper>
                 <Line />
               </div>
@@ -459,7 +525,6 @@ export default function Asset() {
     </>
   );
 }
-
 const Anchor = styled.span`
   display: block;
   height: 80px;
@@ -479,17 +544,25 @@ const TitleBodyWrapper = styled(BodyWrapper)`
   margin: 10px 5px 0px 5px;
 `;
 
-const Wrapper = styled.div`
-  margin-left: 60px;
-  margin-right: 30px;
+const TitleWrapper = styled.div`
+  margin-left: 58px;
+  margin-right: 50px;
   color: ${BLACK};
-  width: 22%;
   text-align: center;
 `;
 
-const CashWrapper = styled(Wrapper)`
+const Wrapper = styled.div`
+  color: ${BLACK};
+  width: 100%;
   text-align: center;
-  width: 25%;
+`;
+
+const Red = styled(Wrapper)`
+  color: ${RED};
+`;
+
+const Blue = styled(Wrapper)`
+  color: ${BLUE};
 `;
 
 const Button = styled.button`
@@ -501,7 +574,6 @@ const Button = styled.button`
   border-radius: 0.2rem;
   cursor: pointer;
   margin: 0px 10px;
-
   :hover {
     background-color: ${MAIN_COLOR_3};
     border-color: ${MAIN_COLOR_3};
