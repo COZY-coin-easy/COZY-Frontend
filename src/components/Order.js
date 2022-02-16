@@ -15,18 +15,27 @@ export default function Order() {
     isTrade: false,
     isRequest: false,
     isComplete: false,
-    isNone: false,
-    isFail: false,
+    isFailInput: false,
+    isNotAuth: false,
+    isFailTrade: false,
   });
   const [currentCurrencyPrice, setCurrentCurrencyPrice] = useState(0);
-  const [unitsTraded, setUnitsTraded] = useState(0);
+  const [unitsTraded, setUnitsTraded] = useState("");
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const { asset, token, _id } = useSelector((state) => state.user.user);
   const { cash, coins } = asset;
-  const { isTrade, isRequest, isComplete, isNone, isFail } = isOpenModal;
+  const {
+    isTrade,
+    isRequest,
+    isComplete,
+    isNotAuth,
+    isFailInput,
+    isFailTrade,
+  } = isOpenModal;
 
-  const total = currentCurrencyPrice * unitsTraded;
-
+  const total = Number(currentCurrencyPrice) * Number(unitsTraded);
   let coin = null;
   for (let i = 0; i < coins.length; i++) {
     if (coins[i].currencyName === currencyName) {
@@ -58,35 +67,46 @@ export default function Order() {
   }, []);
 
   const handleChangeInputValue = (e) => {
-    setUnitsTraded(Number(e.target.value));
+    setUnitsTraded(e.target.value);
   };
 
   const handleClickToggle = (e) => {
     if (e.target.value === "매수" && !isBuy) {
       setIsBuy(true);
-      setUnitsTraded(0);
+      setUnitsTraded("");
     }
 
     if (e.target.value === "매도" && isBuy) {
       setIsBuy(false);
-      setUnitsTraded(0);
+      setUnitsTraded("");
     }
   };
 
   const handleClickOpenTradeModal = (e) => {
     e.preventDefault();
 
-    if (unitsTraded === 0) {
+    if (!isLoggedIn) {
       setIsOpenModal({
         ...isOpenModal,
-        isNone: true,
+        isNotAuth: true,
       });
-    } else {
-      setIsOpenModal({
-        ...isOpenModal,
-        isTrade: true,
-      });
+
+      return;
     }
+
+    if (unitsTraded === "" || Number(unitsTraded) < 0.0001) {
+      setIsOpenModal({
+        ...isOpenModal,
+        isFailInput: true,
+      });
+
+      return;
+    }
+
+    setIsOpenModal({
+      ...isOpenModal,
+      isTrade: true,
+    });
   };
 
   const handleClickCloseModal = () => {
@@ -94,8 +114,9 @@ export default function Order() {
       ...isOpenModal,
       isTrade: false,
       isComplete: false,
-      isNone: false,
-      isFail: false,
+      isNotAuth: false,
+      isFailInput: false,
+      isFailTrade: false,
     });
   };
 
@@ -104,17 +125,17 @@ export default function Order() {
       setIsOpenModal({
         ...isOpenModal,
         isTrade: false,
-        isFail: true,
+        isFailTrade: true,
       });
 
       return;
     }
 
-    if (!isBuy && (coin === null || coin.quantity < unitsTraded)) {
+    if (!isBuy && (coin === null || coin.quantity < Number(unitsTraded))) {
       setIsOpenModal({
         ...isOpenModal,
         isTrade: false,
-        isFail: true,
+        isFailTrade: true,
       });
 
       return;
@@ -124,8 +145,8 @@ export default function Order() {
       orderRequest({
         transactionDate: new Date(),
         currencyName,
-        price: currentCurrencyPrice,
-        unitsTraded,
+        price: Number(currentCurrencyPrice),
+        unitsTraded: Number(unitsTraded),
         total,
         token,
         isBuy,
@@ -139,7 +160,7 @@ export default function Order() {
       isComplete: true,
     });
 
-    setUnitsTraded(0);
+    setUnitsTraded("");
   };
 
   return (
@@ -187,8 +208,10 @@ export default function Order() {
                 placeholder="수량"
                 name="unitsTraded"
                 className="order-input"
+                min="0"
                 step="0.0001"
                 onChange={handleChangeInputValue}
+                onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                 value={unitsTraded}
               />
               <input
@@ -211,7 +234,7 @@ export default function Order() {
           </TradeButton>
         </OrderBoxWrapper>
       </OrderWrapper>
-      {(isTrade || isComplete || isNone || isFail) && (
+      {(isTrade || isComplete || isNotAuth || isFailInput || isFailTrade) && (
         <OrderModal
           onTrade={handleClickTrade}
           onClose={handleClickCloseModal}
@@ -222,8 +245,12 @@ export default function Order() {
             (isRequest
               ? "주문이 완료되었습니다."
               : "주문하신 수량이 정상적으로 체결되었습니다.")}
-          {isNone && "수량을 입력해주세요."}
-          {isFail &&
+          {isNotAuth && "로그인이 필요한 서비스입니다."}
+          {isFailInput &&
+            (!unitsTraded < 0.0001
+              ? "코인은 0.0001개부터 주문하실 수 있습니다."
+              : "수량을 입력해주세요.")}
+          {isFailTrade &&
             (isBuy ? "보유 금액이 부족합니다." : "보유 수량이 부족합니다.")}
         </OrderModal>
       )}

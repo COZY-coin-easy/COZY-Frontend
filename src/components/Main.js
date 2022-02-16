@@ -176,7 +176,7 @@ export default function Main() {
   };
 
   return (
-    <div>
+    <>
       <Anchor />
       <SearchDiv>
         <Input
@@ -243,7 +243,7 @@ export default function Main() {
       ) : (
         <h4>검색 결과가 없습니다</h4>
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import {
@@ -10,6 +10,12 @@ import {
   RED,
   BLUE,
 } from "../constants/styles";
+
+const Anchor = styled.span`
+  display: block;
+  height: 80px;
+  visibility: hidden;
+`;
 
 export default function Asset() {
   const { asset } = useSelector((state) => state.user.user);
@@ -401,6 +407,13 @@ export default function Asset() {
         </TitleWrapper>
       </TitleBodyWrapper>
       <Line />
+
+      {!isLoggedIn && (
+        <>
+          <div>로그인 후 이용 가능한 서비스입니다.</div>{" "}
+          <button onClick={signInWithGoogle}>로그인</button>
+        </>
+      )}
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {
