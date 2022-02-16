@@ -4,11 +4,11 @@ import { all } from "redux-saga/effects";
 import { authSaga } from "../features/auth/authSaga";
 import { userSaga } from "../features/user/userSaga";
 import { candleStickSaga } from "../features/candleStick/candleStickSaga";
-import { socketSaga } from "../features/sagas/socketSaga";
+import { socketSaga } from "../features/socket/socketSaga";
 import auth from "../features/auth/authSlice";
 import user from "../features/user/userSlice";
 import candleStick from "../features/candleStick/candleStickSlice";
-import socket from "../features/sagas/socketSlice";
+import socket from "../features/socket/socketSlice";
 
 const sagaMiddleware = createSagaMiddleWare();
 

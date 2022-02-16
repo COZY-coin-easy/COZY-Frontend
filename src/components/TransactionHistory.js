@@ -63,7 +63,7 @@ export default function TransactionHistory() {
     <>
       <Anchor />
       <SearchDiv>
-        <Input placeholder="자산구분" id="coin-search" />
+        <Input placeholder="자산구분" id="coin-search" type="text" />
         <ThemeProvider
           theme={{
             breakpoints: ["32em", "48em", "64em"],
@@ -103,9 +103,9 @@ export default function TransactionHistory() {
 
       {currentHistory.length ? (
         currentHistory.map((transaction) => (
-          <>
+          <div key={transaction._id}>
             <Line />
-            <BodyWrapper key={transaction._id}>
+            <BodyWrapper>
               <Wrapper>
                 {new Date(transaction.transactionDate).getFullYear()}-
                 {(
@@ -141,7 +141,7 @@ export default function TransactionHistory() {
                 {transaction.total < 0 ? -transaction.total : transaction.total}
               </Wrapper>
             </BodyWrapper>
-          </>
+          </div>
         ))
       ) : (
         <>

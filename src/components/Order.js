@@ -26,7 +26,6 @@ export default function Order() {
   const { isTrade, isRequest, isComplete, isNone, isFail } = isOpenModal;
 
   const total = currentCurrencyPrice * unitsTraded;
-  const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
 
   let coin = null;
   for (let i = 0; i < coins.length; i++) {
@@ -38,6 +37,8 @@ export default function Order() {
   }
 
   useEffect(() => {
+    const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
+
     ws.onmessage = (event) => {
       const res = JSON.parse(event.data);
       const currentCurrencyName = res.content.symbol.split("_")[0];
