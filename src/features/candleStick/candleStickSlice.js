@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { GET_CHART_FAILURE } from "../../constants/messages";
 
 const candleStickSlice = createSlice({
   name: "candleStick",
@@ -15,8 +16,12 @@ const candleStickSlice = createSlice({
       state.candleStick = action.payload;
     },
     candleStickFailure: (state, action) => {
-      const { message } = action.payload;
-      state.error = message;
+      const message = GET_CHART_FAILURE;
+      const status = 500;
+      state.error = {
+        message,
+        status,
+      };
     },
   },
 });

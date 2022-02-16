@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+
 import {
   requestCoinList,
   requestSocketData,
@@ -15,12 +16,9 @@ import {
   RED,
   BLUE,
 } from "../constants/styles";
+import Error from "./Error";
 
 export default function Main() {
-  const tickerCoinList = useSelector((state) => state.socket.coinList);
-  const realTimeCoin = useSelector((state) => state.socket.socketCoin);
-  const dispatch = useDispatch();
-
   const [coinList, setCoinList] = useState([]);
   const [searchCoin, setSearchCoin] = useState("");
   const [isAscendSort, setIsAscendSort] = useState({
@@ -32,6 +30,12 @@ export default function Main() {
 
   const { isName, isCurrentPrice, isRateOfChange, isTransactionAmount } =
     isAscendSort;
+
+  const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.auth.error);
+  const tickerCoinList = useSelector((state) => state.socket.coinList);
+  const realTimeCoin = useSelector((state) => state.socket.socketCoin);
 
   useEffect(() => {
     const myCoin = "ALL";
@@ -175,8 +179,8 @@ export default function Main() {
         });
   };
 
-  return (
-    <>
+  return !error ? (
+    <div>
       <Anchor />
       <SearchDiv>
         <Input
@@ -241,9 +245,16 @@ export default function Main() {
           </div>
         ))
       ) : (
-        <h4>검색 결과가 없습니다</h4>
+        <Message>검색 결과가 없습니다</Message>
       )}
-    </>
+    </div>
+  ) : (
+    <Error>
+      <>
+        <div>{error.message}</div>
+        <div>{error.status}</div>
+      </>
+    </Error>
   );
 }
 
@@ -332,4 +343,8 @@ const Line = styled.div`
 const SearchDiv = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const Message = styled.h4`
+  text-align: center;
 `;
