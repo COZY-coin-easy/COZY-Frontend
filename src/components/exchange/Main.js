@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import Error from "../Error/Error";
+import Error from "../error/Error";
 import {
   requestCoinList,
   requestSocketData,
