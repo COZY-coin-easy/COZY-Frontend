@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { auth, signInWithGoogle } from "../firebase";
 import { loginRequest } from "../features/auth/authSlice";
-import { MAIN_COLOR_1 } from "../constants/styles";
+import { MAIN_COLOR_1, MAIN_COLOR_3, WHITE, BLACK } from "../constants/styles";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -46,21 +46,27 @@ export default function Home() {
 }
 
 const HomeWrapper = styled.div`
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100vh;
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${MAIN_COLOR_3};
 
   .cozy-title {
     color: ${MAIN_COLOR_1};
-    font-size: 6rem;
-    font-weight: bold;
+    font-size: 10rem;
+    font-weight: 100;
   }
   .cozy-description {
     margin-top: 40px;
-    color: ${MAIN_COLOR_1};
+    color: ${BLACK};
     font-size: 1.5rem;
+    font-weight: 100;
   }
   .login-button {
     cursor: pointer;
@@ -71,7 +77,8 @@ const HomeWrapper = styled.div`
     transition: 0.3s;
     font-size: 20px;
     background-color: ${MAIN_COLOR_1};
-    color: #ffffff;
+    color: ${WHITE};
+    font-weight: 100;
   }
   .login-button:hover {
     padding: 20px 132px 20px 132px;
@@ -84,8 +91,9 @@ const HomeWrapper = styled.div`
     border: none;
     transition: 0.5s;
     font-size: 1.5rem;
-    background-color: #ffffff;
-    color: ${MAIN_COLOR_1};
+    font-weight: 100;
+    background-color: ${MAIN_COLOR_3};
+    color: ${BLACK};
   }
   .preview-button:after {
     content: "➡️";

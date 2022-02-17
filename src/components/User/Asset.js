@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { signInWithGoogle } from "../firebase";
+import { signInWithGoogle } from "../../firebase";
 import {
   WHITE,
   BLACK,
@@ -10,7 +10,7 @@ import {
   MAIN_COLOR_3,
   RED,
   BLUE,
-} from "../constants/styles";
+} from "../../constants/styles";
 
 export default function Asset() {
   const { asset } = useSelector((state) => state.user.user);
