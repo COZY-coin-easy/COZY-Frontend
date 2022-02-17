@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import Chart from "./Chart";
 import Order from "./Order";
-import Error from "../error/Error";
+import Error from "../Error/Error";
 
 export default function Trade() {
   const chartError = useSelector((state) => state.candleStick.error);

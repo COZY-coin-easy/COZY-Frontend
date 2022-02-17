@@ -3,6 +3,12 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { signInWithGoogle } from "../../firebase";
 import {
+  ascendSortAboutName,
+  descendSortAboutName,
+  ascendSortAboutMoney,
+  descendSortAboutMoney,
+} from "../../util/sort";
+import {
   WHITE,
   BLACK,
   LIGHT_GREY,
@@ -87,23 +93,15 @@ export default function Asset() {
 
   useEffect(() => {
     const parsedCoinList = JSON.parse(JSON.stringify(ownedCoinList));
-    const parsedTransactionHistory = JSON.parse(
-      JSON.stringify(transactionHistory)
-    );
 
-    for (let i = 0; i < ownedCoinList.length; i++) {
-      if (
-        parsedCoinList[i].currencyName ===
-        parsedTransactionHistory[i].currencyName
-      ) {
-        parsedCoinList[i].bought_price =
-          parsedCoinList[i].quantity * parsedCoinList[i].averagePrice;
-      }
+    for (let i = 0; i < parsedCoinList.length; i++) {
+      parsedCoinList[i].bought_price =
+        parsedCoinList[i].quantity * parsedCoinList[i].averagePrice;
     }
 
     setNewCoinList(parsedCoinList);
   }, []);
-  console.log(newCoinList, coinList);
+
   newCoinList.forEach((coin) => {
     if (coinList) {
       coinList.map((coinItem) => {
@@ -141,22 +139,14 @@ export default function Asset() {
 
     isName
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.currencyName > b.currencyName
-              ? -1
-              : a.currencyName < b.currencyName
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutName(a.currencyName, b.currencyName)
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.currencyName < b.currencyName
-              ? -1
-              : a.currencyName > b.currencyName
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutName(a.currencyName, b.currencyName)
+          )
         );
   };
 
@@ -169,22 +159,14 @@ export default function Asset() {
 
     isLeftMoney
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.quantity - b.quantity > 0
-              ? -1
-              : a.quantity - b.quantity < 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutMoney(a.quantity, b.quantity)
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.quantity - b.quantity < 0
-              ? -1
-              : a.quantity - b.quantity > 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutMoney(a.quantity, b.quantity)
+          )
         );
   };
 
@@ -197,22 +179,14 @@ export default function Asset() {
 
     isAvgPrice
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.averagePrice - b.averagePrice > 0
-              ? -1
-              : a.averagePrice - b.averagePrice < 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutMoney(a.averagePrice, b.averagePrice)
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.averagePrice - b.averagePrice < 0
-              ? -1
-              : a.averagePrice - b.averagePrice > 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutMoney(a.averagePrice, b.averagePrice)
+          )
         );
   };
 
@@ -225,22 +199,14 @@ export default function Asset() {
 
     isBoughtPrice
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.bought_price - b.bought_price > 0
-              ? -1
-              : a.bought_price - b.bought_price < 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutMoney(a.bought_price, b.bought_price)
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.bought_price - b.bought_price < 0
-              ? -1
-              : a.bought_price - b.bought_price > 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutMoney(a.bought_price, b.bought_price)
+          )
         );
   };
 
@@ -253,24 +219,20 @@ export default function Asset() {
 
     isEvaluatedPrice
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price - b.quantity * b.current_price >
-              0
-              ? -1
-              : a.quantity * a.current_price - b.quantity * b.current_price < 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutMoney(
+              a.quantity * a.current_price,
+              b.quantity * b.current_price
+            )
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price - b.quantity * b.current_price <
-              0
-              ? -1
-              : a.quantity * a.current_price - b.quantity * b.current_price > 0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutMoney(
+              a.quantity * a.current_price,
+              b.quantity * b.current_price
+            )
+          )
         );
   };
 
@@ -283,34 +245,20 @@ export default function Asset() {
 
     isEvaluatedProfit
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price -
-              a.bought_price -
-              (b.quantity * b.current_price - b.bought_price) >
-              0
-              ? -1
-              : a.quantity * a.current_price -
-                  a.bought_price -
-                  (b.quantity * b.current_price - b.bought_price) <
-                0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutMoney(
+              a.quantity * a.current_price - a.bought_price,
+              b.quantity * b.current_price - b.bought_price
+            )
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return a.quantity * a.current_price -
-              a.bought_price -
-              (b.quantity * b.current_price - b.bought_price) <
-              0
-              ? -1
-              : a.quantity * a.current_price -
-                  a.bought_price -
-                  (b.quantity * b.current_price - b.bought_price) >
-                0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutMoney(
+              a.quantity * a.current_price - a.bought_price,
+              b.quantity * b.current_price - b.bought_price
+            )
+          )
         );
   };
 
@@ -323,36 +271,20 @@ export default function Asset() {
 
     isYieldRate
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return (a.quantity * a.current_price - a.bought_price) /
-              a.bought_price -
-              (b.quantity * b.current_price - b.bought_price) / b.bought_price >
-              0
-              ? -1
-              : (a.quantity * a.current_price - a.bought_price) /
-                  a.bought_price -
-                  (b.quantity * b.current_price - b.bought_price) /
-                    b.bought_price <
-                0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            descendSortAboutMoney(
+              (a.quantity * a.current_price - a.bought_price) / a.bought_price,
+              (b.quantity * b.current_price - b.bought_price) / b.bought_price
+            )
+          )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) => {
-            return (a.quantity * a.current_price - a.bought_price) /
-              a.bought_price -
-              (b.quantity * b.current_price - b.bought_price) / b.bought_price <
-              0
-              ? -1
-              : (a.quantity * a.current_price - a.bought_price) /
-                  a.bought_price -
-                  (b.quantity * b.current_price - b.bought_price) /
-                    b.bought_price >
-                0
-              ? 1
-              : 0;
-          })
+          newCoinList.sort((a, b) =>
+            ascendSortAboutMoney(
+              (a.quantity * a.current_price - a.bought_price) / a.bought_price,
+              (b.quantity * b.current_price - b.bought_price) / b.bought_price
+            )
+          )
         );
   };
 
@@ -414,6 +346,7 @@ export default function Asset() {
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {
+            console.log("@@@@@:", coinElements.bought_price);
             return (
               <div key={coinElements.currencyName}>
                 <BodyWrapper>
@@ -427,32 +360,44 @@ export default function Asset() {
                     {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_price > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_price !== 0 ? (
+                      coinElements.evaluate_price > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_price = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_profit ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_profit = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
-                      <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                    {coinElements.evaluate_profit !== 0 ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                      ) : (
+                        <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                      )
                     ) : (
-                      <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                      `${(coinElements.yield_rate = 0)}%`
                     )}
                   </Wrapper>
                 </BodyWrapper>
@@ -474,33 +419,50 @@ export default function Asset() {
                     {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_price > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_price !== 0 ? (
+                      coinElements.evaluate_price > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_price = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_profit ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_profit = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
+                    {coinElements.evaluate_profit !== 0 ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                      ) : (
+                        <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                      )
+                    ) : (
+                      `${(coinElements.yield_rate = 0)}%`
+                    )}
+                    {/* {coinElements.evaluate_profit > 0 ? (
                       <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
                     ) : (
                       <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
-                    )}
+                    )} */}
                   </Wrapper>
                 </BodyWrapper>
                 <Line />

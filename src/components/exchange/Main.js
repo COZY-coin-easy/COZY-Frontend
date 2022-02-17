@@ -3,12 +3,18 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import Error from "../error/Error";
+import Error from "../Error/Error";
 import {
   requestCoinList,
   requestSocketData,
 } from "../../features/socket/socketSlice";
 import { closeModal } from "../../features/auth/authSlice";
+import {
+  ascendSortAboutName,
+  descendSortAboutName,
+  ascendSortAboutMoney,
+  descendSortAboutMoney,
+} from "../../util/sort";
 import {
   WHITE,
   BLACK,
@@ -121,20 +127,12 @@ export default function Main() {
     });
 
     isName
-      ? coinList.sort((a, b) => {
-          return a.currency_name > b.currency_name
-            ? -1
-            : a.currency_name < b.currency_name
-            ? 1
-            : 0;
-        })
-      : coinList.sort((a, b) => {
-          return a.currency_name < b.currency_name
-            ? -1
-            : a.currency_name > b.currency_name
-            ? 1
-            : 0;
-        });
+      ? coinList.sort((a, b) =>
+          descendSortAboutName(a.currency_name, b.currency_name)
+        )
+      : coinList.sort((a, b) =>
+          ascendSortAboutName(a.currency_name, b.currency_name)
+        );
   };
 
   const sortingByCurrentPrice = () => {
@@ -144,12 +142,12 @@ export default function Main() {
     });
 
     isCurrentPrice
-      ? coinList.sort((a, b) => {
-          return b.closing_price - a.closing_price;
-        })
-      : coinList.sort((a, b) => {
-          return a.closing_price - b.closing_price;
-        });
+      ? coinList.sort((a, b) =>
+          descendSortAboutMoney(a.closing_price, b.closing_price)
+        )
+      : coinList.sort((a, b) =>
+          ascendSortAboutMoney(a.closing_price, b.closing_price)
+        );
   };
 
   const sortingByRateOfChange = () => {
@@ -159,12 +157,12 @@ export default function Main() {
     });
 
     isRateOfChange
-      ? coinList.sort((a, b) => {
-          return b.fluctate_rate_24H - a.fluctate_rate_24H;
-        })
-      : coinList.sort((a, b) => {
-          return a.fluctate_rate_24H - b.fluctate_rate_24H;
-        });
+      ? coinList.sort((a, b) =>
+          descendSortAboutMoney(a.fluctate_rate_24H, b.fluctate_rate_24H)
+        )
+      : coinList.sort((a, b) =>
+          ascendSortAboutMoney(a.fluctate_rate_24H, b.fluctate_rate_24H)
+        );
   };
 
   const sortingByTransactionAmount = () => {
@@ -174,12 +172,12 @@ export default function Main() {
     });
 
     isTransactionAmount
-      ? coinList.sort((a, b) => {
-          return b.acc_trade_value_24H - a.acc_trade_value_24H;
-        })
-      : coinList.sort((a, b) => {
-          return a.acc_trade_value_24H - b.acc_trade_value_24H;
-        });
+      ? coinList.sort((a, b) =>
+          descendSortAboutMoney(a.acc_trade_value_24H, b.acc_trade_value_24H)
+        )
+      : coinList.sort((a, b) =>
+          ascendSortAboutMoney(a.acc_trade_value_24H, b.acc_trade_value_24H)
+        );
   };
 
   return !error ? (
