@@ -103,7 +103,6 @@ export default function Asset() {
 
   newCoinList.forEach((coin) => {
     if (coinList) {
-      // eslint-disable-next-line array-callback-return
       coinList.map((coinItem) => {
         if (coin.currencyName === coinItem.currency_name) {
           coin.current_price = coinItem.closing_price;
@@ -115,6 +114,8 @@ export default function Asset() {
               coin.bought_price) *
             100;
         }
+
+        return coin;
       });
     }
 
