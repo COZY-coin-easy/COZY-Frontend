@@ -64,7 +64,7 @@ export default function Order() {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [currencyName]);
 
   const handleChangeInputValue = (e) => {
     setUnitsTraded(e.target.value);

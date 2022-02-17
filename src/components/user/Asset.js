@@ -20,7 +20,6 @@ import {
 
 export default function Asset() {
   const { asset } = useSelector((state) => state.user.user);
-  const { transactionHistory } = useSelector((state) => state.user.user);
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
@@ -100,10 +99,11 @@ export default function Asset() {
     }
 
     setNewCoinList(parsedCoinList);
-  }, []);
+  }, [ownedCoinList]);
 
   newCoinList.forEach((coin) => {
     if (coinList) {
+      // eslint-disable-next-line array-callback-return
       coinList.map((coinItem) => {
         if (coin.currencyName === coinItem.currency_name) {
           coin.current_price = coinItem.closing_price;
@@ -346,7 +346,6 @@ export default function Asset() {
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {
-            console.log("@@@@@:", coinElements.bought_price);
             return (
               <div key={coinElements.currencyName}>
                 <BodyWrapper>

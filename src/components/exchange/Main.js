@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import Error from "../Error/Error";
+import Error from "../error/Error";
 import {
   requestCoinList,
   requestSocketData,
@@ -50,7 +50,7 @@ export default function Main() {
     const myCoin = "ALL";
 
     dispatch(requestCoinList(myCoin));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));
@@ -84,7 +84,7 @@ export default function Main() {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [dispatch]);
 
   const filteredCoinList =
     searchCoin === ""
