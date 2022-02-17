@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-
+import WelcomeModal from "../Modal/WelcomeModal";
+import Error from "../Error/Error";
 import {
   requestCoinList,
   requestSocketData,
-} from "../features/socket/socketSlice";
+} from "../../features/sagas/socketSlice";
+import { closeModal } from "../../features/auth/authSlice";
 import {
   WHITE,
   BLACK,
@@ -15,8 +17,7 @@ import {
   MAIN_COLOR_3,
   RED,
   BLUE,
-} from "../constants/styles";
-import Error from "./Error";
+} from "../../constants/styles";
 
 export default function Main() {
   const [coinList, setCoinList] = useState([]);
@@ -34,8 +35,10 @@ export default function Main() {
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.auth.error);
+  const { displayName, asset } = useSelector((state) => state.user.user);
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const realTimeCoin = useSelector((state) => state.socket.socketCoin);
+  const isSignUp = useSelector((state) => state.auth.isSignUp);
 
   useEffect(() => {
     const myCoin = "ALL";
@@ -246,6 +249,16 @@ export default function Main() {
         ))
       ) : (
         <Message>검색 결과가 없습니다</Message>
+      )}
+
+      {isSignUp && (
+        <WelcomeModal onClose={() => dispatch(closeModal())}>
+          <>
+            <p>환영합니다 ! {displayName}님</p>
+            <p>{displayName}님에게 초기 투자 자본으로 </p>
+            <p>{asset.cash.toLocaleString()}원이 지급되었습니다.</p>
+          </>
+        </WelcomeModal>
       )}
     </div>
   ) : (

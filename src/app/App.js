@@ -3,11 +3,11 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "../components/Home";
 import Header from "../components/Header";
-import Main from "../components/Main";
-import Asset from "../components/Asset";
-import Trade from "../components/Trade";
-import MyPage from "../components/Mypage";
-import TransactionHistory from "../components/TransactionHistory";
+import Main from "../components/Trade/Main";
+import Asset from "../components/User/Asset";
+import Trade from "../components/Trade/Trade";
+import MyPage from "../components/User/Mypage";
+import TransactionHistory from "../components/User/TransactionHistory";
 
 function App() {
   const location = useLocation();

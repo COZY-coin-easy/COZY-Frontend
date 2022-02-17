@@ -9,7 +9,7 @@ import {
   WHITE,
   BLACK,
   LIGHT_GREY,
-} from "../constants/styles";
+} from "../../constants/styles";
 
 export default function TransactionHistory() {
   const { transactionHistory } = useSelector((state) => state.user.user);
@@ -30,8 +30,19 @@ export default function TransactionHistory() {
   };
 
   const handleClickSearch = () => {
+    let filtered = null;
     const coinName = document.getElementById("coin-search").value;
-    const filtered = transactionHistory.filter((transaction) => {
+
+    if (!dates.startDate || !dates.endDate) {
+      filtered = transactionHistory.filter(
+        (transaction) => transaction.currencyName === coinName
+      );
+
+      setFilteredTransactionHistory(filtered);
+      return;
+    }
+
+    filtered = transactionHistory.filter((transaction) => {
       if (coinName !== "") {
         return (
           transaction.currencyName === coinName &&
@@ -131,12 +142,8 @@ export default function TransactionHistory() {
                 ).slice(-2)}
               </Wrapper>
               <Wrapper>{transaction.currencyName}</Wrapper>
-              <Wrapper>
-                {transaction.unitsTraded < 0
-                  ? -transaction.unitsTraded
-                  : transaction.unitsTraded}
-              </Wrapper>
-              <Wrapper>{transaction.unitsTraded < 0 ? "매도" : "매수"}</Wrapper>
+              <Wrapper>{transaction.unitsTraded}</Wrapper>
+              <Wrapper>{transaction.isBuy ? "매수" : "매도"}</Wrapper>
               <Wrapper>{transaction.price.toLocaleString()}</Wrapper>
               <Wrapper>
                 {transaction.total < 0

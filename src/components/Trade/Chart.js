@@ -5,7 +5,7 @@ import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import styled from "styled-components";
 import "./chartStyle.css";
-import { candleStickRequest } from "../features/candleStick/candleStickSlice";
+import { candleStickRequest } from "../../features/candleStick/candleStickSlice";
 
 export default function Chart() {
   const dispatch = useDispatch();

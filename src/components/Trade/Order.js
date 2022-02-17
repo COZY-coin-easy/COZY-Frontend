@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-
-import OrderModal from "./OrderModal";
-import { orderRequest } from "../features/user/userSlice";
-import { MAIN_COLOR_1, WHITE } from "../constants/styles";
+import OrderModal from "../Modal/OrderModal";
+import { orderRequest } from "../../features/user/userSlice";
+import { MAIN_COLOR_1, WHITE } from "../../constants/styles";
 
 export default function Order() {
   const dispatch = useDispatch();
@@ -202,7 +201,8 @@ export default function Order() {
           <form>
             <InputWrapper>
               <div className="current-currency-price">
-                현재 {currencyName}의 가격: {currentCurrencyPrice}원
+                현재 {currencyName}의 가격:{" "}
+                {currentCurrencyPrice.toLocaleString()}원
               </div>
               <input
                 type="number"
@@ -243,14 +243,22 @@ export default function Order() {
         >
           {isTrade && (isBuy ? "매수하시겠습니까 ?" : "매도하시겠습니까 ?")}
           {isComplete &&
-            (isRequest
-              ? "주문이 완료되었습니다."
-              : "주문하신 수량이 정상적으로 체결되었습니다.")}
+            (isRequest ? (
+              "주문이 완료되었습니다."
+            ) : (
+              <>
+                <div>주문하신 수량이</div> <div>정상적으로 체결되었습니다.</div>
+              </>
+            ))}
           {isNotAuth && "로그인이 필요한 서비스입니다."}
           {isFailInput &&
-            (!unitsTraded < 0.0001
-              ? "코인은 0.0001개부터 주문하실 수 있습니다."
-              : "수량을 입력해주세요.")}
+            (!unitsTraded < 0.0001 ? (
+              <>
+                <div>코인은 0.0001개부터</div> <div>주문하실 수 있습니다.</div>
+              </>
+            ) : (
+              "수량을 입력해주세요."
+            ))}
           {isFailTrade &&
             (isBuy ? "보유 금액이 부족합니다." : "보유 수량이 부족합니다.")}
         </OrderModal>

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { signInWithGoogle } from "../firebase";
-import { BLACK, MAIN_COLOR_1 } from "../constants/styles";
+import { signInWithGoogle } from "../../firebase";
+import { BLACK, MAIN_COLOR_1 } from "../../constants/styles";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
