@@ -5,7 +5,7 @@ import {
   descendSortAboutMoney,
 } from "../sort";
 
-test("Mike,Kim 순은 오름 차순이 아닙다.", () => {
+test("Mike,Kim 순은 오름 차순이 아닙니다.", () => {
   expect(ascendSortAboutName("Mike", "Kim")).not.toBe(-1);
 });
 
@@ -29,6 +29,6 @@ test("10000원은 1000원 보다 많습니다.", () => {
   expect(ascendSortAboutMoney(10000, 1000)).toBe(1);
 });
 
-test("40000원은 1000원 보다 많습습니다.", () => {
+test("40000원은 1000원 보다 많습니다.", () => {
   expect(descendSortAboutMoney(40000, 1000)).not.toBe(1);
 });

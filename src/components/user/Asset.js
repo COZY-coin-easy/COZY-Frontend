@@ -20,7 +20,6 @@ import {
 
 export default function Asset() {
   const { asset } = useSelector((state) => state.user.user);
-  const { transactionHistory } = useSelector((state) => state.user.user);
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
