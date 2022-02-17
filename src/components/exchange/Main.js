@@ -50,7 +50,7 @@ export default function Main() {
     const myCoin = "ALL";
 
     dispatch(requestCoinList(myCoin));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));
@@ -84,7 +84,7 @@ export default function Main() {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [dispatch]);
 
   const filteredCoinList =
     searchCoin === ""
