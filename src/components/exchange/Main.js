@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import WelcomeModal from "../Modal/WelcomeModal";
-import Error from "../Error/Error";
+import WelcomeModal from "../modal/WelcomeModal";
+import Error from "../error/Error";
 import {
   requestCoinList,
   requestSocketData,
-} from "../../features/sagas/socketSlice";
+} from "../../features/socket/socketSlice";
 import { closeModal } from "../../features/auth/authSlice";
 import {
   WHITE,

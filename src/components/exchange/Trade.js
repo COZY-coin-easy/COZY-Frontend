@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import Chart from "../Trade/Chart";
-import Order from "../Trade/Order";
-import Error from "../Error/Error";
+import Chart from "./Chart";
+import Order from "./Order";
+import Error from "../error/Error";
 
 export default function Trade() {
   const chartError = useSelector((state) => state.candleStick.error);

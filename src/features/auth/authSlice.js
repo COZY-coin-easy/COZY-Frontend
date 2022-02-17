@@ -13,7 +13,6 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       const { message } = action.payload;
-      console.log(message);
 
       state.isLoggedIn = true;
       state.isSignUp = message === "유저 등록 성공" ? true : false;

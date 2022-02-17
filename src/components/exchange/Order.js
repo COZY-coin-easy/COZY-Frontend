@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import OrderModal from "../Modal/OrderModal";
+import OrderModal from "../modal/OrderModal";
 import { orderRequest } from "../../features/user/userSlice";
 import { MAIN_COLOR_1, WHITE } from "../../constants/styles";
 
