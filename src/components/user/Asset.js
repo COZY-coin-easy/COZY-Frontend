@@ -20,7 +20,6 @@ import {
 
 export default function Asset() {
   const { asset } = useSelector((state) => state.user.user);
-  const { transactionHistory } = useSelector((state) => state.user.user);
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
@@ -100,7 +99,7 @@ export default function Asset() {
     }
 
     setNewCoinList(parsedCoinList);
-  }, []);
+  }, [ownedCoinList]);
 
   newCoinList.forEach((coin) => {
     if (coinList) {
@@ -115,6 +114,8 @@ export default function Asset() {
               coin.bought_price) *
             100;
         }
+
+        return coin;
       });
     }
 
@@ -346,7 +347,6 @@ export default function Asset() {
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {
-            console.log("@@@@@:", coinElements.bought_price);
             return (
               <div key={coinElements.currencyName}>
                 <BodyWrapper>
