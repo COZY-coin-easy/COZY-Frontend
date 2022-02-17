@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import Error from "../error/Error";
+import Error from "../Error/Error";
 import {
   requestCoinList,
   requestSocketData,
@@ -14,7 +14,7 @@ import {
   descendSortAboutName,
   ascendSortAboutMoney,
   descendSortAboutMoney,
-} from "../util/sort";
+} from "../../util/sort";
 import {
   WHITE,
   BLACK,

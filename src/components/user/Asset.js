@@ -93,23 +93,15 @@ export default function Asset() {
 
   useEffect(() => {
     const parsedCoinList = JSON.parse(JSON.stringify(ownedCoinList));
-    const parsedTransactionHistory = JSON.parse(
-      JSON.stringify(transactionHistory)
-    );
 
-    for (let i = 0; i < ownedCoinList.length; i++) {
-      if (
-        parsedCoinList[i].currencyName ===
-        parsedTransactionHistory[i].currencyName
-      ) {
-        parsedCoinList[i].bought_price =
-          parsedCoinList[i].quantity * parsedCoinList[i].averagePrice;
-      }
+    for (let i = 0; i < parsedCoinList.length; i++) {
+      parsedCoinList[i].bought_price =
+        parsedCoinList[i].quantity * parsedCoinList[i].averagePrice;
     }
 
     setNewCoinList(parsedCoinList);
   }, []);
-  console.log(newCoinList, coinList);
+
   newCoinList.forEach((coin) => {
     if (coinList) {
       coinList.map((coinItem) => {
@@ -354,6 +346,7 @@ export default function Asset() {
 
       {!isSortBtnClick
         ? newCoinList.map((coinElements) => {
+            console.log("@@@@@:", coinElements.bought_price);
             return (
               <div key={coinElements.currencyName}>
                 <BodyWrapper>
@@ -367,32 +360,44 @@ export default function Asset() {
                     {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_price > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_price !== 0 ? (
+                      coinElements.evaluate_price > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_price = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_profit ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_profit = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
-                      <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                    {coinElements.evaluate_profit !== 0 ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                      ) : (
+                        <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                      )
                     ) : (
-                      <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                      `${(coinElements.yield_rate = 0)}%`
                     )}
                   </Wrapper>
                 </BodyWrapper>
@@ -414,33 +419,50 @@ export default function Asset() {
                     {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_price > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_price !== 0 ? (
+                      coinElements.evaluate_price > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_price.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_price.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_price = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
-                      <Red>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Red>
+                    {coinElements.evaluate_profit ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Red>
+                      ) : (
+                        <Blue>
+                          {coinElements.evaluate_profit.toLocaleString()}원
+                        </Blue>
+                      )
                     ) : (
-                      <Blue>
-                        {coinElements.evaluate_profit.toLocaleString()}원
-                      </Blue>
+                      `${(coinElements.evaluate_profit = 0)}원`
                     )}
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_profit > 0 ? (
+                    {coinElements.evaluate_profit !== 0 ? (
+                      coinElements.evaluate_profit > 0 ? (
+                        <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                      ) : (
+                        <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                      )
+                    ) : (
+                      `${(coinElements.yield_rate = 0)}%`
+                    )}
+                    {/* {coinElements.evaluate_profit > 0 ? (
                       <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
                     ) : (
                       <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
-                    )}
+                    )} */}
                   </Wrapper>
                 </BodyWrapper>
                 <Line />
