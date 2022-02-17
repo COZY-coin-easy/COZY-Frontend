@@ -13,7 +13,7 @@ function* loginUser({ payload }) {
   const { email, displayName, token } = payload;
 
   try {
-    yield axios.post(process.env.REACT_APP_SERVER_URL, {
+    const res = yield axios.post(process.env.REACT_APP_SERVER_URL, {
       email,
       displayName,
     });
@@ -27,7 +27,7 @@ function* loginUser({ payload }) {
       token,
     };
 
-    yield put(loginSuccess());
+    yield put(loginSuccess({ message: res.data.result }));
     yield put(getUserData(user));
   } catch (err) {
     yield put(loginFailure(err));

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { SORRY_ERROR } from "../constants/messages";
-import { MAIN_COLOR_2, MAIN_COLOR_3, BLACK } from "../constants/styles";
+import { SORRY_ERROR } from "../../constants/messages";
+import { MAIN_COLOR_2, MAIN_COLOR_3, BLACK } from "../../constants/styles";
 
 export default function Error({ children }) {
   return (
