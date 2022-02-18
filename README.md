@@ -1,4 +1,4 @@
-# 💸Coin is Easy
+# 💸 Coin is Easy
 
 [이미지]
 초보자를 위한 가상화폐 모의 투자 Cozy입니다!
@@ -18,16 +18,19 @@ Github Repositories
 - Frontend
 - Backend
 
-## 🚀ShortCut
-- 💸Coin is Easy
-- 📈Preview
-- 
+## 🚀 ShortCut
+- 💡 Motivation
+- ✅ Features
+- 📅 Schedule
+- 🖥 Tech Stack
+- 🕹 Getting Started
+- 🤔 Why we used it
+- 🔥 Challenge
 
 
-### `npm test`
+## 💡 Motivation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
 
 ### `npm run build`
 
