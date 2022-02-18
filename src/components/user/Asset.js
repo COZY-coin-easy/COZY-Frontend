@@ -491,8 +491,7 @@ const TitleBodyWrapper = styled(BodyWrapper)`
 `;
 
 const TitleWrapper = styled.div`
-  margin-left: 40px;
-  margin-right: 40px;
+  margin: 0px 40px;
   color: ${BLACK};
   text-align: center;
 `;
@@ -513,7 +512,7 @@ const Blue = styled(Wrapper)`
 
 const Button = styled.button`
   height: 35px;
-  background: ${MAIN_COLOR_3};
+  background-color: ${MAIN_COLOR_3};
   color: ${WHITE};
   border-color: ${MAIN_COLOR_3};
   border-style: none;
@@ -538,7 +537,7 @@ const LoginButton = styled(Button)`
 const SortButton = styled(Button)`
   padding: 0px;
   margin-right: 0px;
-  background: ${WHITE};
+  background-color: ${WHITE};
 
   :hover {
     background-color: ${WHITE};
@@ -557,7 +556,7 @@ const Message = styled.h4`
 `;
 
 const CoinLink = styled(NavLink)`
-  text-decoration: none;
-  color: ${BLACK};
   width: 20%;
+  color: ${BLACK};
+  text-decoration: none;
 `;

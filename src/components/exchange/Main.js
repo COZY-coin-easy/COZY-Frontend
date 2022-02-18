@@ -283,7 +283,6 @@ const Anchor = styled.span`
 
 const BodyWrapper = styled.div`
   display: flex;
-  margin: 0px;
   height: 35px;
   align-items: center;
   justify-content: space-around;
