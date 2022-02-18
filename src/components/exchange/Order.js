@@ -174,7 +174,7 @@ export default function Order() {
             보유 현금: {Math.round(cash).toLocaleString()} 원{" "}
           </span>
           <span className="my-asset">
-            보유 {currencyName}: {coin ? coin.quantity : 0} 개
+            보유 {currencyName}: {coin ? coin.quantity.toFixed(4) : 0} 개
           </span>
           <span className="my-asset">
             평균매수가:{" "}

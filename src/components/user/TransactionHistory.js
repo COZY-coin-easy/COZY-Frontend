@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled, { ThemeProvider } from "styled-components";
 import { DateRangeInput } from "@datepicker-react/styled";
+import HelpModal from "../modal/HelpModal";
+import { openHelpModal, closeHelpModal } from "../../features/user/userSlice";
 import { signInWithGoogle } from "../../firebase";
 import {
   MAIN_COLOR_1,
@@ -13,8 +15,13 @@ import {
 } from "../../constants/styles";
 
 export default function TransactionHistory() {
-  const { transactionHistory } = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const { displayName, transactionHistory } = useSelector(
+    (state) => state.user.user
+  );
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isOpenHelpModal = useSelector((state) => state.user.isOpenHelpModal);
+
   const [filteredTransactionHistory, setFilteredTransactionHistory] =
     useState(transactionHistory);
   const [transactionNumber, setTransactionNumber] = useState(5);
@@ -114,6 +121,12 @@ export default function TransactionHistory() {
             <TitleWrapper>거래구분</TitleWrapper>
             <TitleWrapper>주문가격</TitleWrapper>
             <TitleWrapper>주문금액</TitleWrapper>
+            <button
+              className="help-button"
+              onClick={() => dispatch(openHelpModal())}
+            >
+              도움말
+            </button>
           </BodyWrapper>
 
           {currentHistory.length ? (
@@ -145,13 +158,17 @@ export default function TransactionHistory() {
                     ).slice(-2)}
                   </Wrapper>
                   <Wrapper>{transaction.currencyName}</Wrapper>
-                  <Wrapper>{transaction.unitsTraded}</Wrapper>
+                  <Wrapper>{transaction.unitsTraded}개</Wrapper>
                   <Wrapper>{transaction.isBuy ? "매수" : "매도"}</Wrapper>
-                  <Wrapper>{transaction.price.toLocaleString()}</Wrapper>
+                  <Wrapper>{transaction.price.toLocaleString()}원</Wrapper>
                   <Wrapper>
                     {transaction.total < 0
-                      ? -Number(transaction.total.toFixed(3)).toLocaleString()
-                      : Number(transaction.total.toFixed(3)).toLocaleString()}
+                      ? `${-Number(
+                          transaction.total.toFixed(3)
+                        ).toLocaleString()}원`
+                      : `${Number(
+                          transaction.total.toFixed(3)
+                        ).toLocaleString()}원`}
                   </Wrapper>
                 </BodyWrapper>
               </div>
@@ -174,6 +191,21 @@ export default function TransactionHistory() {
           <LoginButton onClick={signInWithGoogle}>구글 로그인</LoginButton>
         </>
       )}
+
+      {isOpenHelpModal && (
+        <HelpModal onClose={() => dispatch(closeHelpModal())}>
+          <>
+            <p>
+              현재 페이지는 {displayName}님이 거래한 내역을 볼 수 있는
+              페이지입니다.{" "}
+            </p>
+            <p>
+              현재 페이지에서는 {displayName}님이 어떤 코인을 매수를 했는지,
+              매도를 했는지 그리고 얼마를 주고 거래를 했는지 볼 수 있습니다.{" "}
+            </p>
+          </>
+        </HelpModal>
+      )}
     </>
   );
 }
@@ -183,6 +215,28 @@ const BodyWrapper = styled.div`
   margin: 20px;
   align-items: center;
   justify-content: space-around;
+
+  .help-button {
+    cursor: pointer;
+    position: fixed;
+    bottom: 5%;
+    right: 2%;
+    padding: 35px 25px;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 200;
+    color: ${WHITE};
+    background-color: ${MAIN_COLOR_1};
+    opacity: 80%;
+    transition: 0.2s;
+  }
+
+  .help-button:hover {
+    padding: 40px 30px;
+    opacity: 100%;
+    transition: 0.2s;
+  }
 `;
 
 const Wrapper = styled.div`

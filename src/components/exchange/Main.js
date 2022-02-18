@@ -3,12 +3,14 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import ErrorView from "../error/ErrorView";
+import HelpModal from "../modal/HelpModal";
+import ErrorView from "../errorView/ErrorView";
 import {
   requestCoinList,
   requestSocketData,
 } from "../../features/socket/socketSlice";
-import { closeModal } from "../../features/auth/authSlice";
+import { closeWelcomeModal } from "../../features/auth/authSlice";
+import { openHelpModal, closeHelpModal } from "../../features/user/userSlice";
 import {
   ascendSortAboutName,
   descendSortAboutName,
@@ -20,6 +22,7 @@ import {
   BLACK,
   LIGHT_GREY,
   MAIN_COLOR_1,
+  MAIN_COLOR_2,
   MAIN_COLOR_3,
   RED,
   BLUE,
@@ -46,6 +49,7 @@ export default function Main() {
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const realTimeCoin = useSelector((state) => state.socket.socketCoin);
   const isSignUp = useSelector((state) => state.auth.isSignUp);
+  const isOpenHelpModal = useSelector((state) => state.user.isOpenHelpModal);
 
   useEffect(() => {
     dispatch(requestCoinList(ALL_KRW));
@@ -217,6 +221,12 @@ export default function Main() {
             {isTransactionAmount ? "🔼" : "🔽"}
           </SortButton>
         </CashWrapper>
+        <button
+          className="help-button"
+          onClick={() => dispatch(openHelpModal())}
+        >
+          도움말
+        </button>
       </TitleBodyWrapper>
       <Line />
 
@@ -256,13 +266,37 @@ export default function Main() {
       )}
 
       {isSignUp && (
-        <WelcomeModal onClose={() => dispatch(closeModal())}>
+        <WelcomeModal onClose={() => dispatch(closeWelcomeModal())}>
           <>
             <p>환영합니다 ! {displayName}님</p>
             <p>{displayName}님에게 초기 투자 자본으로 </p>
             <p>{asset.cash.toLocaleString()}원이 지급되었습니다.</p>
           </>
         </WelcomeModal>
+      )}
+
+      {isOpenHelpModal && (
+        <HelpModal onClose={() => dispatch(closeHelpModal())}>
+          <>
+            <p>현재 보시고 있는 페이지는</p>
+            <p>
+              거래가 이루어지고 있는 코인들의 리스트가 보여지는 페이지입니다.
+            </p>
+            <p>실시간으로 시세가 변하는 코인들을 보며</p>
+            <p>거래하고 싶은 코인을 선택해 거래하세요 !</p>
+            <p>자산: 코인의 이름입니다.</p>
+            <p>실시간 시세: 실시간으로 변하는 코인의 가격입니다.!</p>
+            <p>
+              변동률: 24시간 전 기준으로 어느정도 오르내렸는지에 대한
+              수치입니다.
+            </p>
+            <p>
+              거래금액: 오늘 하루동안 거래가 이루어진 금액입니다. 거래금액이
+              높을 수록 사람들이 많이 산다는 의미입니다. 인기가 많은 코인이겠죠
+              ??
+            </p>
+          </>
+        </HelpModal>
       )}
     </div>
   ) : (
@@ -286,6 +320,28 @@ const BodyWrapper = styled.div`
   height: 35px;
   align-items: center;
   justify-content: space-around;
+
+  .help-button {
+    cursor: pointer;
+    position: fixed;
+    bottom: 5%;
+    right: 2%;
+    padding: 35px 25px;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 200;
+    color: ${WHITE};
+    background-color: ${MAIN_COLOR_1};
+    opacity: 80%;
+    transition: 0.2s;
+  }
+
+  .help-button:hover {
+    padding: 40px 30px;
+    opacity: 100%;
+    transition: 0.2s;
+  }
 `;
 
 const TitleBodyWrapper = styled(BodyWrapper)`

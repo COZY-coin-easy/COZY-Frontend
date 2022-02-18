@@ -15,6 +15,7 @@ const userSlice = createSlice({
       round: [],
       transactionHistory: [],
     },
+    isOpenHelpModal: false,
     error: "",
   },
   reducers: {
@@ -48,10 +49,23 @@ const userSlice = createSlice({
         status,
       };
     },
+    openHelpModal: (state) => {
+      state.isOpenHelpModal = true;
+    },
+    closeHelpModal: (state) => {
+      state.isOpenHelpModal = false;
+    },
   },
 });
 
-export const { getUserData, logout, orderRequest, orderSuccess, orderFailure } =
-  userSlice.actions;
+export const {
+  getUserData,
+  logout,
+  orderRequest,
+  orderSuccess,
+  orderFailure,
+  openHelpModal,
+  closeHelpModal,
+} = userSlice.actions;
 
 export default userSlice.reducer;
