@@ -1,18 +1,26 @@
-# Getting Started with Create React App
+# 💸Coin is Easy
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[이미지]
+초보자를 위한 가상화폐 모의 투자 Cozy입니다!
+부자가 되고 싶나요? 성투하고 싶은데 피 같은 내 돈 잃을까봐 무서우신가요?
+실전 투자 하기 전 미리 매수, 매도 연습하고 실시간으로 변하는 코인 시세와 차트를 보며 실제 코인 시장에 대한 감각을 키우세요!
+Cozy가 여러분의 성투를 도와드리겠습니다.
 
-## Available Scripts
+## How to Practice?
 
-In the project directory, you can run:
+[시연 영상]
+- 부가 설명 추가하는게 나을까? 아니면 그냥 영상 또는 이미지만 첨부?
 
-### `npm start`
+Deploy
+[배포 사이트]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Github Repositories
+- Frontend
+- Backend
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🚀ShortCut
+
+
 
 ### `npm test`
 
