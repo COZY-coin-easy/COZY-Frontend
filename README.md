@@ -1,4 +1,5 @@
 # 💸 Coin is Easy
+
 <img width="2030" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
 초보자를 위한 가상화폐 모의 투자 Cozy입니다!
 
@@ -12,7 +13,6 @@ Cozy가 여러분의 성투를 도와드리겠습니다.
 
 [시연 영상]
 - 부가 설명 추가하는게 나을까? 아니면 그냥 영상 또는 이미지만 첨부?
-
 
 ## 🚀 ShortCut
 - 💡 Motivation
@@ -36,20 +36,17 @@ Cozy가 여러분의 성투를 도와드리겠습니다.
 그래서 코인을 처음 시작하려는 초보자 분들을 위해 연습할 수 있는 모의 거래소 Cozy를 만들게 되었습니다.
 
 
-
 ## ✅ Features
-[이미지 캡쳐한 후 간략한 설명]
-<img width="100" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
+👉 사용자는 **실시간으로 가상화폐의 시세, 24시간 내 변동률, 거래량**을 확인할 수 있습니다.
+👉 사용자는 **실시간으로 변하는 차트**를 볼 수 있습니다.
+👉 사용자는 차트와 실시간으로 변하는 코인 시세를 보며 **매수, 매도**를 할 수 있습니다.
+👉 **사용자가 보유한 자산(코인), 그리고 나의 수익률**을 볼 수 있습니다.
+👉 **사용자가 거래한 내역**을 볼 수 있습니다.
 
-
-
-
-Deploy
-[배포 사이트]
-
-Github Repositories
-- Frontend
-- Backend
+## 🌎 Deploy
+### Client
+- Netlify Client 배포 👉 **https://www.coineasy.site**
+### Server
 
 ## 📅 Schedule
 기획 : 2022/1/24 ~ 2022/1/30 (1주간)
@@ -65,25 +62,23 @@ Github Repositories
 ## 🖥 Tech Stack
 ### Frontend
 - React(Create-react-app)
-- react-router-dom
-- redux
-- redux-saga
-- redux-toolkit
-- firebase
-- axios
+- React-router-dom
+- Redux
+- Redux-saga
+- Redux-toolkit
+- Firebase
 - Styled-Component
-- dotenv
-- jest(Test)
+- Jest(Test)
 
 ### Backend
-- express
-- websocket
-- mongo db
-- mongoose
-- cors
-- dotenv
+- Express 
+- Websocket
+- Mongo db
+- Mongoose
+- Firebase-admin
+- Supertest(Test)
 
-###Convention
+### Convention
 - prettier
 - eslint
 
