@@ -2,7 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { signInWithGoogle } from "../../firebase";
-import { BLACK, MAIN_COLOR_1 } from "../../constants/styles";
+import {
+  BLACK,
+  WHITE,
+  MAIN_COLOR_1,
+  MAIN_COLOR_2,
+  MAIN_COLOR_3,
+} from "../../constants/styles";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
@@ -13,8 +19,8 @@ export default function MyPage() {
       <Anchor />
       {!isLoggedIn ? (
         <>
-          <div>로그인 후 이용하실 수 있는 서비스입니다.</div>
-          <button onClick={signInWithGoogle}>로그인</button>
+          <Message>로그인 후 이용 가능한 서비스입니다.</Message>
+          <Button onClick={signInWithGoogle}>구글 로그인</Button>
         </>
       ) : (
         <>
@@ -38,7 +44,7 @@ export default function MyPage() {
 
 const Anchor = styled.span`
   display: block;
-  height: 70px;
+  height: 80px;
   visibility: hidden;
 `;
 
@@ -74,4 +80,28 @@ const ContentsContainer = styled(Container)`
   text-align: left;
   margin: 20px;
   margin-left: 50px;
+`;
+
+const Message = styled.h4`
+  text-align: center;
+`;
+
+const Button = styled.button`
+  height: 35px;
+  width: 100px;
+  display: block;
+  margin: auto;
+  background: ${MAIN_COLOR_3};
+  color: ${WHITE};
+  border-color: ${MAIN_COLOR_3};
+  border-style: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${MAIN_COLOR_2};
+    border-color: ${MAIN_COLOR_2};
+    color: ${WHITE};
+    transition: 0.2s;
+  }
 `;

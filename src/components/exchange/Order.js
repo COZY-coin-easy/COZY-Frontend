@@ -10,7 +10,15 @@ export default function Order() {
   const dispatch = useDispatch();
   const { currencyName } = useParams();
 
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { asset, token, _id } = useSelector((state) => state.user.user);
+  const coinList = useSelector((state) => state.socket.coinList);
+
   const [isBuy, setIsBuy] = useState(true);
+  const [unitsTraded, setUnitsTraded] = useState("");
+  const [currentCurrencyPrice, setCurrentCurrencyPrice] = useState(
+    coinList[currencyName].closing_price
+  );
   const [isOpenModal, setIsOpenModal] = useState({
     isTrade: false,
     isRequest: false,
@@ -19,12 +27,7 @@ export default function Order() {
     isNotAuth: false,
     isFailTrade: false,
   });
-  const [currentCurrencyPrice, setCurrentCurrencyPrice] = useState(0);
-  const [unitsTraded, setUnitsTraded] = useState("");
 
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
-  const { asset, token, _id } = useSelector((state) => state.user.user);
   const { cash, coins } = asset;
   const {
     isTrade,
@@ -168,14 +171,14 @@ export default function Order() {
       <OrderWrapper>
         <AssetWrapper>
           <span className="my-asset">
-            보유 현금: {Math.round(cash).toLocaleString()}원{" "}
+            보유 현금: {Math.round(cash).toLocaleString()} 원{" "}
           </span>
           <span className="my-asset">
-            현재 가지고 있는 {currencyName}:{coin ? coin.quantity : 0}개
+            보유 {currencyName}: {coin ? coin.quantity : 0} 개
           </span>
           <span className="my-asset">
             평균매수가:{" "}
-            {coin ? Math.round(coin.averagePrice).toLocaleString() : 0}원
+            {coin ? Math.round(coin.averagePrice).toLocaleString() : 0} 원
           </span>
         </AssetWrapper>
         <OrderBoxWrapper>
@@ -202,26 +205,30 @@ export default function Order() {
             <InputWrapper>
               <div className="current-currency-price">
                 현재 {currencyName}의 가격:{" "}
-                {currentCurrencyPrice.toLocaleString()}원
+                {Number(currentCurrencyPrice).toLocaleString()}원
               </div>
-              <input
-                type="number"
-                placeholder="수량"
-                name="unitsTraded"
-                className="order-input"
-                min="0"
-                step="0.0001"
-                onChange={handleChangeInputValue}
-                onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                value={unitsTraded}
-              />
-              <input
-                type="number"
-                placeholder="총액"
-                className="order-input"
-                value={total}
-                readOnly
-              />
+              <div>
+                <input
+                  type="number"
+                  placeholder="수량"
+                  name="unitsTraded"
+                  className="order-input"
+                  min="0"
+                  step="0.0001"
+                  onChange={handleChangeInputValue}
+                  onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                  value={unitsTraded}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="총액"
+                  className="order-input"
+                  value={total.toLocaleString()}
+                  readOnly
+                />
+              </div>
             </InputWrapper>
           </form>
 
