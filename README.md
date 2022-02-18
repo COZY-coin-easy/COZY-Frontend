@@ -40,6 +40,9 @@ Cozy가 여러분의 성투를 도와드리겠습니다.
 
 ## ✅ Features
 [이미지 캡쳐한 후 간략한 설명]
+<img width="2030" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
+
+
 
 
 Deploy
