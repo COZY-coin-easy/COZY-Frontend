@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { MAIN_COLOR_1, WHITE, BLACK } from "../../constants/styles";
+import { WHITE } from "../../constants/styles";
 
 export default function HelpModal({ onClose, children }) {
   return (

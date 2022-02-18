@@ -44,7 +44,6 @@ function* order({ payload }) {
       yield put(orderSuccess(updatedUser));
     }
   } catch (err) {
-    console.log(err);
     yield put(orderFailure());
   }
 }
