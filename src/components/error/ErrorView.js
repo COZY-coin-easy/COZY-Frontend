@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { SORRY_ERROR } from "../../constants/messages";
 import { MAIN_COLOR_2, MAIN_COLOR_3, BLACK } from "../../constants/styles";
 
-export default function Error({ children }) {
+export default function ErrorView({ children }) {
   return (
     <Div>
       <Status>ERROR {children.props.children[1].props.children}</Status>
@@ -14,7 +14,7 @@ export default function Error({ children }) {
   );
 }
 
-Error.propTypes = {
+ErrorView.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

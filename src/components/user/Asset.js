@@ -360,19 +360,9 @@ export default function Asset() {
                     {coinElements.bought_price.toLocaleString()}원
                   </Wrapper>
                   <Wrapper>
-                    {coinElements.evaluate_price !== 0 ? (
-                      coinElements.evaluate_price > 0 ? (
-                        <Red>
-                          {coinElements.evaluate_price.toLocaleString()}원
-                        </Red>
-                      ) : (
-                        <Blue>
-                          {coinElements.evaluate_price.toLocaleString()}원
-                        </Blue>
-                      )
-                    ) : (
-                      `${(coinElements.evaluate_price = 0)}원`
-                    )}
+                    {coinElements.evaluate_price !== 0
+                      ? `${coinElements.evaluate_price.toLocaleString()}원`
+                      : `${(coinElements.evaluate_price = 0)}원`}
                   </Wrapper>
                   <Wrapper>
                     {coinElements.evaluate_profit ? (
@@ -458,11 +448,6 @@ export default function Asset() {
                     ) : (
                       `${(coinElements.yield_rate = 0)}%`
                     )}
-                    {/* {coinElements.evaluate_profit > 0 ? (
-                      <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
-                    ) : (
-                      <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
-                    )} */}
                   </Wrapper>
                 </BodyWrapper>
                 <Line />

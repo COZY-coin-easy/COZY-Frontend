@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import Error from "../error/Error";
+import ErrorView from "../error/ErrorView";
 import {
   requestCoinList,
   requestSocketData,
@@ -24,6 +24,7 @@ import {
   RED,
   BLUE,
 } from "../../constants/styles";
+import { ALL_KRW } from "../../constants/messages";
 
 export default function Main() {
   const [coinList, setCoinList] = useState([]);
@@ -47,9 +48,7 @@ export default function Main() {
   const isSignUp = useSelector((state) => state.auth.isSignUp);
 
   useEffect(() => {
-    const myCoin = "ALL";
-
-    dispatch(requestCoinList(myCoin));
+    dispatch(requestCoinList(ALL_KRW));
   }, [dispatch]);
 
   useEffect(() => {
@@ -260,12 +259,12 @@ export default function Main() {
       )}
     </div>
   ) : (
-    <Error>
+    <ErrorView>
       <>
         <div>{error.message}</div>
         <div>{error.status}</div>
       </>
-    </Error>
+    </ErrorView>
   );
 }
 

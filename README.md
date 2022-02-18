@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# 💸 Coin is Easy
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img width="2030" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
+초보자를 위한 가상화폐 모의 투자 Cozy입니다!
 
-## Available Scripts
+부자가 되고 싶나요? 성투하고 싶은데 피 같은 내 돈 잃을까봐 무서우신가요?
 
-In the project directory, you can run:
+실전 투자 하기 전 미리 매수, 매도 연습하고 실시간으로 변하는 코인 시세와 차트를 보며 실제 코인 시장에 대한 감각을 키우세요!
 
-### `npm start`
+Cozy가 여러분의 성투를 도와드리겠습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📈Preview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+[시연 영상]
+- 부가 설명 추가하는게 나을까? 아니면 그냥 영상 또는 이미지만 첨부?
 
-### `npm test`
+## 🚀 ShortCut
+- 💡 Motivation
+- ✅ Features
+- 📅 Schedule
+- 🖥 Tech Stack
+- 🕹 Getting Started
+- 🤔 Why we used it
+- 🔥 Challenge
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## 💡 Motivation
+과거엔 성실히 일하고 돈을 모으면 누구나 중산층, 내 집 마련을 할 수 있는 시대가 있었습니다. 하지만 내 월급 빼고 다 오르는 요즘. 근로 소득으로는 이제 돈을 모으기 힘든 시대가 도래했습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+많은 2030 들이 적급보다 수익률이 좋다며 코인 시장에 뛰어들며 주식 열풍이 불었습니다. 하지만 손해를 본 젊은이들이 많은게 현실이죠.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+왜 일까요? 지식, 공부의 부족도 있겠지만 코인 시장의 흐름을 읽지 못 하고 잃어 가며 배우기 때문이라고 생각했습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+피 같은 돈을 그렇게 쉽게 잃었는데도 존버하면 된다며 애써 위로하는 분들을 외면할 수 없었습니다.
 
-### `npm run eject`
+그래서 코인을 처음 시작하려는 초보자 분들을 위해 연습할 수 있는 모의 거래소 Cozy를 만들게 되었습니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ✅ Features
+👉 사용자는 **실시간으로 가상화폐의 시세, 24시간 내 변동률, 거래량**을 확인할 수 있습니다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+👉 사용자는 **실시간으로 변하는 차트**를 볼 수 있습니다.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+👉 사용자는 차트와 실시간으로 변하는 코인 시세를 보며 **매수, 매도**를 할 수 있습니다.
 
-## Learn More
+👉 **사용자가 보유한 자산(코인), 그리고 나의 수익률**을 볼 수 있습니다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+👉 **사용자가 거래한 내역**을 볼 수 있습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🌎 Deploy
+### Client
+- Netlify Client 배포 👉 **https://www.coineasy.site**
+### Server
 
-### Code Splitting
+## 📅 Schedule
+기획 : 2022/1/24 ~ 2022/1/30 (1주간)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1주차 아이디어 및 기술스택 검토
 
-### Analyzing the Bundle Size
+개발 : 2022/2/04 ~ 2020/2/18 (2주간)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2주차 기능 구현
 
-### Making a Progressive Web App
+3주차 UI / 배포
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🖥 Tech Stack
+### Frontend
+- React(Create-react-app)
+- React-router-dom
+- Redux
+- Redux-saga
+- Redux-toolkit
+- Firebase
+- Styled-Component
+- Jest(Test)
 
-### Advanced Configuration
+### Backend
+- Express 
+- Websocket
+- Mongo db
+- Mongoose
+- Firebase-admin
+- Supertest(Test)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Convention
+- prettier
+- eslint
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🕹 Getting Started
+환경변수 이런거 다 해줘야하나..? 아니면 그냥 스킵..?
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🤔 Why we used it
+
+
+
+## 🔥 Challenge
+
