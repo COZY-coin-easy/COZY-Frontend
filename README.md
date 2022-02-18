@@ -6,7 +6,7 @@
 실전 투자 하기 전 미리 매수, 매도 연습하고 실시간으로 변하는 코인 시세와 차트를 보며 실제 코인 시장에 대한 감각을 키우세요!
 Cozy가 여러분의 성투를 도와드리겠습니다.
 
-### 📈Preview
+## 📈Preview
 
 [시연 영상]
 - 부가 설명 추가하는게 나을까? 아니면 그냥 영상 또는 이미지만 첨부?
@@ -18,7 +18,7 @@ Github Repositories
 - Frontend
 - Backend
 
-### 🚀ShortCut
+## 🚀ShortCut
 - 💸Coin is Easy
 - 📈Preview
 - 
