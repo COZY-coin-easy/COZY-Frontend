@@ -35,7 +35,11 @@ export default function Home() {
     <HomeWrapper>
       <div className="cozy-title">COZY</div>
       <div className="cozy-description">초보자를 위한 가상화폐 모의투자</div>
-      <button className="login-button" onClick={signInWithGoogle}>
+      <button
+        className="login-button"
+        data-testid="login-button"
+        onClick={signInWithGoogle}
+      >
         구글 로그인
       </button>
       <button className="preview-button" onClick={showPreview}>

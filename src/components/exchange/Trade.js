@@ -4,19 +4,19 @@ import styled from "styled-components";
 
 import Chart from "./Chart";
 import Order from "./Order";
-import Error from "../error/Error";
+import ErrorView from "../error/ErrorView";
 
 export default function Trade() {
   const chartError = useSelector((state) => state.candleStick.error);
   const orderError = useSelector((state) => state.user.error);
 
   return chartError || orderError ? (
-    <Error>
+    <ErrorView>
       <>
         <div>{chartError ? chartError.message : orderError.message}</div>
         <div>{chartError ? chartError.status : orderError.status}</div>
       </>
-    </Error>
+    </ErrorView>
   ) : (
     <TradeWrapper>
       <Chart />
