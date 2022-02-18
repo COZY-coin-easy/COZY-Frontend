@@ -1,5 +1,5 @@
 import axios from "axios";
-import { call, put, all, fork, take } from "redux-saga/effects";
+import { call, put, all, fork, take, actionChannel } from "redux-saga/effects";
 import {
   initialCoinList,
   socketData,
@@ -38,8 +38,9 @@ function* watchGetCoinList() {
 function* watchGetSocketData() {
   let socketCoinData = null;
 
+  const requestSocketList = yield actionChannel(requestSocketData);
   while (true) {
-    socketCoinData = yield take(requestSocketData);
+    socketCoinData = yield take(requestSocketList);
     yield call(getSocketData, socketCoinData);
   }
 }

@@ -668,6 +668,10 @@ const SortButton = styled(Button)`
   }
 `;
 
+const Message = styled.h4`
+  text-align: center;
+`;
+
 const Line = styled.div`
   width: 100%;
   height: 1px;
