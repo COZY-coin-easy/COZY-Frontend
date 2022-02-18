@@ -49,7 +49,7 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(requestCoinList(ALL_KRW));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));
@@ -64,7 +64,7 @@ export default function Main() {
     }
 
     setCoinList(coinInfo);
-  }, []);
+  }, [tickerCoinList]);
 
   useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
