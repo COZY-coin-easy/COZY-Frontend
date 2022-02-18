@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
 import { signInWithGoogle } from "../../firebase";
 import {
   ascendSortAboutName,
@@ -12,10 +14,10 @@ import {
   WHITE,
   BLACK,
   LIGHT_GREY,
-  MAIN_COLOR_1,
   MAIN_COLOR_3,
   RED,
   BLUE,
+  MAIN_COLOR_2,
 } from "../../constants/styles";
 
 export default function Asset() {
@@ -292,169 +294,180 @@ export default function Asset() {
   return (
     <>
       <Anchor />
-      <TitleBodyWrapper>
-        <TitleWrapper>
-          자산 구분
-          <SortButton onClick={sortingByCoinName}>
-            {isName ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-        <TitleWrapper>
-          보유 잔고
-          <SortButton onClick={sortingByCurrentLeftMoney}>
-            {isLeftMoney ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-        <TitleWrapper>
-          평균 매수가
-          <SortButton onClick={averageBoughtPrice}>
-            {isAvgPrice ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-        <TitleWrapper>
-          매수 금액
-          <SortButton onClick={boughtPrice}>
-            {isBoughtPrice ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-        <TitleWrapper>
-          평가 금액
-          <SortButton onClick={evaluatedPrice}>
-            {isEvaluatedPrice ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-        <TitleWrapper>
-          펑가 순익
-          <SortButton onClick={evaluatedProfit}>
-            {isEvaluatedProfit ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-        <TitleWrapper>
-          수익률{" "}
-          <SortButton onClick={yieldRate}>
-            {isYieldRate ? "🔼" : "🔽"}
-          </SortButton>
-        </TitleWrapper>
-      </TitleBodyWrapper>
-      <Line />
-
-      {!isLoggedIn && (
+      {isLoggedIn ? (
         <>
-          <div>로그인 후 이용 가능한 서비스입니다.</div>{" "}
-          <button onClick={signInWithGoogle}>로그인</button>
+          <TitleBodyWrapper>
+            <TitleWrapper>
+              자산 구분
+              <SortButton onClick={sortingByCoinName}>
+                {isName ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+            <TitleWrapper>
+              보유 잔고
+              <SortButton onClick={sortingByCurrentLeftMoney}>
+                {isLeftMoney ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+            <TitleWrapper>
+              평균 매수가
+              <SortButton onClick={averageBoughtPrice}>
+                {isAvgPrice ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+            <TitleWrapper>
+              매수 금액
+              <SortButton onClick={boughtPrice}>
+                {isBoughtPrice ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+            <TitleWrapper>
+              평가 금액
+              <SortButton onClick={evaluatedPrice}>
+                {isEvaluatedPrice ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+            <TitleWrapper>
+              펑가 순익
+              <SortButton onClick={evaluatedProfit}>
+                {isEvaluatedProfit ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+            <TitleWrapper>
+              수익률{" "}
+              <SortButton onClick={yieldRate}>
+                {isYieldRate ? "🔼" : "🔽"}
+              </SortButton>
+            </TitleWrapper>
+          </TitleBodyWrapper>
+          <Line />
+
+          {!isSortBtnClick
+            ? newCoinList.map((coinElements) => {
+                return (
+                  <div key={coinElements.currencyName}>
+                    <BodyWrapper>
+                      <Wrapper>
+                        <CoinLink to={`/trade/${coinElements.currencyName}`}>
+                          {coinElements.currencyName}
+                        </CoinLink>
+                      </Wrapper>
+                      <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
+
+                      <Wrapper>
+                        {coinElements.averagePrice.toLocaleString()}원
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.bought_price.toLocaleString()}원
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.evaluate_price !== 0
+                          ? `${coinElements.evaluate_price.toLocaleString()}원`
+                          : `${(coinElements.evaluate_price = 0)}원`}
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.evaluate_profit ? (
+                          coinElements.evaluate_profit > 0 ? (
+                            <Red>
+                              {coinElements.evaluate_profit.toLocaleString()}원
+                            </Red>
+                          ) : (
+                            <Blue>
+                              {coinElements.evaluate_profit.toLocaleString()}원
+                            </Blue>
+                          )
+                        ) : (
+                          `${(coinElements.evaluate_profit = 0)}원`
+                        )}
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.evaluate_profit !== 0 ? (
+                          coinElements.evaluate_profit > 0 ? (
+                            <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                          ) : (
+                            <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                          )
+                        ) : (
+                          `${(coinElements.yield_rate = 0)}%`
+                        )}
+                      </Wrapper>
+                    </BodyWrapper>
+                    <Line />
+                  </div>
+                );
+              })
+            : renderedAssetList.map((coinElements) => {
+                return (
+                  <div key={coinElements.currencyName}>
+                    <BodyWrapper>
+                      <Wrapper>
+                        <CoinLink to={`/trade/${coinElements.currencyName}`}>
+                          {coinElements.currencyName}
+                        </CoinLink>
+                      </Wrapper>
+                      <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
+
+                      <Wrapper>
+                        {coinElements.averagePrice.toLocaleString()}원
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.bought_price.toLocaleString()}원
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.evaluate_price !== 0 ? (
+                          coinElements.evaluate_price > 0 ? (
+                            <Red>
+                              {coinElements.evaluate_price.toLocaleString()}원
+                            </Red>
+                          ) : (
+                            <Blue>
+                              {coinElements.evaluate_price.toLocaleString()}원
+                            </Blue>
+                          )
+                        ) : (
+                          `${(coinElements.evaluate_price = 0)}원`
+                        )}
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.evaluate_profit ? (
+                          coinElements.evaluate_profit > 0 ? (
+                            <Red>
+                              {coinElements.evaluate_profit.toLocaleString()}원
+                            </Red>
+                          ) : (
+                            <Blue>
+                              {coinElements.evaluate_profit.toLocaleString()}원
+                            </Blue>
+                          )
+                        ) : (
+                          `${(coinElements.evaluate_profit = 0)}원`
+                        )}
+                      </Wrapper>
+                      <Wrapper>
+                        {coinElements.evaluate_profit !== 0 ? (
+                          coinElements.evaluate_profit > 0 ? (
+                            <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
+                          ) : (
+                            <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
+                          )
+                        ) : (
+                          `${(coinElements.yield_rate = 0)}%`
+                        )}
+                      </Wrapper>
+                    </BodyWrapper>
+                    <Line />
+                  </div>
+                );
+              })}
+        </>
+      ) : (
+        <>
+          <Message>로그인 후 이용 가능한 서비스입니다.</Message>
+          <LoginButton className="login" onClick={signInWithGoogle}>
+            구글 로그인
+          </LoginButton>
         </>
       )}
-
-      {!isSortBtnClick
-        ? newCoinList.map((coinElements) => {
-            return (
-              <div key={coinElements.currencyName}>
-                <BodyWrapper>
-                  <Wrapper>{coinElements.currencyName}</Wrapper>
-                  <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
-
-                  <Wrapper>
-                    {coinElements.averagePrice.toLocaleString()}원
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.bought_price.toLocaleString()}원
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.evaluate_price !== 0
-                      ? `${coinElements.evaluate_price.toLocaleString()}원`
-                      : `${(coinElements.evaluate_price = 0)}원`}
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.evaluate_profit ? (
-                      coinElements.evaluate_profit > 0 ? (
-                        <Red>
-                          {coinElements.evaluate_profit.toLocaleString()}원
-                        </Red>
-                      ) : (
-                        <Blue>
-                          {coinElements.evaluate_profit.toLocaleString()}원
-                        </Blue>
-                      )
-                    ) : (
-                      `${(coinElements.evaluate_profit = 0)}원`
-                    )}
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.evaluate_profit !== 0 ? (
-                      coinElements.evaluate_profit > 0 ? (
-                        <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
-                      ) : (
-                        <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
-                      )
-                    ) : (
-                      `${(coinElements.yield_rate = 0)}%`
-                    )}
-                  </Wrapper>
-                </BodyWrapper>
-                <Line />
-              </div>
-            );
-          })
-        : renderedAssetList.map((coinElements) => {
-            return (
-              <div key={coinElements.currencyName}>
-                <BodyWrapper>
-                  <Wrapper>{coinElements.currencyName}</Wrapper>
-                  <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
-
-                  <Wrapper>
-                    {coinElements.averagePrice.toLocaleString()}원
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.bought_price.toLocaleString()}원
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.evaluate_price !== 0 ? (
-                      coinElements.evaluate_price > 0 ? (
-                        <Red>
-                          {coinElements.evaluate_price.toLocaleString()}원
-                        </Red>
-                      ) : (
-                        <Blue>
-                          {coinElements.evaluate_price.toLocaleString()}원
-                        </Blue>
-                      )
-                    ) : (
-                      `${(coinElements.evaluate_price = 0)}원`
-                    )}
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.evaluate_profit ? (
-                      coinElements.evaluate_profit > 0 ? (
-                        <Red>
-                          {coinElements.evaluate_profit.toLocaleString()}원
-                        </Red>
-                      ) : (
-                        <Blue>
-                          {coinElements.evaluate_profit.toLocaleString()}원
-                        </Blue>
-                      )
-                    ) : (
-                      `${(coinElements.evaluate_profit = 0)}원`
-                    )}
-                  </Wrapper>
-                  <Wrapper>
-                    {coinElements.evaluate_profit !== 0 ? (
-                      coinElements.evaluate_profit > 0 ? (
-                        <Red>{coinElements.yield_rate.toFixed(2)}%</Red>
-                      ) : (
-                        <Blue>{coinElements.yield_rate.toFixed(2)}%</Blue>
-                      )
-                    ) : (
-                      `${(coinElements.yield_rate = 0)}%`
-                    )}
-                  </Wrapper>
-                </BodyWrapper>
-                <Line />
-              </div>
-            );
-          })}
-      <Line />
     </>
   );
 }
@@ -478,8 +491,8 @@ const TitleBodyWrapper = styled(BodyWrapper)`
 `;
 
 const TitleWrapper = styled.div`
-  margin-left: 58px;
-  margin-right: 50px;
+  margin-left: 40px;
+  margin-right: 40px;
   color: ${BLACK};
   text-align: center;
 `;
@@ -500,22 +513,33 @@ const Blue = styled(Wrapper)`
 
 const Button = styled.button`
   height: 35px;
-  background: ${WHITE};
-  color: ${MAIN_COLOR_1};
-  border-color: ${WHITE};
+  background: ${MAIN_COLOR_3};
+  color: ${WHITE};
+  border-color: ${MAIN_COLOR_3};
   border-style: none;
   border-radius: 0.2rem;
   cursor: pointer;
   margin: 0px 10px;
+
   :hover {
-    background-color: ${MAIN_COLOR_3};
-    border-color: ${MAIN_COLOR_3};
+    background-color: ${MAIN_COLOR_2};
+    border-color: ${MAIN_COLOR_2};
     color: ${WHITE};
     transition: 0.2s;
   }
 `;
 
+const LoginButton = styled(Button)`
+  width: 100px;
+  display: block;
+  margin: auto;
+`;
+
 const SortButton = styled(Button)`
+  padding: 0px;
+  margin-right: 0px;
+  background: ${WHITE};
+
   :hover {
     background-color: ${WHITE};
     border-color: ${WHITE};
@@ -526,4 +550,14 @@ const Line = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${LIGHT_GREY};
+`;
+
+const Message = styled.h4`
+  text-align: center;
+`;
+
+const CoinLink = styled(NavLink)`
+  text-decoration: none;
+  color: ${BLACK};
+  width: 20%;
 `;

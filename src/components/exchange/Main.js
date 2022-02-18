@@ -223,7 +223,14 @@ export default function Main() {
       {filteredCoinList.length ? (
         filteredCoinList.map((coin) => (
           <div key={coin.currency_name}>
-            <BodyWrapper>
+            <BodyWrapper
+              style={{
+                backgroundColor:
+                  realTimeCoin.symbol.split("_")[0] === coin.currency_name
+                    ? MAIN_COLOR_3
+                    : WHITE,
+              }}
+            >
               <Wrapper>
                 <CoinLink to={`/trade/${coin.currency_name}`}>
                   {coin.currency_name}
@@ -276,7 +283,9 @@ const Anchor = styled.span`
 
 const BodyWrapper = styled.div`
   display: flex;
-  margin: 10px 5px;
+  margin: 0px;
+  height: 35px;
+  align-items: center;
   justify-content: space-around;
 `;
 
@@ -332,6 +341,9 @@ const Button = styled.button`
 `;
 
 const SortButton = styled(Button)`
+  margin: 0px;
+  height: 20px;
+
   :hover {
     background-color: ${WHITE};
     border-color: ${WHITE};
