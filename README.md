@@ -1,6 +1,5 @@
 # 💸 Coin is Easy
-
-[이미지]
+<img width="2030" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
 초보자를 위한 가상화폐 모의 투자 Cozy입니다!
 
 부자가 되고 싶나요? 성투하고 싶은데 피 같은 내 돈 잃을까봐 무서우신가요?
@@ -40,7 +39,7 @@ Cozy가 여러분의 성투를 도와드리겠습니다.
 
 ## ✅ Features
 [이미지 캡쳐한 후 간략한 설명]
-<img width="2030" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
+<img width="100" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
 
 
 
