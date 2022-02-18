@@ -48,15 +48,8 @@ export default function Main() {
   const isSignUp = useSelector((state) => state.auth.isSignUp);
 
   useEffect(() => {
-<<<<<<< HEAD
-    const myCoin = "ALL";
-
-    dispatch(requestCoinList(myCoin));
-  }, [dispatch]);
-=======
     dispatch(requestCoinList(ALL_KRW));
   }, []);
->>>>>>> 4c6e9a3 (test: test code writes in WelcomeModal, OrderModal, sort.js)
 
   useEffect(() => {
     const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));

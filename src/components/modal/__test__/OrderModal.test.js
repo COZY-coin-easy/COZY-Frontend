@@ -17,10 +17,10 @@ describe("<OrderModal />", () => {
     const onTrade = Boolean();
     const onClose = Boolean();
     const { getByTestId } = render(<OrderModal />);
-    const confirmBtn = getByTestId("confirm-btn");
-    const cancelBtn = getByTestId("cancel-btn");
+    const confirmButton = getByTestId("confirm-button");
+    const cancelButton = getByTestId("cancel-button");
 
-    fireEvent.change(confirmBtn, {
+    fireEvent.change(confirmButton, {
       onTrade: {
         Boolean: true,
       },
@@ -30,7 +30,7 @@ describe("<OrderModal />", () => {
     });
     expect(onTrade).toEqual(false);
 
-    fireEvent.change(cancelBtn, {
+    fireEvent.change(cancelButton, {
       onClose: {
         Boolean: false,
       },
@@ -41,9 +41,9 @@ describe("<OrderModal />", () => {
   test("취소 버튼을 누르면 모달창이 닫힙니다.", () => {
     const onClose = Boolean();
     const { getByTestId } = render(<OrderModal />);
-    const cancelBtn = getByTestId("cancel-btn");
+    const cancelButton = getByTestId("cancel-button");
 
-    fireEvent.change(cancelBtn, {
+    fireEvent.change(cancelButton, {
       onClose: {
         Boolean: false,
       },

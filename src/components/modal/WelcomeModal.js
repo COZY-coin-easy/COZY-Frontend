@@ -11,7 +11,7 @@ export default function WelcomeModal({ children, onClose }) {
         <div className="content">{children}</div>
         <button
           className="confirm-button"
-          data-testid="confirm-btn"
+          data-testid="confirm-button"
           onClick={onClose}
         >
           확인

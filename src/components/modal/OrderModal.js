@@ -9,10 +9,13 @@ export default function OrderModal({ onTrade, onClose, isTrade, children }) {
       <Dimmed onClick={onClose} />
       <CheckModalWrapper>
         <Div>{children}</Div>
-        <Button data-testid="confirm-btn" onClick={isTrade ? onTrade : onClose}>
+        <Button
+          data-testid="confirm-button"
+          onClick={isTrade ? onTrade : onClose}
+        >
           확인
         </Button>
-        <Button data-testid="cancel-btn" onClick={onClose}>
+        <Button data-testid="cancel-button" onClick={onClose}>
           취소
         </Button>
       </CheckModalWrapper>

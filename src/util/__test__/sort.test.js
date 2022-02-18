@@ -6,11 +6,11 @@ import {
 } from "../sort";
 
 describe("Util/sort.js", () => {
-  test("Mike,Kim 순은 오름 차순이 아닙다.", () => {
+  test("Mike,Kim 순은 오름차순이 아닙다.", () => {
     expect(ascendSortAboutName("Mike", "Kim")).not.toEqual(-1);
   });
 
-  test("Ki,Jang 순은 내림 차순입니다.", () => {
+  test("Ki,Jang 순은 내림차순입니다.", () => {
     expect(descendSortAboutName("Ki", "Jang")).toEqual(-1);
   });
 

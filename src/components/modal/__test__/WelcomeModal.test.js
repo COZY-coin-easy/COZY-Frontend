@@ -11,9 +11,9 @@ describe("<WelcomeModal />", () => {
   test("확인 버튼을 누르면 모달창이 닫힙니다.", () => {
     const onClose = Boolean();
     const { getByTestId } = render(<WelcomeModal />);
-    const confirmBtn = getByTestId("confirm-btn");
+    const confirmButton = getByTestId("confirm-button");
 
-    fireEvent.change(confirmBtn, {
+    fireEvent.change(confirmButton, {
       onClose: {
         Boolean: false,
       },
