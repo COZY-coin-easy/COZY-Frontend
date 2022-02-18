@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import WelcomeModal from "../modal/WelcomeModal";
-import Error from "../error/Error";
+import ErrorView from "../error/ErrorView";
 import {
   requestCoinList,
   requestSocketData,
@@ -24,6 +24,7 @@ import {
   RED,
   BLUE,
 } from "../../constants/styles";
+import { ALL_KRW } from "../../constants/messages";
 
 export default function Main() {
   const [coinList, setCoinList] = useState([]);
@@ -47,10 +48,15 @@ export default function Main() {
   const isSignUp = useSelector((state) => state.auth.isSignUp);
 
   useEffect(() => {
+<<<<<<< HEAD
     const myCoin = "ALL";
 
     dispatch(requestCoinList(myCoin));
   }, [dispatch]);
+=======
+    dispatch(requestCoinList(ALL_KRW));
+  }, []);
+>>>>>>> 4c6e9a3 (test: test code writes in WelcomeModal, OrderModal, sort.js)
 
   useEffect(() => {
     const parsedTickerCoin = JSON.parse(JSON.stringify(tickerCoinList));
@@ -65,7 +71,7 @@ export default function Main() {
     }
 
     setCoinList(coinInfo);
-  }, [tickerCoinList]);
+  }, []);
 
   useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_SERVER_URL);
@@ -260,12 +266,12 @@ export default function Main() {
       )}
     </div>
   ) : (
-    <Error>
+    <ErrorView>
       <>
         <div>{error.message}</div>
         <div>{error.status}</div>
       </>
-    </Error>
+    </ErrorView>
   );
 }
 

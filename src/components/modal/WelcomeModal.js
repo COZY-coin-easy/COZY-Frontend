@@ -9,7 +9,11 @@ export default function WelcomeModal({ children, onClose }) {
       <Dimmed onClick={onClose} />
       <WelcomeModalWrapper>
         <div className="content">{children}</div>
-        <button className="confirm-button" onClick={onClose}>
+        <button
+          className="confirm-button"
+          data-testid="confirm-btn"
+          onClick={onClose}
+        >
           확인
         </button>
       </WelcomeModalWrapper>
