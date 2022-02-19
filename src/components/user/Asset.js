@@ -24,9 +24,9 @@ import {
 
 export default function Asset() {
   const dispatch = useDispatch();
-  const { displayName, asset, isOpenHelpModal } = useSelector(
-    (state) => state.user.user
-  );
+  const { displayName, asset } = useSelector((state) => state.user.user);
+  const isOpenHelpModal = useSelector((state) => state.user.isOpenHelpModal);
+
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
@@ -668,14 +668,14 @@ const SortButton = styled(Button)`
   }
 `;
 
+const Message = styled.h4`
+  text-align: center;
+`;
+
 const Line = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${LIGHT_GREY};
-`;
-
-const Message = styled.h4`
-  text-align: center;
 `;
 
 const CoinLink = styled(NavLink)`
