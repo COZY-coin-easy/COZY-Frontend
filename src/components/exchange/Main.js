@@ -235,10 +235,11 @@ export default function Main() {
           <div key={coin.currency_name}>
             <BodyWrapper
               style={{
-                backgroundColor:
-                  realTimeCoin.symbol.split("_")[0] === coin.currency_name
-                    ? MAIN_COLOR_3
-                    : WHITE,
+                backgroundColor: !realTimeCoin.symbol
+                  ? WHITE
+                  : realTimeCoin.symbol.split("_")[0] === coin.currency_name
+                  ? MAIN_COLOR_3
+                  : WHITE,
               }}
             >
               <Wrapper>
@@ -285,7 +286,7 @@ export default function Main() {
             <p>실시간으로 시세가 변하는 코인들을 보며</p>
             <p>거래하고 싶은 코인을 선택해 거래하세요 !</p>
             <p>자산: 코인의 이름입니다.</p>
-            <p>실시간 시세: 실시간으로 변하는 코인의 가격입니다.!</p>
+            <p>실시간 시세: 실시간으로 변하는 코인의 가격입니다.</p>
             <p>
               변동률: 24시간 전 기준으로 어느정도 오르내렸는지에 대한
               수치입니다.

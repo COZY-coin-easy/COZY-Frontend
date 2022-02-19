@@ -24,10 +24,11 @@ import {
 
 export default function Asset() {
   const dispatch = useDispatch();
-  const { displayName, asset } = useSelector((state) => state.user.user);
+  const { displayName, asset, isOpenHelpModal } = useSelector(
+    (state) => state.user.user
+  );
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const isOpenHelpModal = useSelector((state) => state.user.isOpenHelpModal);
   const ownedCoinList = asset.coins;
 
   const [coinList, setCoinList] = useState([]);
