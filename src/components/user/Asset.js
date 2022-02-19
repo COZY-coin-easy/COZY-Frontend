@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-
+import HelpModal from "../modal/HelpModal";
 import { signInWithGoogle } from "../../firebase";
+import { openHelpModal, closeHelpModal } from "../../features/user/userSlice";
 import {
   ascendSortAboutName,
   descendSortAboutName,
@@ -11,17 +12,21 @@ import {
   descendSortAboutMoney,
 } from "../../util/sort";
 import {
+  MAIN_COLOR_1,
+  MAIN_COLOR_2,
+  MAIN_COLOR_3,
   WHITE,
   BLACK,
   LIGHT_GREY,
-  MAIN_COLOR_3,
   RED,
   BLUE,
-  MAIN_COLOR_2,
 } from "../../constants/styles";
 
 export default function Asset() {
-  const { asset } = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const { displayName, asset, isOpenHelpModal } = useSelector(
+    (state) => state.user.user
+  );
   const tickerCoinList = useSelector((state) => state.socket.coinList);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
@@ -339,6 +344,12 @@ export default function Asset() {
                 {isYieldRate ? "🔼" : "🔽"}
               </SortButton>
             </TitleWrapper>
+            <button
+              className="help-button"
+              onClick={() => dispatch(openHelpModal())}
+            >
+              도움말
+            </button>
           </TitleBodyWrapper>
           <Line />
 
@@ -352,7 +363,9 @@ export default function Asset() {
                           {coinElements.currencyName}
                         </CoinLink>
                       </Wrapper>
-                      <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
+                      <Wrapper>{`${coinElements.quantity.toFixed(
+                        4
+                      )}개`}</Wrapper>
 
                       <Wrapper>
                         {coinElements.averagePrice.toLocaleString()}원
@@ -405,7 +418,9 @@ export default function Asset() {
                           {coinElements.currencyName}
                         </CoinLink>
                       </Wrapper>
-                      <Wrapper>{`${coinElements.quantity}개`}</Wrapper>
+                      <Wrapper>{`${coinElements.quantity.toFixed(
+                        4
+                      )}개`}</Wrapper>
 
                       <Wrapper>
                         {coinElements.averagePrice.toLocaleString()}원
@@ -468,6 +483,35 @@ export default function Asset() {
           </LoginButton>
         </>
       )}
+
+      {isOpenHelpModal && (
+        <HelpModal onClose={() => dispatch(closeHelpModal())}>
+          <>
+            <p>현재 페이지에서는 자산현황을 볼 수 있는 페이지입니다.</p>
+            <p>
+              가지고 있는 코인이 얼마나 올랐는지 그리고 어느 정도로 이익을
+              냈는지 한 눈에 볼 수 있습니다.
+            </p>
+            <div>평균매수가란 ? 매수한 코인의 평균 매입가입니다.</div>
+            <div>
+              쉽게 말해서 {displayName}님이 평균적으로 얼마정도에 코인을
+              매수했냐 를 뜻하는 단어가 평균매수가입니다.
+            </div>
+            <p>
+              매수 금액이란 ? {displayName}님이 코인을 매수한 총 금액입니다.{" "}
+            </p>
+            <p>
+              평가 금액이란 ? 현재 코인의 시세에서 {displayName}님이 매수하신
+              코인의 수량이 곱해지면 평가금액이 됩니다.
+            </p>
+            <p>평가 순익이란 ? {displayName}님의 총 수익을 나타내어줍니다. </p>
+            <p>
+              수익률이란 ? {displayName}님이 얼마의 수익을 냈는지에 대한
+              수치입니다.
+            </p>
+          </>
+        </HelpModal>
+      )}
     </>
   );
 }
@@ -481,6 +525,28 @@ const BodyWrapper = styled.div`
   display: flex;
   margin: 5px 5px;
   justify-content: space-around;
+
+  .help-button {
+    cursor: pointer;
+    position: fixed;
+    bottom: 5%;
+    right: 2%;
+    padding: 35px 25px;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 200;
+    color: ${WHITE};
+    background-color: ${MAIN_COLOR_1};
+    opacity: 80%;
+    transition: 0.2s;
+  }
+
+  .help-button:hover {
+    padding: 40px 30px;
+    opacity: 100%;
+    transition: 0.2s;
+  }
 `;
 
 const TitleBodyWrapper = styled(BodyWrapper)`
