@@ -35,7 +35,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.isSignUp = false;
     },
-    closeModal: (state) => {
+    closeWelcomeModal: (state) => {
       state.isSignUp = false;
     },
   },
@@ -47,7 +47,7 @@ export const {
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  closeModal,
+  closeWelcomeModal,
 } = authSlice.actions;
 
 export default authSlice.reducer;
