@@ -4,8 +4,8 @@ import {
   loginRequest,
   loginSuccess,
   loginFailure,
-  logoutRequest,
   logoutSuccess,
+  logoutRequest,
 } from "./authSlice";
 import { getUserData, logout } from "../user/userSlice";
 
