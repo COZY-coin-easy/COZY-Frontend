@@ -108,6 +108,7 @@ export default function TransactionHistory() {
                 endDate={dates.endDate}
                 focusedInput={focusedInput}
                 displayFormat="yyyy-MM-dd"
+                numberOfMonths={1}
               />
             </ThemeProvider>
             <Button onClick={handleClickSearch}>검색</Button>
@@ -296,6 +297,7 @@ const LoadButton = styled(Button)`
 `;
 
 const SearchDiv = styled.div`
+  margin-bottom: 50px;
   display: flex;
   align-items: center;
   justify-content: space-around;
