@@ -31,6 +31,7 @@ export default function Asset() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const ownedCoinList = asset.coins;
 
+  const [searchCoin, setSearchCoin] = useState("");
   const [coinList, setCoinList] = useState([]);
   const [newCoinList, setNewCoinList] = useState([]);
   const [socketData, setSocketData] = useState("");
@@ -108,7 +109,12 @@ export default function Asset() {
     setNewCoinList(parsedCoinList);
   }, [ownedCoinList]);
 
-  newCoinList.forEach((coin) => {
+  const filteredCoinList =
+    searchCoin === ""
+      ? newCoinList
+      : newCoinList.filter((coin) => coin.currencyName === searchCoin);
+
+  filteredCoinList.forEach((coin) => {
     if (coinList) {
       coinList.map((coinItem) => {
         if (coin.currencyName === coinItem.currency_name) {
@@ -138,6 +144,23 @@ export default function Asset() {
     }
   });
 
+  const handleClickSearch = () => {
+    const coinName = document.getElementById("coin-search").value;
+    setSearchCoin(coinName);
+  };
+
+  const handleKeyUpSearch = (e) => {
+    if (e.key === "Enter") {
+      const coinName = e.target.value;
+      setSearchCoin(coinName);
+    }
+  };
+
+  const handleClickRefreshFilter = () => {
+    document.getElementById("coin-search").value = "";
+    setSearchCoin("");
+  };
+
   const sortingByCoinName = () => {
     setIsSortBtnClick(true);
     setIsAscendSort({
@@ -147,12 +170,12 @@ export default function Asset() {
 
     isName
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutName(a.currencyName, b.currencyName)
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutName(a.currencyName, b.currencyName)
           )
         );
@@ -167,12 +190,12 @@ export default function Asset() {
 
     isLeftMoney
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutMoney(a.quantity, b.quantity)
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutMoney(a.quantity, b.quantity)
           )
         );
@@ -187,12 +210,12 @@ export default function Asset() {
 
     isAvgPrice
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutMoney(a.averagePrice, b.averagePrice)
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutMoney(a.averagePrice, b.averagePrice)
           )
         );
@@ -207,12 +230,12 @@ export default function Asset() {
 
     isBoughtPrice
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutMoney(a.bought_price, b.bought_price)
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutMoney(a.bought_price, b.bought_price)
           )
         );
@@ -227,7 +250,7 @@ export default function Asset() {
 
     isEvaluatedPrice
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutMoney(
               a.quantity * a.current_price,
               b.quantity * b.current_price
@@ -235,7 +258,7 @@ export default function Asset() {
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutMoney(
               a.quantity * a.current_price,
               b.quantity * b.current_price
@@ -253,7 +276,7 @@ export default function Asset() {
 
     isEvaluatedProfit
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutMoney(
               a.quantity * a.current_price - a.bought_price,
               b.quantity * b.current_price - b.bought_price
@@ -261,7 +284,7 @@ export default function Asset() {
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutMoney(
               a.quantity * a.current_price - a.bought_price,
               b.quantity * b.current_price - b.bought_price
@@ -279,7 +302,7 @@ export default function Asset() {
 
     isYieldRate
       ? setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             descendSortAboutMoney(
               (a.quantity * a.current_price - a.bought_price) / a.bought_price,
               (b.quantity * b.current_price - b.bought_price) / b.bought_price
@@ -287,7 +310,7 @@ export default function Asset() {
           )
         )
       : setRenderedAssetList(
-          newCoinList.sort((a, b) =>
+          filteredCoinList.sort((a, b) =>
             ascendSortAboutMoney(
               (a.quantity * a.current_price - a.bought_price) / a.bought_price,
               (b.quantity * b.current_price - b.bought_price) / b.bought_price
@@ -301,6 +324,18 @@ export default function Asset() {
       <Anchor />
       {isLoggedIn ? (
         <>
+          <SearchDiv>
+            <Input
+              onKeyUp={handleKeyUpSearch}
+              placeholder="자산구분"
+              id="coin-search"
+              type="text"
+            />
+            <SearchButton onClick={handleClickSearch}>검색</SearchButton>
+            <SearchButton onClick={handleClickRefreshFilter}>
+              전체목록 보기
+            </SearchButton>
+          </SearchDiv>
           <TitleBodyWrapper>
             <TitleWrapper>
               자산 구분
@@ -354,7 +389,7 @@ export default function Asset() {
           <Line />
 
           {!isSortBtnClick
-            ? newCoinList.map((coinElements) => {
+            ? filteredCoinList.map((coinElements) => {
                 return (
                   <div key={coinElements.currencyName}>
                     <BodyWrapper>
@@ -576,6 +611,28 @@ const Blue = styled(Wrapper)`
   color: ${BLUE};
 `;
 
+const Input = styled.input`
+  height: 30px;
+  margin: 0px 10px;
+`;
+
+const SearchButton = styled.button`
+  height: 35px;
+  background: ${WHITE};
+  color: ${MAIN_COLOR_1};
+  border-color: ${WHITE};
+  border-style: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  margin: 0px 10px;
+
+  :hover {
+    background-color: ${MAIN_COLOR_3};
+    border-color: ${MAIN_COLOR_3};
+    color: ${WHITE};
+    transition: 0.2s;
+  }
+`;
 const Button = styled.button`
   height: 35px;
   background-color: ${MAIN_COLOR_3};
@@ -625,4 +682,9 @@ const CoinLink = styled(NavLink)`
   width: 20%;
   color: ${BLACK};
   text-decoration: none;
+`;
+
+const SearchDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
