@@ -7,8 +7,8 @@ import { signInWithGoogle } from "../../firebase";
 import { openHelpModal, closeHelpModal } from "../../features/user/userSlice";
 import {
   ascendSortAboutName,
-  descendSortAboutName,
   ascendSortAboutMoney,
+  descendSortAboutName,
   descendSortAboutMoney,
 } from "../../util/sort";
 import {
