@@ -21,7 +21,6 @@ export default function TransactionHistory() {
   );
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isOpenHelpModal = useSelector((state) => state.user.isOpenHelpModal);
-
   const [filteredTransactionHistory, setFilteredTransactionHistory] =
     useState(transactionHistory);
   const [transactionNumber, setTransactionNumber] = useState(5);

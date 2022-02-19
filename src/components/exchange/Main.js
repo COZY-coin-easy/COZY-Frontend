@@ -22,7 +22,6 @@ import {
   BLACK,
   LIGHT_GREY,
   MAIN_COLOR_1,
-  MAIN_COLOR_2,
   MAIN_COLOR_3,
   RED,
   BLUE,
