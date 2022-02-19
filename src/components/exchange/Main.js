@@ -13,8 +13,8 @@ import { closeWelcomeModal } from "../../features/auth/authSlice";
 import { openHelpModal, closeHelpModal } from "../../features/user/userSlice";
 import {
   ascendSortAboutName,
-  descendSortAboutName,
   ascendSortAboutMoney,
+  descendSortAboutName,
   descendSortAboutMoney,
 } from "../../util/sort";
 import {
@@ -264,7 +264,6 @@ export default function Main() {
       ) : (
         <Message>검색 결과가 없습니다</Message>
       )}
-
       {isSignUp && (
         <WelcomeModal onClose={() => dispatch(closeWelcomeModal())}>
           <>
@@ -274,7 +273,6 @@ export default function Main() {
           </>
         </WelcomeModal>
       )}
-
       {isOpenHelpModal && (
         <HelpModal onClose={() => dispatch(closeHelpModal())}>
           <>
