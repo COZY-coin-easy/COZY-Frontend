@@ -1,6 +1,7 @@
 # 💸 Coin is Easy
 
 <img width="2030" alt="image" src="https://user-images.githubusercontent.com/85345068/154671701-c9187aae-ef74-4d09-b34f-c98352ef109f.png">
+
 초보자를 위한 가상화폐 모의 투자 Cozy입니다!
 
 부자가 되고 싶나요? 성투하고 싶은데 피 같은 내 돈 잃을까봐 무서우신가요?
@@ -9,21 +10,19 @@
 
 Cozy가 여러분의 성투를 도와드리겠습니다.
 
-## 📈Preview
-
-[시연 영상]
-
-- 부가 설명 추가하는게 나을까? 아니면 그냥 영상 또는 이미지만 첨부?
-
 ## 🚀 ShortCut
 
+- 🌎 Deploy
 - 💡 Motivation
 - ✅ Features
 - 📅 Schedule
 - 🖥 Tech Stack
 - 🕹 Getting Started
 - 🤔 Why we used it
-- 🔥 Challenge
+
+## 🌎 Deploy
+
+💸 **https://www.coineasy.site**
 
 ## 💡 Motivation
 
@@ -38,24 +37,10 @@ Cozy가 여러분의 성투를 도와드리겠습니다.
 그래서 코인을 처음 시작하려는 초보자 분들을 위해 연습할 수 있는 모의 거래소 Cozy를 만들게 되었습니다.
 
 ## ✅ Features
-
-👉 사용자는 **실시간으로 가상화폐의 시세, 24시간 내 변동률, 거래량**을 확인할 수 있습니다.
-
-👉 사용자는 **실시간으로 변하는 차트**를 볼 수 있습니다.
-
-👉 사용자는 차트와 실시간으로 변하는 코인 시세를 보며 **매수, 매도**를 할 수 있습니다.
-
-👉 **사용자가 보유한 자산(코인), 그리고 나의 수익률**을 볼 수 있습니다.
-
-👉 **사용자가 거래한 내역**을 볼 수 있습니다.
-
-## 🌎 Deploy
-
-### Client
-
-- Netlify Client 배포 👉 **https://www.coineasy.site**
-
-### Server
+|                                          |                                          |
+| ---------------------------------------- | ---------------------------------------- | 
+|<p align="center"><img width="3000" src="https://user-images.githubusercontent.com/85345068/160269992-7c20eab3-0b8a-44da-b75b-62b2f8d39b36.gif"/></p><p align="center">👉 사용자는 **실시간으로 가상화폐의 시세, 24시간 내 변동률, 거래량**을 확인할 수 있습니다.</p>|<p align="center"><img width="3000" src="https://user-images.githubusercontent.com/85345068/160269997-c9079c50-bf5c-4261-9b2f-76a7464d183b.gif" /></p><div align="center">👉 사용자는 **실시간으로 변하는 차트**를 볼 수 있습니다.</div><div align="center">👉 사용자는 차트와 실시간으로 변하는 코인 시세를 보며 **매수, 매도**를 할 수 있습니다.</div>
+|<p align="center"><img width="3000" src="https://user-images.githubusercontent.com/85345068/160270000-ad1ee267-fb91-41c7-86e1-a35c360714ae.gif" /></p><p align="center" fontsize="3">👉 **사용자가 보유한 자산(코인)과 수익률**을 볼 수 있습니다.</p>  | <p align="center"><img width="3000" src="https://user-images.githubusercontent.com/85345068/160270005-3759ab3f-89a1-45c9-9f87-cf42b1661f86.png" /></p><p align="center">👉 **사용자가 거래한 내역**을 볼 수 있습니다.</p> |
 
 ## 📅 Schedule
 
@@ -111,12 +96,47 @@ npm install
 npm run start
 ```
 
+```
+REACT_APP_FIREBASE_API_KEY="YOUR FIREBASE API KEY"
+REACT_APP_FIREBASE_AUTH_DOMAIN="YOUR FIREBASE AUTH DOMAIN"
+REACT_APP_FIREBASE_PROJECT_ID="YOUR FIREBASE PROJECT ID"
+REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR FIREBASE STORAGE BUCKET"
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR FIREBASE MESSAGING SENDER ID"
+REACT_APP_FIREBASE_APP_ID="YOUR FIREBASE APP ID"
+REACT_APP_FIREBASE_MEASUREMENT_ID="YOUR FIREBASE MEASUREMENT ID"
+REACT_APP_SERVER_URL="http://localhost:8000"
+REACT_APP_CANDLESTICK_REQUEST="http://localhost:8000/users/candlestick"
+REACT_APP_ASSET_REQUEST="http://localhost:8000/users/asset"
+REACT_APP_ORDER_REQUEST="http://localhost:8000/users/order"
+REACT_APP_WEBSOCKET_SERVER_URL="ws://localhost:8000"
+REACT_APP_MYPAGE_REQUEST="http://localhost:8000/users/mypage"
+REACT_APP_TRANSACTIONHISTORY_REQUEST="http://localhost:8000/users/transaction-history"
+REACT_APP_CANDLESTICK_API_URL="https://api.bithumb.com/public/candlestick"
+```
+
 - Backend
 
 ```
 git clone https://github.com/COZY-coin-easy/COZY-Backend.git
 npm install
-npm run start
+npm run dev
+```
+
+```
+PORT=8000
+MONGO_URL=YOUR MONGO URL
+BITHUMB_SOCKET_URL="wss://pubwss.bithumb.com/pub/ws"
+COZY_CLIENT_URL="http://localhost:3000"
+TYPE="service_account"
+AUTH_URI="https://accounts.google.com/o/oauth2/auth"
+TOKEN_URI="https://oauth2.googleapis.com/token"
+AUTH_PROVIDER_X509_CERT_URL="https://www.googleapis.com/oauth2/v1/certs"
+PROJECT_ID="YOUR PROJECT ID"
+PRIVATE_KEY_ID="YOUR PRIVATE KEY ID"
+PRIVATE_KEY="YOUR PRIVATE KEY"
+CLIENT_EMAIL="YOUR CLIENT EMAIL"
+CLIENT_ID="YOUR CLIENT ID"
+CLIENT_X509_CERT_URL="YOUR CLIENT X509 CERT URL"
 ```
 
 ## 🤔 Why we used it
